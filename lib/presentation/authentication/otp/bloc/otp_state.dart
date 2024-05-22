@@ -1,7 +1,7 @@
 part of 'otp_bloc.dart';
 
 @immutable
-sealed class OtpState {}
+sealed class OtpState extends BaseState {}
 
 final class OtpInitial extends OtpState {}
 

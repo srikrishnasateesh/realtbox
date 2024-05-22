@@ -8,7 +8,6 @@ import 'package:realtbox/data/repository/auth_repository_impl.dart';
 import 'package:realtbox/domain/authentication/repository/auth_repository.dart';
 import 'package:realtbox/domain/authentication/usecase/get_token.dart';
 import 'package:realtbox/domain/authentication/usecase/login_otp_usecase.dart';
-import 'package:realtbox/presentation/authentication/login/bloc/login_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -17,22 +16,19 @@ Future<void> initDI() async {
   getIt.registerSingleton<ValidationUtils>(ValidationUtils());
 
   //Dio
-  getIt.registerSingleton<Dio>(createDio());
+  getIt.registerSingleton<Dio>(Dio());
 
   //repos
   getIt.registerSingleton<ApiService>(ApiService(getIt<Dio>()));
 
-  getIt.registerSingleton<AuthRepository>(AuthRepositoryImpl(getIt()));
+  getIt.registerSingleton<AuthRepository>(AuthRepositoryImpl(getIt<ApiService>()));
 
   //usecases
-  getIt.registerSingleton<GetLoginOtp>(GetLoginOtp(getIt()));
-  getIt.registerSingleton<GetToken>(GetToken(getIt()));
-
-  //blocs
-  getIt.registerFactory(() => LoginBloc(getIt()));
+  getIt.registerSingleton<GetLoginOtp>(GetLoginOtp(getIt<AuthRepository>()));
+  getIt.registerSingleton<GetToken>(GetToken(getIt<AuthRepository>()));
 }
 
-Dio createDio() {
+/* Dio createDio() {
   Dio dio = Dio();
   dio.interceptors.clear();
   dio.interceptors.add(HeaderInterceptor());
@@ -45,4 +41,4 @@ Dio createDio() {
       compact: true,
       maxWidth: 90));
   return dio;
-}
+} */

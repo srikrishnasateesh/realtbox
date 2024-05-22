@@ -142,8 +142,8 @@ class OtpScreen extends StatelessWidget {
                             BlocBuilder<OtpBloc, OtpState>(
                               builder: (context, state) {
                                 if (state is OtpError) {
-                                  return const Text("state.errorMessage",
-                                      style: TextStyle(color: Colors.red));
+                                  return  Text(state.message,
+                                      style: const TextStyle(color: Colors.red));
                                 } else {
                                   return Container();
                                 }

@@ -4,11 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/foundation.dart';
 import 'package:realtbox/config/services/local_storage.dart';
+import 'package:realtbox/core/base_bloc.dart';
 
 part 'splash_event.dart';
 part 'splash_state.dart';
 
-class SplashBloc extends Bloc<SplashEvent, SplashState> {
+class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
   SplashBloc() : super(SplashInitial()) {
     on<SplashEvent>((event, emit) async {
       switch (event) {
@@ -22,15 +23,21 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     OnSplashScrennShown event,
     Emitter<SplashState> emit,
   ) async {
-    await LocalStorage.init();
-
+    await initDefaults();
     String token = LocalStorage.getString(StringConstants.token);
     debugPrint("token: $token");
+    //emit(SplashNavigate(RouteNames.dummy));
     await Future.delayed(const Duration(seconds: 1)).then((value) => {
           if (token.isNotEmpty)
             emit(SplashNavigate(RouteNames.home))
           else
             emit(SplashNavigate(RouteNames.login))
         });
+  }
+
+  Future<void> initDefaults() async {
+    await LocalStorage.init();
+    await LocalStorage.setString("myKey", "myValue");
+    
   }
 }

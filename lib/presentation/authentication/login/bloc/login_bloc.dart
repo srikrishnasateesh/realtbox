@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:realtbox/config/resources/constants/string_constants.dart';
 import 'package:realtbox/config/routes/route_names.dart';
+import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/core/utils/validation_utils.dart';
 import 'package:bloc/bloc.dart';
@@ -11,7 +12,7 @@ import 'package:realtbox/domain/authentication/usecase/login_otp_usecase.dart';
 part 'login_event.dart';
 part 'login_state.dart';
 
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
+class LoginBloc extends BaseBlock<LoginEvent, LoginState> {
   ValidationUtils utils = getIt<ValidationUtils>();
   GetLoginOtp getLoginOtp;
   LoginBloc(this.getLoginOtp) : super(LoginInitial()) {

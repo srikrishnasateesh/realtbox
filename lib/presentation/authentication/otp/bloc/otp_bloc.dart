@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:realtbox/config/resources/constants/string_constants.dart';
 import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/config/services/local_storage.dart';
+import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/core/utils/validation_utils.dart';
 import 'package:realtbox/di.dart';
@@ -16,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'otp_event.dart';
 part 'otp_state.dart';
 
-class OtpBloc extends Bloc<OtpEvent, OtpState> {
+class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
   late bool isExistingUser;
   late String phoneNumber;
   ValidationUtils utils = getIt<ValidationUtils>();
@@ -70,7 +71,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
 
   Future<void> handleOtpSubmit(
       OnOtpSubmit event, Emitter<OtpState> emit) async {
-    if (!utils.isValidUserName(event.name ?? "")) {
+    if ((!isExistingUser) && !utils.isValidUserName(event.name ?? "")) {
       emit(OtpError(message: "User name required"));
       return;
     }

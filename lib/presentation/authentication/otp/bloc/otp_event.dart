@@ -1,7 +1,7 @@
 part of 'otp_bloc.dart';
 
 @immutable
-sealed class OtpEvent {}
+sealed class OtpEvent extends BaseEvent {}
 
 final class OnOtpInit extends OtpEvent{
   final bool isExistingUser;

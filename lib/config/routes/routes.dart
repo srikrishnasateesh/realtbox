@@ -4,6 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/authentication/usecase/get_token.dart';
 import 'package:realtbox/domain/authentication/usecase/login_otp_usecase.dart';
+import 'package:realtbox/presentation/dummy_list.dart/bloc/data_bloc.dart';
+import 'package:realtbox/presentation/dummy_list.dart/data_screen.dart';
+import 'package:realtbox/presentation/dummy_list.dart/data_screen_new.dart';
 import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
 import 'package:realtbox/presentation/home/home_page.dart';
 
@@ -48,6 +51,11 @@ class AppRoute {
             return BlocProvider(
               create: (context) => HomeBloc(),
               child: const Home(),
+            );
+            case RouteNames.dummy:
+            return BlocProvider(
+              create: (context) => DataBloc(),
+              child: DataScreenNew(),
             );
 
           default:

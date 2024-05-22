@@ -1,3 +1,4 @@
+import 'package:realtbox/config/resources/value_manager.dart';
 import 'package:realtbox/presentation/splash/bloc/splash_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,9 +22,19 @@ class SplashScreen extends StatelessWidget {
         backgroundColor: Colors.blue,
         body: SafeArea(
           child: Center(
-            child: Text(
-              'Splash Screen',
-              style: Theme.of(context).textTheme.headlineMedium,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Checking Info ...',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.white
+                  ),
+                ),
+                const SizedBox(height: AppMargin.m18),
+                const CircularProgressIndicator.adaptive(),
+              ],
             ),
           ),
         ),
