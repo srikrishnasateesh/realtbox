@@ -10,6 +10,7 @@ TokenRequest _$TokenRequestFromJson(Map<String, dynamic> json) => TokenRequest(
       json['phoneNumber'] as String,
       json['otp'] as String,
       json['name'] as String?,
+      json['fcmToken'] as String?,
     );
 
 Map<String, dynamic> _$TokenRequestToJson(TokenRequest instance) =>
@@ -17,4 +18,5 @@ Map<String, dynamic> _$TokenRequestToJson(TokenRequest instance) =>
       'phoneNumber': instance.phoneNumber,
       'otp': instance.otp,
       'name': instance.name,
+      'fcmToken': instance.fcmToken,
     };

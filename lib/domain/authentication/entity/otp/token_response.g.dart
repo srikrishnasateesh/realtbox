@@ -23,7 +23,7 @@ TokenData _$TokenDataFromJson(Map<String, dynamic> json) => TokenData(
       phoneNumber: json['phoneNumber'] as String,
       enrollmentType: json['enrollmentType'] as String,
       isValid: json['isValid'] as bool,
-      id: json['_id'] as String,
+      id: json['id'] as String,
       token: json['token'] as String,
     );
 

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:realtbox/config/resources/constants/string_constants.dart';
@@ -21,6 +22,7 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
   late bool isExistingUser;
   late String phoneNumber;
   ValidationUtils utils = getIt<ValidationUtils>();
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
   GetLoginOtp getLoginOtp;
   GetToken getToken;
@@ -32,7 +34,7 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
     on<OtpEvent>((event, emit) async {
       switch (event) {
         case OnOtpInit():
-          handleOtpInit(event, emit);
+          await handleOtpInit(event, emit);
           break;
         case OnOtpSubmit():
           await handleOtpSubmit(event, emit);
@@ -44,7 +46,8 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
       }
     });
   }
-  void handleOtpInit(OnOtpInit event, Emitter<OtpState> emit) {
+  Future<void> handleOtpInit(OnOtpInit event, Emitter<OtpState> emit) async {
+    await LocalStorage.init();
     isExistingUser = event.isExistingUser;
     phoneNumber = event.userName;
     if (!isExistingUser) {
@@ -79,12 +82,20 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
       emit(OtpError(message: "Invalid Otp"));
       return;
     }
+    String fcmToken = LocalStorage.getString(StringConstants.token);
+    if (fcmToken.isEmpty) {
+      await firebaseMessaging.getToken().then((token) async => {
+            fcmToken = token ?? "",
+            await LocalStorage.setString(StringConstants.token, fcmToken),
+          });
+    }
 
     final response = await getToken(
       params: TokenRequest(
         phoneNumber,
         event.otp,
         event.name,
+        fcmToken,
       ),
     );
 
@@ -113,7 +124,6 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
   }
 
   Future<void> saveTokenData(TokenData tokenData) async {
-    await LocalStorage.init();
     await LocalStorage.setString(
       StringConstants.enrollmentType,
       tokenData.enrollmentType,
