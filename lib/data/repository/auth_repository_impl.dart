@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:realtbox/config/resources/constants/api_constnats.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/data/datasource/remote/api_service.dart';
-import 'package:realtbox/domain/authentication/entity/login/login_request_entity.dart';
-import 'package:realtbox/domain/authentication/entity/login/login_response.dart';
-import 'package:realtbox/domain/authentication/entity/otp/token_request_entity.dart';
-import 'package:realtbox/domain/authentication/entity/otp/token_response.dart';
-import 'package:realtbox/domain/authentication/repository/auth_repository.dart';
+import 'package:realtbox/domain/entity/login/login_request_entity.dart';
+import 'package:realtbox/domain/entity/login/login_response.dart';
+import 'package:realtbox/domain/entity/otp/token_request_entity.dart';
+import 'package:realtbox/domain/entity/otp/token_response.dart';
+import 'package:realtbox/domain/repository/auth_repository.dart';
 import 'package:dio/dio.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -49,7 +49,7 @@ class AuthRepositoryImpl implements AuthRepository {
               requestOptions: RequestOptions(baseUrl: ApiConstants.baseUrl),
               error: "Inavlid request"),
           null,
-        );
+          );
       }
       final httpResponse = await apiService.token(tokenRequest);
       if (httpResponse.response.statusCode == HttpStatus.ok) {

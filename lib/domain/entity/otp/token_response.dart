@@ -23,6 +23,7 @@ class TokenData {
   final String phoneNumber;
   final String enrollmentType;
   final bool isValid;
+  @JsonKey(name:"_id")
   final String id;
   final String token;
 

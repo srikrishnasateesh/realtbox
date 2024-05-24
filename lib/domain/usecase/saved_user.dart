@@ -1,7 +1,7 @@
 
 
-import '../../../config/services/local_storage.dart';
-import '../../../core/usecase/usecase.dart';
+import '../../config/services/local_storage.dart';
+import '../../core/usecase/usecase.dart';
 
 class SavedUser implements UseCase<void, String> {
   @override

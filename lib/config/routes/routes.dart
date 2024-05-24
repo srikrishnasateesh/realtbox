@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:realtbox/di.dart';
-import 'package:realtbox/domain/authentication/usecase/get_token.dart';
-import 'package:realtbox/domain/authentication/usecase/login_otp_usecase.dart';
+import 'package:realtbox/domain/usecase/get_property_list.dart';
+import 'package:realtbox/domain/usecase/get_token.dart';
+import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:realtbox/presentation/dummy_list.dart/bloc/data_bloc.dart';
 import 'package:realtbox/presentation/dummy_list.dart/data_screen.dart';
 import 'package:realtbox/presentation/dummy_list.dart/data_screen_new.dart';
 import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
 import 'package:realtbox/presentation/home/home_page.dart';
+import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
+import 'package:realtbox/presentation/property/property_list.dart';
 
 import '../../presentation/authentication/login/bloc/login_bloc.dart';
 import '../../presentation/authentication/login/login_screen.dart';
@@ -52,10 +55,17 @@ class AppRoute {
               create: (context) => HomeBloc(),
               child: const Home(),
             );
-            case RouteNames.dummy:
+          case RouteNames.dummy:
             return BlocProvider(
               create: (context) => DataBloc(),
               child: DataScreenNew(),
+            );
+          case RouteNames.propertyList:
+            return BlocProvider(
+              create: (context) => PropertListBloc(
+                getIt<GetPropertyList>(),
+              ),
+              child: PropertyList(),
             );
 
           default:

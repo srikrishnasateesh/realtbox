@@ -7,7 +7,7 @@ import 'package:realtbox/core/utils/validation_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:realtbox/di.dart';
-import 'package:realtbox/domain/authentication/usecase/login_otp_usecase.dart';
+import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

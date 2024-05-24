@@ -29,7 +29,7 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
     //emit(SplashNavigate(RouteNames.dummy));
     await Future.delayed(const Duration(seconds: 1)).then((value) => {
           if (token.isNotEmpty)
-            emit(SplashNavigate(RouteNames.home))
+            emit(SplashNavigate(RouteNames.propertyList))
           else
             emit(SplashNavigate(RouteNames.login))
         });

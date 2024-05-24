@@ -9,10 +9,10 @@ import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/core/utils/validation_utils.dart';
 import 'package:realtbox/di.dart';
-import 'package:realtbox/domain/authentication/entity/otp/token_request_entity.dart';
-import 'package:realtbox/domain/authentication/entity/otp/token_response.dart';
-import 'package:realtbox/domain/authentication/usecase/get_token.dart';
-import 'package:realtbox/domain/authentication/usecase/login_otp_usecase.dart';
+import 'package:realtbox/domain/entity/otp/token_request_entity.dart';
+import 'package:realtbox/domain/entity/otp/token_response.dart';
+import 'package:realtbox/domain/usecase/get_token.dart';
+import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'otp_event.dart';
@@ -90,6 +90,7 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
           });
     }
 
+    emit(OtpInProgress(isLoading: true));
     final response = await getToken(
       params: TokenRequest(
         phoneNumber,
@@ -115,12 +116,10 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
         final tokenData = response.data?.data;
         if (tokenData != null) {
           await saveTokenData(tokenData);
-          emit(OtpNavigate(route: RouteNames.home));
+          emit(OtpNavigate(route: RouteNames.propertyList));
         }
       }
     }
-
-    emit(OtpInProgress(isLoading: true));
   }
 
   Future<void> saveTokenData(TokenData tokenData) async {

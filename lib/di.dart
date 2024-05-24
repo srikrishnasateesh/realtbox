@@ -5,27 +5,38 @@ import 'package:realtbox/config/services/header_interceptor.dart';
 import 'package:realtbox/core/utils/validation_utils.dart';
 import 'package:realtbox/data/datasource/remote/api_service.dart';
 import 'package:realtbox/data/repository/auth_repository_impl.dart';
-import 'package:realtbox/domain/authentication/repository/auth_repository.dart';
-import 'package:realtbox/domain/authentication/usecase/get_token.dart';
-import 'package:realtbox/domain/authentication/usecase/login_otp_usecase.dart';
+import 'package:realtbox/data/repository/property_repository_impl.dart';
+import 'package:realtbox/domain/repository/auth_repository.dart';
+import 'package:realtbox/domain/repository/propert_repository.dart';
+import 'package:realtbox/domain/usecase/get_property_list.dart';
+import 'package:realtbox/domain/usecase/get_token.dart';
+import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> initDI() async {
-
   getIt.registerSingleton<ValidationUtils>(ValidationUtils());
 
   //Dio
   getIt.registerSingleton<Dio>(Dio());
 
-  //repos
+  //apis
   getIt.registerSingleton<ApiService>(ApiService(getIt<Dio>()));
 
-  getIt.registerSingleton<AuthRepository>(AuthRepositoryImpl(getIt<ApiService>()));
+  //repos
+  getIt.registerSingleton<AuthRepository>(
+      AuthRepositoryImpl(getIt<ApiService>()));
+  getIt.registerSingleton<PropertyRepository>(
+    PropertyRepositoryImplementation(
+      apiService: getIt<ApiService>(),
+    ),
+  );
 
   //usecases
   getIt.registerSingleton<GetLoginOtp>(GetLoginOtp(getIt<AuthRepository>()));
   getIt.registerSingleton<GetToken>(GetToken(getIt<AuthRepository>()));
+  getIt.registerSingleton<GetPropertyList>(
+      GetPropertyList(repository: getIt<PropertyRepository>()));
 }
 
 /* Dio createDio() {
