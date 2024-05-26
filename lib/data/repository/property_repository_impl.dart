@@ -57,7 +57,7 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       assetName: propertyData.assetName,
       propertySize: propertyData.propertysize,
       projectName: propertyData.projectName,
-      price: "${propertyData.currencyType}. ${propertyData.price}",
+      price: "${propertyData.price}",
       location: propertyData.location,
       images: propertyData.propertyDocs.map((e) => e.objectUrl).toList(),
     );

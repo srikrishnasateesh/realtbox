@@ -82,11 +82,11 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
       emit(OtpError(message: "Invalid Otp"));
       return;
     }
-    String fcmToken = LocalStorage.getString(StringConstants.token);
+    String fcmToken = LocalStorage.getString(StringConstants.fcmToken);
     if (fcmToken.isEmpty) {
       await firebaseMessaging.getToken().then((token) async => {
             fcmToken = token ?? "",
-            await LocalStorage.setString(StringConstants.token, fcmToken),
+            await LocalStorage.setString(StringConstants.fcmToken, fcmToken),
           });
     }
 

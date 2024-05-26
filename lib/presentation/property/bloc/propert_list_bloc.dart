@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
@@ -7,9 +8,13 @@ import 'package:realtbox/domain/usecase/get_property_list.dart';
 part 'propert_list_event.dart';
 part 'propert_list_state.dart';
 
-class PropertListBloc extends Bloc<PropertListEvent, PropertListState> {
+class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
   final GetPropertyList getPropertyList;
+
   int count = 0;
+
+  List<Property> propertyList = List.empty(growable: true);
+
   PropertListBloc(this.getPropertyList) : super(PropertListInitial()) {
     on<PropertListEvent>((event, emit) async {
       switch (event) {
@@ -25,21 +30,34 @@ class PropertListBloc extends Bloc<PropertListEvent, PropertListState> {
   }
 
   Future<void> fetchData(Emitter<PropertListState> emit) async {
-    emit(PropertListLoading());
+    if (count == 0) {
+      emit(PropertListLoading());
+    }
     final response = await getData(emit);
     if (response is DataFailed) {
       handleDataFailed(response as DataFailed, emit);
     }
     if (response is DataSuccess) {
       final list = response.data ?? List.empty();
-      count += list.length;
-      emit(PropertListLoaded(data: list, hasReachedMax: count % 20 > 0));
+
+      debugPrint("List received size: ${list.length}");
+
+      if (count == 0) propertyList.clear();
+
+      propertyList.addAll(list);
+      count = propertyList.length;
+
+      debugPrint("Property List size: ${propertyList.length}");
+      debugPrint("Count: $count");
+
+      emit(
+        PropertListLoaded(data: propertyList, hasReachedMax: count%20>0),
+      );
     }
   }
 
   Future<DataState<List<Property>>> getData(
       Emitter<PropertListState> emit) async {
-    emit(PropertListLoading());
     return await getPropertyList(
       params: null,
     );
@@ -55,20 +73,11 @@ class PropertListBloc extends Bloc<PropertListEvent, PropertListState> {
   }
 
   Future<void> loadMoreData(Emitter<PropertListState> emit) async {
+    debugPrint("Inside Load more dta");
     if (count % 20 != 0) return;
     if (state is! PropertListLoaded) return;
-
-    final data = (state as PropertListLoaded).data;
-    emit(PropertMoreListLoading());
-    final response = await getData(emit);
-    if (response is DataFailed) {
-      handleDataFailed(response as DataFailed, emit);
-    }
-    if (response is DataSuccess) {
-      final list = response.data ?? List.empty();
-      count += list.length;
-      emit(PropertListLoaded(data: data + list, hasReachedMax: count % 20 > 0));
-    }
+    debugPrint("Fetching Load more dta");
+    await fetchData(emit);
   }
 
   Future<void> refreshData(Emitter<PropertListState> emit) async {

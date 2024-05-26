@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
 import 'package:realtbox/presentation/widgets/property_item.dart';
 
@@ -30,6 +31,7 @@ class PropertyList extends StatelessWidget {
         context.read<PropertListBloc>().add(LoadMoreData());
       }
     });
+    var list = List<Property>.empty(growable: true);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -44,18 +46,27 @@ class PropertyList extends StatelessWidget {
                 state is PropertListLoading && (state is! PropertListLoaded)) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is PropertListLoaded) {
-              final list = state.data;
+              var list = state.data;
               isRefreshing = false;
-              if (list.isEmpty) {
+              if (state.data.isEmpty) {
                 return const Center(child: Text("No data available"));
               } else {
                 return RefreshIndicator.adaptive(
                   onRefresh: () => handleRefresh(context),
                   child: ListView.builder(
-                    itemCount: list.length,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    shrinkWrap: false,
+                    itemCount:
+                        state.hasReachedMax ? list.length : list.length + 1,
                     controller: scrollController,
                     itemBuilder: (context, index) {
-                      return PropertyItem(property: list[index]);
+                      if (index >= list.length) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return PropertyItem(
+                        property: list[index],
+                        index: index,
+                      );
                     },
                   ),
                 );

@@ -1,10 +1,7 @@
 part of 'propert_list_bloc.dart';
 
-sealed class PropertListState extends Equatable {
+sealed class PropertListState extends BaseState {
   const PropertListState();
-  
-  @override
-  List<Object> get props => [];
 }
 
 final class PropertListInitial extends PropertListState {}

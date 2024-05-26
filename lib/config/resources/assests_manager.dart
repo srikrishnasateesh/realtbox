@@ -1,4 +1,7 @@
-const String imagePath = "assests/images";
+const String imagePath = "assets/images";
+const String iconsPath = "assets/icons";
+
+const String backIosSvg = "$iconsPath/arrow-ios-back-outline.svg"; 
 
 class ImageAssets {
   static const String splashLogo = "$imagePath/splash_logo.png";

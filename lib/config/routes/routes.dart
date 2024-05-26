@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:realtbox/di.dart';
+import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
@@ -12,6 +13,8 @@ import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
 import 'package:realtbox/presentation/home/home_page.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
 import 'package:realtbox/presentation/property/property_list.dart';
+import 'package:realtbox/presentation/property_details/bloc/propert_detail_bloc.dart';
+import 'package:realtbox/presentation/property_details/property_details_screen.dart';
 
 import '../../presentation/authentication/login/bloc/login_bloc.dart';
 import '../../presentation/authentication/login/login_screen.dart';
@@ -66,6 +69,13 @@ class AppRoute {
                 getIt<GetPropertyList>(),
               ),
               child: PropertyList(),
+            );
+          case RouteNames.propertyDetails:
+            return BlocProvider(
+              create: (context) => PropertDetailBloc(),
+              child: PropertyDetailsScreen(
+                property: (settings.arguments as Property),
+              ),
             );
 
           default:

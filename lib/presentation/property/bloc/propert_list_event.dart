@@ -1,10 +1,7 @@
 part of 'propert_list_bloc.dart';
 
-sealed class PropertListEvent extends Equatable {
+sealed class PropertListEvent extends BaseEvent {
   const PropertListEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 class OnPropertyListInit extends PropertListEvent {}

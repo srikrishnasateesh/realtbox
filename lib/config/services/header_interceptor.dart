@@ -11,11 +11,9 @@ class HeaderInterceptor extends Interceptor {
   }
 
   Future<Map<String, String>> getAppHeaders()  async {
-    debugPrint("Inside app headers");
     final headers = <String, String>{};
     await LocalStorage.init();
     String token =  LocalStorage.getString(StringConstants.token);
-    debugPrint("Inside app headers:Token: $token");
     if (token.isNotEmpty) {
       headers["Authorization"] = "Bearer $token";
     }
@@ -31,7 +29,6 @@ class HeaderInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     final appHeaders = await getAppHeaders();
-    debugPrint("appHeaders: $appHeaders");
     headers.addAll(appHeaders);
     headers.forEach((key, value) {
       options.headers[key] = value;
