@@ -7,12 +7,12 @@ import 'package:realtbox/config/resources/font_manager.dart';
 import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
+import 'package:realtbox/presentation/widgets/border_text.dart';
 
 class PropertyItem extends StatelessWidget {
   final Property property;
   final int index;
-  const PropertyItem({Key? key, required this.property, required this.index})
-      : super(key: key);
+  const PropertyItem({super.key, required this.property, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -61,32 +61,6 @@ class PropertyItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    left: 0,
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
-                          decoration: const BoxDecoration(
-                            color: Colors.blueGrey,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(
-                                    10)), // Set the border radius here
-                          ),
-                          child: Text(
-                            property.categoryName,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
               Padding(
@@ -103,15 +77,68 @@ class PropertyItem extends StatelessWidget {
                         fontFamily: FontConstants.fontFamily,
                       ),
                     ),
-                    //propertyValueAndSize(),
                     const SizedBox(
-                      height: FontSize.s12,
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //category name
+                        BorderedText(
+                          text: property.categoryName,
+                          borderColor: Colors.blueGrey,
+                          borderRadius: 2.0,
+                          borderWidth: 1,
+                          textStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: FontSize.s12,
+                            fontFamily: FontConstants.fontFamily,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        //size
+                        BorderedText(
+                          text: property.subCategoryName,
+                          borderColor: Colors.blueAccent,
+                          borderRadius: 2.0,
+                          borderWidth: 1,
+                          textStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: FontSize.s12,
+                            fontFamily: FontConstants.fontFamily,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        //size
+                        BorderedText(
+                          text: property.propertySize,
+                          borderColor: Colors.pinkAccent,
+                          borderRadius: 2.0,
+                          borderWidth: 1,
+                          textStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: FontSize.s12,
+                            fontFamily: FontConstants.fontFamily,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
                     ),
                     Row(
                       children: [
                         const Icon(
-                          Icons.location_on,
-                          color: Colors.amberAccent,
+                          Icons.home_outlined,
+                          color: Colors.grey,
                         ),
                         const SizedBox(
                             width: 4.0), // Optional space between icon and text

@@ -31,7 +31,6 @@ class PropertyList extends StatelessWidget {
         context.read<PropertListBloc>().add(LoadMoreData());
       }
     });
-    var list = List<Property>.empty(growable: true);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
