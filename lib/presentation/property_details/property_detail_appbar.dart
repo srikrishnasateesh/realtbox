@@ -5,10 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
+import 'package:realtbox/presentation/widgets/carosel_widget.dart';
 
 class PropertyDetailAppBar extends StatelessWidget {
-  final String imageUrl;
-  const PropertyDetailAppBar({super.key, required this.imageUrl});
+  final List<String> imageUrls;
+  const PropertyDetailAppBar({super.key, required this.imageUrls});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +22,10 @@ class PropertyDetailAppBar extends StatelessWidget {
       pinned: true,
       stretch: true,
       flexibleSpace: FlexibleSpaceBar(
-        background: Image.network(
-          imageUrl,
-          fit: BoxFit.cover,
+        background: CarouselWidget(
+          autoScroll: true,
+          networkImages: true,
+          imagePaths: imageUrls,
         ),
         stretchModes: const [
           StretchMode.blurBackground,
@@ -71,8 +73,13 @@ class PropertyDetailAppBar extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: Colors.white.withOpacity(0.20),
                 ),
-                child:
-                    SvgPicture.asset(backIosSvg),
+                child: SvgPicture.asset(
+                  backIosSvg,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.black,
+                    BlendMode.srcIn,
+                  ),
+                ),
               ),
             ),
           ),

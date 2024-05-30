@@ -60,7 +60,7 @@ class OtpScreen extends StatelessWidget {
                             SizedBox(
                               height: AppSize.s150,
                               child: Image.asset(
-                                ImageAssets.profileLogo,
+                                profileLogo,
                                 fit: BoxFit.contain,
                               ),
                             ),

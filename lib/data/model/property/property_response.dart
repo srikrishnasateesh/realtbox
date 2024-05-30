@@ -27,7 +27,7 @@ class PropertyData {
   final String status;
   final String asset;
   final String assetName;
-  final String location;
+  final String? location;
   final String propertysize;
   final String projectName;
   final String currencyType;

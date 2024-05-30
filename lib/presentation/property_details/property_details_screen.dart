@@ -16,7 +16,7 @@ class PropertyDetailsScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           PropertyDetailAppBar(
-            imageUrl: property.images[0],
+            imageUrls: property.images,
           ),
           SliverToBoxAdapter(
             child: Padding(

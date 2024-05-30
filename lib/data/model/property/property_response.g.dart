@@ -30,7 +30,7 @@ PropertyData _$PropertyDataFromJson(Map<String, dynamic> json) => PropertyData(
       status: json['status'] as String,
       asset: json['asset'] as String,
       assetName: json['assetName'] as String,
-      location: json['location'] as String,
+      location: json['location'] as String?,
       propertysize: json['propertysize'] as String,
       projectName: json['projectName'] as String,
       currencyType: json['currencyType'] as String,
