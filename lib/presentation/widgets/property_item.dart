@@ -68,13 +68,16 @@ class PropertyItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BasicText(
-                      text: property.projectName,
-                      textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: FontSize.s28,
-                        fontFamily: FontConstants.fontFamily,
+                    Hero(
+                      tag: "title_${property.propertyId}",
+                      child: BasicText(
+                        text: property.projectName,
+                        textStyle: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: FontSize.s28,
+                          fontFamily: FontConstants.fontFamily,
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -166,35 +169,38 @@ class PropertyItem extends StatelessWidget {
     return Row(children: [
       Expanded(
         flex: 1,
-        child: RichText(
-          text: TextSpan(
-            text: property.price,
-            style: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: FontSize.s25,
-              fontFamily: FontConstants.fontFamily,
+        child: Hero(
+          tag: "price_${property.propertyId}",
+          child: RichText(
+            text: TextSpan(
+              text: property.price,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: FontSize.s25,
+                fontFamily: FontConstants.fontFamily,
+              ),
+              children: const <InlineSpan>[
+                WidgetSpan(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 5.0),
+                  ),
+                ),
+                TextSpan(
+                  text: 'INR',
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: FontSize.s18,
+                    fontFamily: FontConstants.fontFamily,
+                  ),
+                ),
+                WidgetSpan(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                  ),
+                ),
+              ],
             ),
-            children: const <InlineSpan>[
-              WidgetSpan(
-                child: Padding(
-                  padding: EdgeInsets.only(right: 5.0),
-                ),
-              ),
-              TextSpan(
-                text: 'INR',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: FontSize.s18,
-                  fontFamily: FontConstants.fontFamily,
-                ),
-              ),
-              WidgetSpan(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                ),
-              ),
-            ],
           ),
         ),
       ),

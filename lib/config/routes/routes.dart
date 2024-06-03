@@ -11,6 +11,7 @@ import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
 import 'package:realtbox/presentation/property/property_list.dart';
 import 'package:realtbox/presentation/property_details/bloc/propert_detail_bloc.dart';
 import 'package:realtbox/presentation/property_details/property_details_screen.dart';
+import 'package:realtbox/presentation/property_documents.dart/property_documents_screen.dart';
 
 import '../../presentation/authentication/login/bloc/login_bloc.dart';
 import '../../presentation/authentication/login/login_screen.dart';
@@ -68,6 +69,13 @@ class AppRoute {
                 property: (settings.arguments as Property),
               ),
             );
+
+            case RouteNames.propertyDocs:
+            Map<String, dynamic> args =
+                settings.arguments as Map<String, dynamic>;
+                final imageList = args['images'] as List<String>;
+                final isNetworkUrls = args['network_images'];
+            return PropertyDocumentsScreen(imageList: imageList, isNetworkUrls: isNetworkUrls);
 
           default:
             return unDefinedRoute();

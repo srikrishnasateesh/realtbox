@@ -1,18 +1,26 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realtbox/presentation/carousel/bloc/carousel_bloc.dart';
+
+abstract class NavigationCallback {
+  void navigateToNext();
+}
 
 class CarouselWidget extends StatefulWidget {
   final bool autoScroll;
   final bool networkImages;
   final List<String> imagePaths;
   final int activePage;
-  const CarouselWidget({
+  final bool showZoomOut;
+  CarouselWidget({
     super.key,
     required this.autoScroll,
     required this.networkImages,
     required this.imagePaths,
     this.activePage = 0,
+    this.showZoomOut = false,
   });
 
   @override
@@ -24,16 +32,21 @@ late List<Widget> pagerViews;
 int _activePage = 0;
 Timer? timer;
 
-class _CarouselWidgetState extends State<CarouselWidget> {
+class _CarouselWidgetState extends State<CarouselWidget>
+    implements NavigationCallback {
   final carouselController = PageController();
 
   void startTimer() {
+    debugPrint("startTimer:");
     timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      debugPrint("startTimer: $timer");
       if (carouselController.page == imagePaths.length - 1) {
+        debugPrint("startTimer:going to first");
         carouselController.animateToPage(0,
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInOut);
       } else {
+        debugPrint("startTimer:going to last");
         carouselController.nextPage(
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInOut);
@@ -57,15 +70,27 @@ class _CarouselWidgetState extends State<CarouselWidget> {
         );
       }
     });
+    debugPrint(
+        "initState- autoScroll: ${widget.autoScroll}, timer: $timer, isActive: ${timer?.isActive} ");
     if (widget.autoScroll) {
       startTimer();
+    } else {
+      cancelTimer();
     }
   }
 
   @override
   void dispose() {
+    debugPrint("Dispose-Carousel");
+    carouselController.dispose();
+    // cancelTimer();
     super.dispose();
+  }
+
+  void cancelTimer() {
+    debugPrint("Cancelling timer");
     timer?.cancel();
+    timer = null;
   }
 
   @override
@@ -82,9 +107,12 @@ class _CarouselWidgetState extends State<CarouselWidget> {
                 child: PageView.builder(
                   controller: carouselController,
                   onPageChanged: (value) => {
-                    setState(() {
-                      _activePage = value;
-                    })
+                    if (mounted)
+                      {
+                        setState(() {
+                          _activePage = value;
+                        })
+                      }
                   },
                   itemCount: imagePaths.length,
                   itemBuilder: (context, index) {
@@ -128,6 +156,11 @@ class _CarouselWidgetState extends State<CarouselWidget> {
         ),
       ),
     );
+  }
+
+  @override
+  void navigateToNext() {
+    cancelTimer();
   }
 }
 

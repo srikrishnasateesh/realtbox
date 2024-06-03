@@ -4,4 +4,8 @@ sealed class PropertDetailState extends BaseState {
   const PropertDetailState();
 }
 
-final class PropertDetailInitial extends PropertDetailState {}
+final class PropertDetailInitial extends PropertDetailState {
+
+  PropertDetailInitial();
+}
+

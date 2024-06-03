@@ -6,9 +6,14 @@ part 'propert_detail_event.dart';
 part 'propert_detail_state.dart';
 
 class PropertDetailBloc extends BaseBlock<PropertDetailEvent, PropertDetailState> {
+  bool refresh = true;
   PropertDetailBloc() : super(PropertDetailInitial()) {
     on<PropertDetailEvent>((event, emit) {
-      // TODO: implement event handler
+      switch(event) {
+        case PropertyDetailResumed():
+        
+        break;
+      }
     });
   }
 }
