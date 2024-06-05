@@ -11,13 +11,14 @@ class PropertyResponse {
     required this.data,
   });
 
-  factory PropertyResponse.fromJson(Map<String,dynamic> json) => _$PropertyResponseFromJson(json);
-  Map<String,dynamic> toJson() => _$PropertyResponseToJson(this);
+  factory PropertyResponse.fromJson(Map<String, dynamic> json) =>
+      _$PropertyResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$PropertyResponseToJson(this);
 }
 
 @JsonSerializable()
 class PropertyData {
-  @JsonKey(name:"_id")
+  @JsonKey(name: "_id")
   final String id;
   final String category;
   final String categoryName;
@@ -34,6 +35,7 @@ class PropertyData {
   final int price;
   final List<PropertyDoc> propertyDocs;
   final DateTime created;
+  final String? formattedAddress;
 
   PropertyData({
     required this.id,
@@ -52,10 +54,12 @@ class PropertyData {
     required this.price,
     required this.propertyDocs,
     required this.created,
+    required this.formattedAddress,
   });
 
-  factory PropertyData.fromJson(Map<String,dynamic> json) => _$PropertyDataFromJson(json);
-  Map<String,dynamic> toJson() => _$PropertyDataToJson(this);
+  factory PropertyData.fromJson(Map<String, dynamic> json) =>
+      _$PropertyDataFromJson(json);
+  Map<String, dynamic> toJson() => _$PropertyDataToJson(this);
 }
 
 @JsonSerializable()
@@ -67,8 +71,9 @@ class PropertyDoc {
     required this.objectUrl,
     required this.document,
   });
-  
-  factory PropertyDoc.fromJson(Map<String,dynamic> json) => _$PropertyDocFromJson(json);
 
-  Map<String,dynamic> toJson() => _$PropertyDocToJson(this);
+  factory PropertyDoc.fromJson(Map<String, dynamic> json) =>
+      _$PropertyDocFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PropertyDocToJson(this);
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/presentation/carousel/carosel_widget.dart';
 
 class PropertyDocumentsScreen extends StatelessWidget {

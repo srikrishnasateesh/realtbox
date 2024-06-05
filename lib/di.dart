@@ -10,6 +10,7 @@ import 'package:realtbox/domain/repository/auth_repository.dart';
 import 'package:realtbox/domain/repository/propert_repository.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
+import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 
 final getIt = GetIt.instance;
@@ -35,6 +36,7 @@ Future<void> initDI() async {
   //usecases
   getIt.registerSingleton<GetLoginOtp>(GetLoginOtp(getIt<AuthRepository>()));
   getIt.registerSingleton<GetToken>(GetToken(getIt<AuthRepository>()));
+  getIt.registerSingleton<GetUserSelf>(GetUserSelf(getIt<AuthRepository>()));
   getIt.registerSingleton<GetPropertyList>(
       GetPropertyList(repository: getIt<PropertyRepository>()));
 }

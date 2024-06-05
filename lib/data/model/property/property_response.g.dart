@@ -39,6 +39,7 @@ PropertyData _$PropertyDataFromJson(Map<String, dynamic> json) => PropertyData(
           .map((e) => PropertyDoc.fromJson(e as Map<String, dynamic>))
           .toList(),
       created: DateTime.parse(json['created'] as String),
+      formattedAddress: json['formattedAddress'] as String?,
     );
 
 Map<String, dynamic> _$PropertyDataToJson(PropertyData instance) =>
@@ -59,6 +60,7 @@ Map<String, dynamic> _$PropertyDataToJson(PropertyData instance) =>
       'price': instance.price,
       'propertyDocs': instance.propertyDocs,
       'created': instance.created.toIso8601String(),
+      'formattedAddress': instance.formattedAddress,
     };
 
 PropertyDoc _$PropertyDocFromJson(Map<String, dynamic> json) => PropertyDoc(

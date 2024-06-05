@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -135,22 +133,24 @@ class PropertyItem extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(
-                      height: 8,
+                      height: 10,
                     ),
                     Row(
                       children: [
                         const Icon(
-                          Icons.home_outlined,
+                          Icons.location_pin,
                           color: Colors.grey,
                         ),
                         const SizedBox(
                             width: 4.0), // Optional space between icon and text
-                        BasicText(
-                          text: property.location,
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black45,
-                            fontSize: FontSize.s15,
+                        Expanded(
+                          child: BasicText(
+                            text: property.location,
+                            textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black45,
+                              fontSize: FontSize.s15,
+                            ),
                           ),
                         ),
                       ],

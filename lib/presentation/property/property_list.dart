@@ -32,12 +32,6 @@ class PropertyList extends StatelessWidget {
       }
     });
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Properties",
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
       body: SafeArea(
         child: BlocBuilder<PropertListBloc, PropertListState>(
           builder: (context, state) {

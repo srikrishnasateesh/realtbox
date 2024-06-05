@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:realtbox/config/resources/constants/api_constnats.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/data/datasource/remote/api_service.dart';
+import 'package:realtbox/data/model/self/self_response.dart';
 import 'package:realtbox/domain/entity/login/login_request_entity.dart';
 import 'package:realtbox/domain/entity/login/login_response.dart';
 import 'package:realtbox/domain/entity/otp/token_request_entity.dart';
 import 'package:realtbox/domain/entity/otp/token_response.dart';
+import 'package:realtbox/domain/entity/self/self.dart';
 import 'package:realtbox/domain/repository/auth_repository.dart';
 import 'package:dio/dio.dart';
 
@@ -49,7 +51,7 @@ class AuthRepositoryImpl implements AuthRepository {
               requestOptions: RequestOptions(baseUrl: ApiConstants.baseUrl),
               error: "Inavlid request"),
           null,
-          );
+        );
       }
       final httpResponse = await apiService.token(tokenRequest);
       if (httpResponse.response.statusCode == HttpStatus.ok) {
@@ -66,5 +68,41 @@ class AuthRepositoryImpl implements AuthRepository {
     } on DioException catch (e) {
       return DataFailed(e, null);
     }
+  }
+
+  @override
+  Future<DataState<Self>> self() async {
+    try {
+      final httpResponse = await apiService.self();
+      if (httpResponse.response.statusCode == HttpStatus.ok) {
+        final data = httpResponse.data;
+        if (data.success == true) {
+          final selfData = data.data;
+
+          return DataSuccess(maptoSelf(selfData!));
+        }
+      }
+      return DataFailed(
+          DioException(
+              error: httpResponse.response.statusMessage,
+              response: httpResponse.response,
+              type: DioExceptionType.unknown,
+              requestOptions: httpResponse.response.requestOptions),
+          null);
+    } on DioException catch (e) {
+      return DataFailed(e, null);
+    }
+  }
+
+  Self maptoSelf(SelfData data) {
+    return Self(
+      createdBy: data.createdBy ?? "",
+      id: data.id ?? "",
+      name: data.name ?? "",
+      phoneNumber: data.phoneNumber ?? "",
+      created: data.created ?? DateTime.now(),
+      enrollmentType: data.enrollmentType ?? "",
+      profileImageUrl: data.profileUrl?.objectUrl ?? ""
+    );
   }
 }

@@ -4,9 +4,12 @@ import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
+import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
 import 'package:realtbox/presentation/home/home_page.dart';
+import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
+import 'package:realtbox/presentation/landing/landing_page.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
 import 'package:realtbox/presentation/property/property_list.dart';
 import 'package:realtbox/presentation/property_details/bloc/propert_detail_bloc.dart';
@@ -29,7 +32,9 @@ class AppRoute {
         switch (settings.name) {
           case RouteNames.splash:
             return BlocProvider(
-              create: (context) => SplashBloc(),
+              create: (context) => SplashBloc(
+                getIt<GetUserSelf>(),
+              ),
               child: const SplashScreen(),
             );
           case RouteNames.login:
@@ -43,6 +48,7 @@ class AppRoute {
               create: (context) => OtpBloc(
                 getIt<GetLoginOtp>(),
                 getIt<GetToken>(),
+                getIt<GetUserSelf>(),
               ),
               child: OtpScreen(
                 username: args["userName"],
@@ -54,6 +60,11 @@ class AppRoute {
             return BlocProvider(
               create: (context) => HomeBloc(),
               child: const Home(),
+            );
+          case RouteNames.landing:
+            return BlocProvider(
+              create: (context) => LandingBloc(),
+              child: const LandingPage(),
             );
           case RouteNames.propertyList:
             return BlocProvider(
@@ -70,12 +81,13 @@ class AppRoute {
               ),
             );
 
-            case RouteNames.propertyDocs:
+          case RouteNames.propertyDocs:
             Map<String, dynamic> args =
                 settings.arguments as Map<String, dynamic>;
-                final imageList = args['images'] as List<String>;
-                final isNetworkUrls = args['network_images'];
-            return PropertyDocumentsScreen(imageList: imageList, isNetworkUrls: isNetworkUrls);
+            final imageList = args['images'] as List<String>;
+            final isNetworkUrls = args['network_images'];
+            return PropertyDocumentsScreen(
+                imageList: imageList, isNetworkUrls: isNetworkUrls);
 
           default:
             return unDefinedRoute();

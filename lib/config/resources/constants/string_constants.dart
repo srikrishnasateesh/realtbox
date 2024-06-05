@@ -28,5 +28,7 @@ class StringConstants {
   static const String token = "token";
   static const String user = "user";
   static const String id = "id";
+  static const String userName = "name";
+  static const String profileImage = "profile_url";
   static const String fcmToken = "fcm_token";
 }

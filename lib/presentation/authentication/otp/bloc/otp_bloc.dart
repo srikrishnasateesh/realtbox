@@ -12,6 +12,7 @@ import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/entity/otp/token_request_entity.dart';
 import 'package:realtbox/domain/entity/otp/token_response.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
+import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,10 +27,12 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
 
   GetLoginOtp getLoginOtp;
   GetToken getToken;
+  GetUserSelf getUserSelf;
 
   OtpBloc(
     this.getLoginOtp,
     this.getToken,
+    this.getUserSelf,
   ) : super(OtpInitial()) {
     on<OtpEvent>((event, emit) async {
       switch (event) {
@@ -116,9 +119,32 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
         final tokenData = response.data?.data;
         if (tokenData != null) {
           await saveTokenData(tokenData);
-          emit(OtpNavigate(route: RouteNames.propertyList));
+          await self(emit);
+          emit(OtpNavigate(route: RouteNames.landing));
         }
       }
+    }
+  }
+
+  Future<void> self(Emitter<OtpState> emit) async {
+    final response = await getUserSelf();
+
+    if (response is DataFailed) {
+      String msg = response.exception?.message ?? "User self failed";
+      emit(OtpError(message: msg));
+      return;
+    }
+    if (response is DataSuccess) {
+      final self = response.data;
+      await LocalStorage.setString(
+        StringConstants.userName,
+        self?.name ?? " ",
+      );
+
+      await LocalStorage.setString(
+        StringConstants.profileImage,
+        self?.profileImageUrl ?? "",
+      );
     }
   }
 
