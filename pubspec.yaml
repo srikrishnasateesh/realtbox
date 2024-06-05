@@ -133,7 +133,7 @@ flutter_native_splash:
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
-  image: assets/images/splash/realtbox_logo.png
+  image: assets/images/splash/header_log.png
 
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
@@ -165,7 +165,7 @@ flutter_native_splash:
     # 640 pixels in diameter.
     # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
     # 768 pixels in diameter.
-    image: assets/images/splash/realtbox_logo.png
+    image: assets/images/splash/android_logo.png
 
     # Splash screen background color.
     color: "#42a5f5"
@@ -199,7 +199,7 @@ flutter_native_splash:
   #color_dark_web: "#042a49"
   #image_android: assets/splash-android.png
   #image_dark_android: assets/splash-invert-android.png
-  image_ios: assets/images/splash/realtbox_logo.png
+  image_ios: assets/images/splash/header_log.png
   #image_dark_ios: assets/splash-invert-ios.png
   #image_web: assets/splash-web.gif
   #image_dark_web: assets/splash-invert-web.gif

@@ -34,7 +34,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final phoneNumberController = TextEditingController(text: "9999988888");
+  final phoneNumberController = TextEditingController();
 
   @override
   void initState() {
@@ -65,9 +65,9 @@ class _LoginFormState extends State<LoginForm> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: AppSize.s150,
+                      height: AppSize.s65,
                       child: Image.asset(
-                        loginLogo,
+                        appLogo,
                         fit: BoxFit.contain,
                       ),
                     ),
