@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
@@ -20,49 +21,64 @@ class LandingPage extends StatelessWidget {
     landingBloc.add(
       OnAppStarted(),
     );
-    return Scaffold(
-      body: BlocBuilder<LandingBloc, LandingState>(
-        builder: (context, state) {
-          switch (state) {
-            case LandingHomeState():
-              return BlocProvider(
-                create: (context) => PropertListBloc(
-                  getIt<GetPropertyList>(),
-                  getIt<SubmitEnquiry>(),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: BlocBuilder<LandingBloc, LandingState>(
+          builder: (context, state) {
+            switch (state) {
+              case LandingHomeState():
+                return BlocProvider(
+                  create: (context) => PropertListBloc(
+                    getIt<GetPropertyList>(),
+                    getIt<SubmitEnquiry>(),
+                  ),
+                  child: PropertyList(),
+                );
+
+              case LandingProfileState():
+                return BlocProvider(
+                  create: (context) => ProfileBloc(),
+                  child: const ProfilePage(),
+                );
+
+              default:
+                return Container();
+            }
+          },
+        ),
+        bottomNavigationBar: BlocBuilder<LandingBloc, LandingState>(
+          builder: (context, state) {
+            return SafeArea(
+              child: ClipRRect(
+                clipBehavior: Clip.antiAlias,
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12)),
+                child: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: Colors.white,
+                  selectedItemColor: Colors.amber,
+                  unselectedItemColor: Colors.grey,
+                  currentIndex: landingBloc.currentIndex,
+                  showSelectedLabels: true,
+                  showUnselectedLabels: true,
+                  elevation: 5,
+                  items: const [
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.business_rounded),
+                        label: "Properties"),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.person_2_rounded), label: "Profile"),
+                  ],
+                  onTap: (index) => BlocProvider.of<LandingBloc>(context).add(
+                    OnMenuChanged(pageIndex: index),
+                  ),
                 ),
-                child: PropertyList(),
-              );
-
-            case LandingProfileState():
-              return BlocProvider(
-                create: (context) => ProfileBloc(),
-                child: const ProfilePage(),
-              );
-
-            default:
-              return Container();
-          }
-        },
-      ),
-      bottomNavigationBar: BlocBuilder<LandingBloc, LandingState>(
-        builder: (context, state) {
-          return BottomNavigationBar(
-            selectedItemColor: Colors.amber,
-            unselectedItemColor: Colors.grey,
-            currentIndex: landingBloc.currentIndex,
-            showSelectedLabels: true,
-            showUnselectedLabels: false,
-            items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.business_rounded), label: "Properties"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person_2_rounded), label: "Profile"),
-            ],
-            onTap: (index) => BlocProvider.of<LandingBloc>(context).add(
-              OnMenuChanged(pageIndex: index),
-            ),
-          );
-        },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

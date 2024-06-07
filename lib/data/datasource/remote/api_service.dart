@@ -30,7 +30,9 @@ abstract class ApiService {
   Future<HttpResponse<SelfResponse>> self();
 
   @GET(ApiConstants.property)
-  Future<HttpResponse<PropertyResponse>> propertyList();
+  Future<HttpResponse<PropertyResponse>> propertyList(
+    @Query('skip') int skip
+  );
 
   @POST("${ApiConstants.enquiry}/{id}")
   Future<HttpResponse> enquiry(

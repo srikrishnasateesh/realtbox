@@ -11,8 +11,9 @@ final class OnOtpInit extends OtpEvent{
 
 final class OnOtpSubmit extends OtpEvent {
   final String? name;
+  final String email;
   final String otp;
-  OnOtpSubmit(this.name,this.otp);
+  OnOtpSubmit({this.name,required this.otp, required this.email});
 }
 
 final class OnResnedOtp extends OtpEvent {}

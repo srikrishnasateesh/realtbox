@@ -87,7 +87,7 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
   Future<DataState<List<Property>>> getData(
       Emitter<PropertListState> emit) async {
     return await getPropertyList(
-      params: null,
+      params: count,
     );
   }
 

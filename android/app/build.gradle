@@ -54,11 +54,25 @@ android {
         versionName flutterVersionName
     }
 
+    signingConfigs {
+        release {
+            keyAlias 'my-key-alias'
+            keyPassword 'Realtbox1234#'
+            storeFile file('../jks/realtbox.jks')
+            storePassword 'Realtbox1234#'
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            //signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+            minifyEnabled true // Set to true to enable code shrinking
+            shrinkResources true // Set to true to enable resource shrinking
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
         }
     }
 }

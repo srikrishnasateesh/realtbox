@@ -7,10 +7,11 @@ part of 'token_request_entity.dart';
 // **************************************************************************
 
 TokenRequest _$TokenRequestFromJson(Map<String, dynamic> json) => TokenRequest(
-      json['phoneNumber'] as String,
-      json['otp'] as String,
-      json['name'] as String?,
-      json['fcmToken'] as String?,
+      phoneNumber: json['phoneNumber'] as String,
+      otp: json['otp'] as String,
+      name: json['name'] as String?,
+      fcmToken: json['fcmToken'] as String?,
+      email: json['email'] as String?,
     );
 
 Map<String, dynamic> _$TokenRequestToJson(TokenRequest instance) =>
@@ -19,4 +20,5 @@ Map<String, dynamic> _$TokenRequestToJson(TokenRequest instance) =>
       'otp': instance.otp,
       'name': instance.name,
       'fcmToken': instance.fcmToken,
+      'email': instance.email,
     };

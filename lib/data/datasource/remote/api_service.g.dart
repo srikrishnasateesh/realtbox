@@ -108,9 +108,9 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<HttpResponse<PropertyResponse>> propertyList() async {
+  Future<HttpResponse<PropertyResponse>> propertyList(int skip) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'skip': skip};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

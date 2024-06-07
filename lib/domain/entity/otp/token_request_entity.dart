@@ -8,7 +8,8 @@ class TokenRequest  {
   final String otp;
   final String? name;
   final String? fcmToken;
-  TokenRequest(this.phoneNumber, this.otp, this.name, this.fcmToken);
+  final String? email;
+  TokenRequest({required this.phoneNumber, required this.otp, this.name, this.fcmToken, this.email});
 
   Map<String, dynamic> toJson()  => _$TokenRequestToJson(this);
 

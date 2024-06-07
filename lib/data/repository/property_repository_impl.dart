@@ -16,11 +16,11 @@ class PropertyRepositoryImplementation extends PropertyRepository {
   PropertyRepositoryImplementation({required this.apiService});
 
   @override
-  Future<DataState<List<Property>>> getPropertiesList() async {
+  Future<DataState<List<Property>>> getPropertiesList(int skip) async {
     try {
       /* return DataSuccess(LoginResponseModel(
           success: true, data: Data(message: "mes", isExists: false))); */
-      final httpResponse = await apiService.propertyList();
+      final httpResponse = await apiService.propertyList(skip);
       debugPrint(httpResponse.toString());
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         final response = httpResponse.data;

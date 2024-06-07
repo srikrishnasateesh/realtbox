@@ -24,6 +24,7 @@ class OtpScreen extends StatelessWidget {
 
   final otpController = TextEditingController();
   final nameController = TextEditingController();
+  final emailController = TextEditingController(text: "");
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +110,21 @@ class OtpScreen extends StatelessWidget {
                                                   StringConstants.fullName,
                                               controller: nameController,
                                               keyboardType: TextInputType.name,
+                                              style: getSemiBoldStyle(
+                                                  fontSize: FontSize.s16,
+                                                  color:
+                                                      ColorManager.textColor),
+                                              maxLength: 30,
+                                              onChanged: (val) {},
+                                            ),
+                                            const SizedBox(
+                                              height: AppMargin.m12,
+                                            ),
+                                            BasicTextField(
+                                              hintText: StringConstants.email,
+                                              controller: emailController,
+                                              keyboardType:
+                                                  TextInputType.emailAddress,
                                               style: getSemiBoldStyle(
                                                   fontSize: FontSize.s16,
                                                   color:
@@ -211,8 +227,11 @@ class OtpScreen extends StatelessWidget {
                               child: ElevatedButton(
                                   onPressed: () {
                                     otpBloc.add(
-                                      OnOtpSubmit(nameController.text,
-                                          otpController.text),
+                                      OnOtpSubmit(
+                                        name: nameController.text,
+                                        otp: otpController.text,
+                                        email: emailController.text,
+                                      ),
                                     );
                                   },
                                   child: const Text(StringConstants.submit)),

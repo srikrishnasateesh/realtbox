@@ -9,6 +9,7 @@ class StringConstants {
   static const String invalidMobileNumber = "Invalid mobile number";
   static const String otp = "OTP";
   static const String fullName = "Full Name";
+  static const String email = "Email";
   static const String loginTitle = "Welcome to RealtBox";
   static const String loginSubTitle = "Enter Mobile Number to continue";
   static const String requestOtp = "Request OTP";

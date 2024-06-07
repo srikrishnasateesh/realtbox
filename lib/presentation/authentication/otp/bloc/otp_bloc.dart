@@ -81,6 +81,12 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
       emit(OtpError(message: "User name required"));
       return;
     }
+
+    if (event.email.isNotEmpty && !utils.isValidEmail(event.email)) {
+      emit(OtpError(message: "Invalid Email"));
+      return;
+    }
+
     if (!utils.isValidUserName(event.otp)) {
       emit(OtpError(message: "Invalid Otp"));
       return;
@@ -96,10 +102,11 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
     emit(OtpInProgress(isLoading: true));
     final response = await getToken(
       params: TokenRequest(
-        phoneNumber,
-        event.otp,
-        event.name,
-        fcmToken,
+        phoneNumber: phoneNumber,
+        otp: event.otp,
+        name: event.name,
+        fcmToken: fcmToken,
+        email: event.email,
       ),
     );
 
