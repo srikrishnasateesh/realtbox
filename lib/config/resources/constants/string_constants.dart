@@ -22,8 +22,10 @@ class StringConstants {
   static const String resend = "Resend";
   static const String resendMsg = "Didn't receive OTP?";
 
+  static const String enrollmentTypeAdmin = "Admin";
+
   //Local storage
-  static const String enrollmentType = "enrollmentType";
+  static const String enrollmentType = "enrollmentType"; //Admin,Company
   static const String phoneNumber = "phoneNumber";
   static const String token = "token";
   static const String user = "user";

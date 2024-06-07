@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
+import 'package:realtbox/config/resources/constants/string_constants.dart';
 import 'package:realtbox/config/resources/font_manager.dart';
 import 'package:realtbox/config/resources/style_manager.dart';
 import 'package:realtbox/config/resources/value_manager.dart';
 import 'package:realtbox/config/routes/route_names.dart';
+import 'package:realtbox/config/services/local_storage.dart';
 import 'package:realtbox/core/utils/dialog_utils.dart';
+import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
+import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 import 'package:realtbox/presentation/carousel/bloc/carousel_bloc.dart';
 import 'package:realtbox/presentation/enquiry/bloc/enquiry_bloc.dart';
 import 'package:realtbox/presentation/property_details/bloc/propert_detail_bloc.dart';
@@ -21,9 +25,14 @@ import 'package:realtbox/presentation/enquiry/enquiry_form_bottomsheet.dart';
 
 class PropertyDetailsScreen extends StatelessWidget {
   final Property property;
-  const PropertyDetailsScreen({super.key, required this.property});
+  bool showEnquiry = false;
+  PropertyDetailsScreen({super.key, required this.property});
   @override
   Widget build(BuildContext context) {
+    String enroll = LocalStorage.getString(StringConstants.enrollmentType);
+    debugPrint("Enrool: $enroll");
+    showEnquiry = enroll != StringConstants.enrollmentTypeAdmin;
+
     return BlocListener<PropertDetailBloc, PropertDetailState>(
       listener: (context, state) {
         if (state is OnEnquirySubmittedSuccessfully) {
@@ -72,12 +81,14 @@ class PropertyDetailsScreen extends StatelessWidget {
                           textStyle: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
-                      Center(
-                        child: primaryButton("Enquire Now", action: () {
-                          showBottomSheet(context);
-                        }),
-                      ),
+
+                      SizedBox(height: showEnquiry ? 16.0 : 0),
+                      if (showEnquiry)
+                        Center(
+                          child: primaryButton("Enquire Now", action: () {
+                            showBottomSheet(context, property.propertyId);
+                          }),
+                        ),
 
                       const SizedBox(height: 16.0),
                       Row(
@@ -180,22 +191,16 @@ class PropertyDetailsScreen extends StatelessWidget {
 
   void showBottomSheet(
     BuildContext context,
-    /*  VoidCallback Function({ String mobile, String message}) onResponse */
+    String propertyId,
   ) async {
     final result = await showModalBottomSheet<Map<String, String>>(
       context: context,
       builder: (context) => BlocProvider(
-        create: (context) => EnquiryBloc(),
-        child: const BottomSheetWidget(),
+        create: (context) => EnquiryBloc(getIt<SubmitEnquiry>()),
+        child: BottomSheetWidget(
+          propertyId: propertyId,
+        ),
       ),
     );
-
-    if (result != null) {
-      String mobile = result["mobile"]!;
-      String message = result["message"]!;
-      debugPrint("Before onResponse $mobile,$message");
-      BlocProvider.of<PropertDetailBloc>(context).add(OnEnquiryReceived(
-          mobile: mobile, message: message, propertyId: property.propertyId));
-    }
   }
 }

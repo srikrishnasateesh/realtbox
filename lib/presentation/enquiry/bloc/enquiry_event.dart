@@ -7,7 +7,11 @@ sealed class EnquiryEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class OnAppStarted extends EnquiryEvent {}
+class OnAppStarted extends EnquiryEvent {
+  final String id;
+
+  OnAppStarted({required this.id});
+}
 
 class OnEnquirySubmitted extends EnquiryEvent {
   final String mobileNumber;

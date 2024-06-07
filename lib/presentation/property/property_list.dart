@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realtbox/config/resources/constants/string_constants.dart';
+import 'package:realtbox/config/services/local_storage.dart';
 import 'package:realtbox/core/utils/dialog_utils.dart';
+import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
+import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 import 'package:realtbox/presentation/enquiry/bloc/enquiry_bloc.dart';
 import 'package:realtbox/presentation/enquiry/enquiry_form_bottomsheet.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
@@ -9,6 +13,7 @@ import 'package:realtbox/presentation/widgets/property_item.dart';
 
 class PropertyList extends StatelessWidget {
   bool isRefreshing = false;
+  bool showEnquiry = false;
 
   PropertyList({super.key});
 
@@ -20,6 +25,9 @@ class PropertyList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String enroll = LocalStorage.getString(StringConstants.enrollmentType);
+    debugPrint("Enrool: $enroll");
+    showEnquiry = enroll != StringConstants.enrollmentTypeAdmin;
     final bloc = BlocProvider.of<PropertListBloc>(context);
     bloc.add(OnPropertyListInit());
     return buildData(context);
@@ -78,6 +86,7 @@ class PropertyList extends StatelessWidget {
                         return PropertyItem(
                           property: list[index],
                           index: index,
+                          showEnquiry: showEnquiry,
                           onEnquiryClicked: () {
                             String propertyId = list[index].propertyId;
                             debugPrint("PropertyId: $propertyId");
@@ -107,17 +116,9 @@ class PropertyList extends StatelessWidget {
     final result = await showModalBottomSheet<Map<String, String>>(
       context: context,
       builder: (context) => BlocProvider(
-        create: (context) => EnquiryBloc(),
-        child: const BottomSheetWidget(),
+        create: (context) => EnquiryBloc(getIt<SubmitEnquiry>()),
+        child:  BottomSheetWidget(propertyId: id,),
       ),
     );
-
-    if (result != null) {
-      String mobile = result["mobile"]!;
-      String message = result["message"]!;
-      debugPrint("Before onResponse $mobile,$message");
-      BlocProvider.of<PropertListBloc>(context).add(OnEnquiryReceived(
-          mobile: mobile, message: message, propertyId: id));
-    }
   }
 }

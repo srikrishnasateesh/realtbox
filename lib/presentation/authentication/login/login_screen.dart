@@ -43,6 +43,12 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   @override
+  void dispose() {
+    phoneNumberController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {

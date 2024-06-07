@@ -12,11 +12,13 @@ class PropertyItem extends StatelessWidget {
   final Property property;
   final int index;
   final VoidCallback onEnquiryClicked;
+  final bool showEnquiry;
   const PropertyItem({
     super.key,
     required this.property,
     required this.index,
     required this.onEnquiryClicked,
+    required this.showEnquiry,
   });
 
   @override
@@ -66,20 +68,20 @@ class PropertyItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                    
-                      bottom: 20,
-                      left: 0,
-                      right: 0,
-                      child: Center(
-                        child: FilledButton.icon(
-                          onPressed: () => onEnquiryClicked(),
-                          icon: const Icon(Icons.announcement),
-                          label: const Text('Enquire Now'),
-                          iconAlignment: IconAlignment.start,
-                          style: FilledButton.styleFrom(
-                              backgroundColor: Colors.grey)),
-                      )),
+                  if (showEnquiry)
+                    Positioned(
+                        bottom: 20,
+                        left: 0,
+                        right: 0,
+                        child: Center(
+                          child: FilledButton.icon(
+                              onPressed: () => onEnquiryClicked(),
+                              icon: const Icon(Icons.announcement),
+                              label: const Text('Enquire Now'),
+                              iconAlignment: IconAlignment.start,
+                              style: FilledButton.styleFrom(
+                                  backgroundColor: Colors.grey)),
+                        )),
                 ],
               ),
               Padding(

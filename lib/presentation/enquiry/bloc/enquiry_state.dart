@@ -23,3 +23,17 @@ class EnquiryValidationFailed extends EnquiryState {
 }
 
 class EnquiryValidationSuccess extends EnquiryState {}
+
+class ShowProgress extends EnquiryState {}
+
+class ShowConfirmationMessage extends EnquiryState {
+  final String message;
+
+  ShowConfirmationMessage({required this.message});
+}
+
+class ShowError extends EnquiryState {
+  final String message;
+
+  ShowError({required this.message});
+}
