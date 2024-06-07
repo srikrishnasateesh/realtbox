@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../config/resources/font_manager.dart';
 class BasicTextField extends StatelessWidget {
   final String hintText;
@@ -10,6 +11,7 @@ class BasicTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final TextStyle? style;
   final int maxLength ;
+  final List<TextInputFormatter>? formatter;
 
   const BasicTextField({
     required this.hintText,
@@ -21,7 +23,8 @@ class BasicTextField extends StatelessWidget {
     this.prefixIcon,
     this.style,
     this.maxLength = TextField.noMaxLength,
-    super.key,
+    super.key, 
+    this.formatter,
   });
 
   @override
@@ -57,6 +60,7 @@ class BasicTextField extends StatelessWidget {
             fontWeight: FontWeightManager.regular),
         prefixIcon: prefixIcon,
       ),
+      inputFormatters: formatter,
       onChanged: onChanged,
     );
   }

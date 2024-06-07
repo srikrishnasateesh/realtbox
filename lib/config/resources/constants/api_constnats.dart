@@ -5,4 +5,5 @@ class ApiConstants {
   static const String requestToken = "v1/oauth/token-using-otp";
   static const String self = "v1/oauth/self";
   static const String property = "v1/property";
+  static const String enquiry = "v1/property_Enq/enquiry";
 }

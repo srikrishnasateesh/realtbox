@@ -7,6 +7,7 @@ import 'package:realtbox/config/services/local_storage.dart';
 import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'splash_event.dart';
 part 'splash_state.dart';
@@ -33,7 +34,6 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
     await Future.delayed(const Duration(seconds: 1)).then((value) async => {
           if (token.isNotEmpty){
             await self(emit),
-            emit(SplashNavigate(RouteNames.landing))
           }
           else
             emit(SplashNavigate(RouteNames.login))
@@ -45,8 +45,9 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
     final response = await getUserSelf();
 
     if (response is DataFailed) {
-      String msg = response.exception?.message ?? "User self failed";
-      emit(SplashError(message: msg));
+      /* String msg = response.exception?.message ?? "User self failed";
+      emit(SplashError(message: msg)); */
+      await handleLogout(emit);
       return;
     }
     if (response is DataSuccess) {
@@ -60,10 +61,18 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
         StringConstants.profileImage,
         self?.profileImageUrl ?? "",
       );
+      //navigate to next
+      emit(SplashNavigate(RouteNames.landing));
     }
   }
 
   Future<void> initDefaults() async {
     await LocalStorage.init(); 
+  }
+
+  Future<void> handleLogout(Emitter<SplashState> emit) async {
+    SharedPreferences? preferences =  await LocalStorage.init();
+    await preferences?.clear();
+    emit(SplashNavigate(RouteNames.splash));
   }
 }

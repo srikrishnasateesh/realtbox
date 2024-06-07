@@ -1,7 +1,8 @@
 part of 'propert_list_bloc.dart';
 
 sealed class PropertListState extends BaseState {
-  const PropertListState();
+  final bool showConfirmation;
+  const PropertListState({this.showConfirmation = false});
 }
 
 final class PropertListInitial extends PropertListState {}
@@ -27,3 +28,8 @@ final class PropertListError extends PropertListState {
   @override
   List<Object> get props => [message];
 }
+
+
+class RequestProcess extends PropertListState {}
+
+class OnEnquirySubmittedSuccessfully extends PropertListState {}

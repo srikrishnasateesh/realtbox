@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/resources/constants/string_constants.dart';
@@ -92,7 +93,10 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                     BasicTextField(
                       controller: phoneNumberController,
-                      keyboardType: TextInputType.number,
+                      keyboardType: const TextInputType.numberWithOptions(signed: true,decimal: true),
+                      formatter: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                       hintText: StringConstants.mobileNumber,
                       maxLength: 10,
                       style: getSemiBoldStyle(

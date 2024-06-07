@@ -6,11 +6,18 @@ import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
 import 'package:realtbox/presentation/widgets/border_text.dart';
+import 'package:realtbox/presentation/widgets/buttons.dart';
 
 class PropertyItem extends StatelessWidget {
   final Property property;
   final int index;
-  const PropertyItem({super.key, required this.property, required this.index});
+  final VoidCallback onEnquiryClicked;
+  const PropertyItem({
+    super.key,
+    required this.property,
+    required this.index,
+    required this.onEnquiryClicked,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +66,20 @@ class PropertyItem extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Positioned(
+                    
+                      bottom: 20,
+                      left: 0,
+                      right: 0,
+                      child: Center(
+                        child: FilledButton.icon(
+                          onPressed: () => onEnquiryClicked(),
+                          icon: const Icon(Icons.announcement),
+                          label: const Text('Enquire Now'),
+                          iconAlignment: IconAlignment.start,
+                          style: FilledButton.styleFrom(
+                              backgroundColor: Colors.grey)),
+                      )),
                 ],
               ),
               Padding(

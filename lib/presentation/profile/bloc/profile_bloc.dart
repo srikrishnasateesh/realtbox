@@ -18,16 +18,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
        
           break;
         case OnLogoutConfirmed():
-          await handleLogout();
-          emit(ProfileNavigation(route: RouteNames.splash));
+          await handleLogout(emit);
           break;
       }
     });
   }
 
-  Future<void> handleLogout() async {
+  Future<void> handleLogout(Emitter<ProfileState> emit) async {
     SharedPreferences? preferences =  await LocalStorage.init();
     await preferences?.clear();
+    emit(ProfileNavigation(route: RouteNames.splash));
   }
 
   Future<void> handleProfileInit(

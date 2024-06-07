@@ -9,3 +9,7 @@ final class PropertDetailInitial extends PropertDetailState {
   PropertDetailInitial();
 }
 
+class RequestProcess extends PropertDetailState {}
+
+class OnEnquirySubmittedSuccessfully extends PropertDetailState {}
+

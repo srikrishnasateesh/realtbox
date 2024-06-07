@@ -2,21 +2,30 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
+import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
+import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 
 part 'propert_list_event.dart';
 part 'propert_list_state.dart';
 
 class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
   final GetPropertyList getPropertyList;
+  SubmitEnquiry submitEnquiry;
 
   int count = 0;
 
   List<Property> propertyList = List.empty(growable: true);
 
-  PropertListBloc(this.getPropertyList) : super(PropertListInitial()) {
+  bool showEnquiryConfirmation = false;
+
+  PropertListBloc(
+    this.getPropertyList,
+    this.submitEnquiry,
+  ) : super(PropertListInitial()) {
     on<PropertListEvent>((event, emit) async {
+      showEnquiryConfirmation = false;
       switch (event) {
         case OnPropertyListInit():
           count = 0;
@@ -25,8 +34,27 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
           await loadMoreData(emit);
         case RefreshData():
           await refreshData(emit);
+        case OnEnquiryReceived():
+          await handleEnquirySubmit(emit, event);
+          break;
       }
     });
+  }
+
+  Future<void> handleEnquirySubmit(
+      Emitter<PropertListState> emit, OnEnquiryReceived event) async {
+    emit(RequestProcess());
+    final response = await submitEnquiry(
+        params: EnquiryRequestObject(
+            enquiryRequest: EnquiryRequest(
+                phoneNumber: event.mobile, message: event.message),
+            propertyId: event.propertyId));
+    if (response is DataSuccess) {
+      showEnquiryConfirmation = true;
+      //emit(OnEnquirySubmittedSuccessfully());
+    } else {
+      debugPrint("$response");
+    }
   }
 
   Future<void> fetchData(Emitter<PropertListState> emit) async {
@@ -51,7 +79,7 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
       debugPrint("Count: $count");
 
       emit(
-        PropertListLoaded(data: propertyList, hasReachedMax: count%20>0),
+        PropertListLoaded(data: propertyList, hasReachedMax: count % 20 > 0),
       );
     }
   }

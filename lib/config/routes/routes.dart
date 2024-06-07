@@ -6,6 +6,7 @@ import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
+import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
 import 'package:realtbox/presentation/home/home_page.dart';
 import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
@@ -70,12 +71,15 @@ class AppRoute {
             return BlocProvider(
               create: (context) => PropertListBloc(
                 getIt<GetPropertyList>(),
+                getIt<SubmitEnquiry>(),
               ),
               child: PropertyList(),
             );
           case RouteNames.propertyDetails:
             return BlocProvider(
-              create: (context) => PropertDetailBloc(),
+              create: (context) => PropertDetailBloc(
+                getIt<SubmitEnquiry>(),
+              ),
               child: PropertyDetailsScreen(
                 property: (settings.arguments as Property),
               ),

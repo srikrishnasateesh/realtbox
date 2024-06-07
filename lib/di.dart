@@ -12,6 +12,7 @@ import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
+import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 
 final getIt = GetIt.instance;
 
@@ -38,7 +39,15 @@ Future<void> initDI() async {
   getIt.registerSingleton<GetToken>(GetToken(getIt<AuthRepository>()));
   getIt.registerSingleton<GetUserSelf>(GetUserSelf(getIt<AuthRepository>()));
   getIt.registerSingleton<GetPropertyList>(
-      GetPropertyList(repository: getIt<PropertyRepository>()));
+    GetPropertyList(
+      repository: getIt<PropertyRepository>(),
+    ),
+  );
+  getIt.registerSingleton<SubmitEnquiry>(
+    SubmitEnquiry(
+      repository: getIt<PropertyRepository>(),
+    ),
+  );
 }
 
 /* Dio createDio() {

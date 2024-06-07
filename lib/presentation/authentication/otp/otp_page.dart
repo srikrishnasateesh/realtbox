@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
@@ -128,7 +129,12 @@ class OtpScreen extends StatelessWidget {
                                   BasicTextField(
                                     hintText: StringConstants.otp,
                                     controller: otpController,
-                                    keyboardType: TextInputType.number,
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(
+                                            signed: true, decimal: true),
+                                    formatter: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
                                     obscureText: true,
                                     style: getSemiBoldStyle(
                                         fontSize: FontSize.s16,
@@ -142,8 +148,9 @@ class OtpScreen extends StatelessWidget {
                             BlocBuilder<OtpBloc, OtpState>(
                               builder: (context, state) {
                                 if (state is OtpError) {
-                                  return  Text(state.message,
-                                      style: const TextStyle(color: Colors.red));
+                                  return Text(state.message,
+                                      style:
+                                          const TextStyle(color: Colors.red));
                                 } else {
                                   return Container();
                                 }

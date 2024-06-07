@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
+import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
 import 'package:realtbox/presentation/home/home_page.dart';
 import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
@@ -25,7 +26,10 @@ class LandingPage extends StatelessWidget {
           switch (state) {
             case LandingHomeState():
               return BlocProvider(
-                create: (context) => PropertListBloc(getIt<GetPropertyList>()),
+                create: (context) => PropertListBloc(
+                  getIt<GetPropertyList>(),
+                  getIt<SubmitEnquiry>(),
+                ),
                 child: PropertyList(),
               );
 
@@ -43,21 +47,21 @@ class LandingPage extends StatelessWidget {
       bottomNavigationBar: BlocBuilder<LandingBloc, LandingState>(
         builder: (context, state) {
           return BottomNavigationBar(
-              selectedItemColor: Colors.amber,
-              unselectedItemColor: Colors.grey,
-              currentIndex: landingBloc.currentIndex,
-              showSelectedLabels: true,
-              showUnselectedLabels: false,
-              items: const [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.business_rounded), label: "Properties"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.person_2_rounded), label: "Profile"),
-              ],
-              onTap: (index) => BlocProvider.of<LandingBloc>(context).add(
-                OnMenuChanged(pageIndex: index),
-              ),
-            );
+            selectedItemColor: Colors.amber,
+            unselectedItemColor: Colors.grey,
+            currentIndex: landingBloc.currentIndex,
+            showSelectedLabels: true,
+            showUnselectedLabels: false,
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.business_rounded), label: "Properties"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person_2_rounded), label: "Profile"),
+            ],
+            onTap: (index) => BlocProvider.of<LandingBloc>(context).add(
+              OnMenuChanged(pageIndex: index),
+            ),
+          );
         },
       ),
     );

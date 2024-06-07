@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/data/datasource/remote/api_service.dart';
+import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/repository/propert_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 
 class PropertyRepositoryImplementation extends PropertyRepository {
   final ApiService apiService;
@@ -61,5 +63,22 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       location: propertyData.formattedAddress ?? propertyData.location ?? "",
       images: propertyData.propertyDocs.map((e) => e.objectUrl).toList(),
     );
+  }
+
+  @override
+  Future<DataState> enquiry(EnquiryRequestObject enquiryRequestObject) async {
+    final httpResponse = await apiService.enquiry(enquiryRequestObject.propertyId,enquiryRequestObject.enquiryRequest);
+    if (httpResponse.response.statusCode == HttpStatus.ok) {
+      return DataSuccess(null);
+    } else {
+      return DataFailed(
+        DioException(
+            error: httpResponse.response.statusMessage,
+            response: httpResponse.response,
+            type: DioExceptionType.unknown,
+            requestOptions: httpResponse.response.requestOptions),
+        List.empty(),
+      );
+    }
   }
 }

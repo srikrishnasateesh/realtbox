@@ -1,4 +1,5 @@
 import 'package:realtbox/config/resources/constants/api_constnats.dart';
+import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
 import 'package:realtbox/data/model/self/self_response.dart';
 import 'package:realtbox/domain/entity/login/login_request_entity.dart';
@@ -30,4 +31,10 @@ abstract class ApiService {
 
   @GET(ApiConstants.property)
   Future<HttpResponse<PropertyResponse>> propertyList();
+
+  @POST("${ApiConstants.enquiry}/{id}")
+  Future<HttpResponse> enquiry(
+    @Path("id") String id,
+    @Body() EnquiryRequest enquiryRequest,
+  );
 }
