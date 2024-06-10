@@ -102,7 +102,8 @@ class AuthRepositoryImpl implements AuthRepository {
       phoneNumber: data.phoneNumber ?? "",
       created: data.created ?? DateTime.now(),
       enrollmentType: data.enrollmentType ?? "",
-      profileImageUrl: data.profileUrl?.objectUrl ?? ""
+      profileImageUrl: data.profileUrl?.objectUrl ?? "",
+      email: data.email ?? ""
     );
   }
 }

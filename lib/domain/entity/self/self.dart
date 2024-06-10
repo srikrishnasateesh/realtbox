@@ -10,6 +10,7 @@ class Self {
   final DateTime created;
   final String enrollmentType;
   final String profileImageUrl;
+  final String email;
 
   Self({
     required this.createdBy,
@@ -19,5 +20,6 @@ class Self {
     required this.created,
     required this.enrollmentType,
     required this.profileImageUrl,
+    required this.email,
   });
 }

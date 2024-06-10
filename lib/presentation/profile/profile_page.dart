@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/presentation/profile/bloc/profile_bloc.dart';
 import 'package:realtbox/presentation/widgets/avatar_widget.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
+import 'package:realtbox/presentation/widgets/key_value_column.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -11,7 +12,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     BlocProvider.of<ProfileBloc>(context).add(OnProfileInit());
     return Scaffold(
-        backgroundColor: Colors.grey.shade300,
+        backgroundColor: Colors.white,
         body: BlocListener<ProfileBloc, ProfileState>(
           listener: (context, state) {
             if (state is ShowLogoutConfirmation) {
@@ -47,10 +48,11 @@ class ProfilePage extends StatelessWidget {
                             textStyle:
                                 Theme.of(context).textTheme.headlineLarge,
                           ),
-                          BasicText(
-                            text: state.mobile,
-                            textStyle: Theme.of(context).textTheme.bodyMedium,
-                          ),
+                         
+                          KeyValueColumn(
+                              displayKey: "Mobile", displayValue: state.mobile),
+                          KeyValueColumn(
+                              displayKey: "Email", displayValue: state.email),
                           const SizedBox(
                             height: 20,
                           ),

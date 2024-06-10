@@ -15,7 +15,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         case OnProfileInit():
           await handleProfileInit(event, emit);
           break;
-       
+
           break;
         case OnLogoutConfirmed():
           await handleLogout(emit);
@@ -25,7 +25,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Future<void> handleLogout(Emitter<ProfileState> emit) async {
-    SharedPreferences? preferences =  await LocalStorage.init();
+    SharedPreferences? preferences = await LocalStorage.init();
     await preferences?.clear();
     emit(ProfileNavigation(route: RouteNames.splash));
   }
@@ -38,10 +38,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     String profileImageUrl =
         LocalStorage.getString(StringConstants.profileImage);
     String mobile = LocalStorage.getString(StringConstants.phoneNumber);
+    String email = LocalStorage.getString(StringConstants.userEmail);
     emit(ProfileDataLoaded(
       userName: userName,
       userImageUrl: profileImageUrl,
       mobile: "+91-$mobile",
+      email: email.isEmpty ? "--" : email,
     ));
   }
 }

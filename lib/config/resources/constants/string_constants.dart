@@ -28,6 +28,7 @@ class StringConstants {
   //Local storage
   static const String enrollmentType = "enrollmentType"; //Admin,Company
   static const String phoneNumber = "phoneNumber";
+  static const String userEmail = "email";
   static const String token = "token";
   static const String user = "user";
   static const String id = "id";

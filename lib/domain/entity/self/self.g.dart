@@ -14,6 +14,7 @@ Self _$SelfFromJson(Map<String, dynamic> json) => Self(
       created: DateTime.parse(json['created'] as String),
       enrollmentType: json['enrollmentType'] as String,
       profileImageUrl: json['profileImageUrl'] as String,
+      email: json['email'] as String,
     );
 
 Map<String, dynamic> _$SelfToJson(Self instance) => <String, dynamic>{
@@ -24,4 +25,5 @@ Map<String, dynamic> _$SelfToJson(Self instance) => <String, dynamic>{
       'created': instance.created.toIso8601String(),
       'enrollmentType': instance.enrollmentType,
       'profileImageUrl': instance.profileImageUrl,
+      'email': instance.email,
     };

@@ -22,6 +22,7 @@ import 'package:realtbox/presentation/widgets/basic_text.dart';
 import 'package:realtbox/presentation/carousel/carosel_widget.dart';
 import 'package:realtbox/presentation/widgets/buttons.dart';
 import 'package:realtbox/presentation/enquiry/enquiry_form_bottomsheet.dart';
+import 'package:realtbox/presentation/widgets/key_value_column.dart';
 
 class PropertyDetailsScreen extends StatelessWidget {
   final Property property;
@@ -135,25 +136,21 @@ class PropertyDetailsScreen extends StatelessWidget {
                       ),
 
                       //property type
-                      customKeyValue(
-                        context,
-                        "Property type",
-                        property.categoryName,
+                      KeyValueColumn(
+                        displayKey: "Property type",
+                        displayValue: property.categoryName,
                       ),
-                      customKeyValue(
-                        context,
-                        "Property Size",
-                        property.propertySize,
+                      KeyValueColumn(
+                        displayKey: "Property Size",
+                        displayValue: property.propertySize,
                       ),
-                      customKeyValue(
-                        context,
-                        "Location",
-                        property.location,
+                      KeyValueColumn(
+                        displayKey: "Location",
+                        displayValue: property.location,
                       ),
-                      customKeyValue(
-                        context,
-                        "Description",
-                        property.description,
+                      KeyValueColumn(
+                        displayKey: "Description",
+                        displayValue: property.description,
                       ),
                     ],
                   ),

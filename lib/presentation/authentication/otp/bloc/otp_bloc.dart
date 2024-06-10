@@ -152,6 +152,10 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
         StringConstants.profileImage,
         self?.profileImageUrl ?? "",
       );
+       await LocalStorage.setString(
+        StringConstants.userEmail,
+        self?.email ?? "",
+      );
     }
   }
 

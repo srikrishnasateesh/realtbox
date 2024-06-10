@@ -61,6 +61,10 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
         StringConstants.profileImage,
         self?.profileImageUrl ?? "",
       );
+      await LocalStorage.setString(
+        StringConstants.userEmail,
+        self?.email ?? "",
+      );
       //navigate to next
       emit(SplashNavigate(RouteNames.landing));
     }

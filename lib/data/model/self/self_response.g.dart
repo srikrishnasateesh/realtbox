@@ -31,6 +31,7 @@ SelfData _$SelfDataFromJson(Map<String, dynamic> json) => SelfData(
       profileUrl: json['profileUrl'] == null
           ? null
           : ProfileUrl.fromJson(json['profileUrl'] as Map<String, dynamic>),
+      email: json['email'] as String?,
     );
 
 Map<String, dynamic> _$SelfDataToJson(SelfData instance) => <String, dynamic>{
@@ -41,6 +42,7 @@ Map<String, dynamic> _$SelfDataToJson(SelfData instance) => <String, dynamic>{
       'enrollmentType': instance.enrollmentType,
       'createdBy': instance.createdBy,
       'profileUrl': instance.profileUrl,
+      'email': instance.email,
     };
 
 ProfileUrl _$ProfileUrlFromJson(Map<String, dynamic> json) => ProfileUrl(

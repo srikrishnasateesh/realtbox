@@ -13,11 +13,13 @@ final class ProfileDataLoaded extends ProfileState {
   final String userName;
   final String userImageUrl;
   final String mobile;
+  final String email;
 
   ProfileDataLoaded({
     required this.userName,
     required this.userImageUrl,
     required this.mobile,
+    required this.email,
   });
 }
 

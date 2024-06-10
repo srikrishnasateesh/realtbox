@@ -28,6 +28,7 @@ class SelfData {
     required this.enrollmentType,
     required this.createdBy,
     required this.profileUrl,
+    required this.email,
   });
 
   @JsonKey(name: '_id')
@@ -38,6 +39,7 @@ class SelfData {
   final String? enrollmentType;
   final String? createdBy;
   final ProfileUrl? profileUrl;
+  final String? email;
 
   factory SelfData.fromJson(Map<String, dynamic> json) =>
       _$SelfDataFromJson(json);
