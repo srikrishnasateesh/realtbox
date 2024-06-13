@@ -21,18 +21,16 @@ class LoginBloc extends BaseBlock<LoginEvent, LoginState> {
         case OnLoginOtpRequested():
           await handleRequestOtp(event, emit);
           break;
+        case OnMobileInputChanged():
+          emit(LoginInitial());
+          break;
       }
     });
   }
   Future<void> handleRequestOtp(
       OnLoginOtpRequested event, Emitter<LoginState> emit) async {
     emit(LoginProgress(true));
-    String userName = event.userName;
-    /* final arguments = {"userName": "9999988888", "isExistingUser": false};
-    emit(LoginNavigate(
-      RouteNames.otp,
-      arguments,
-    )); */
+    String userName = event.mobileNumber;
     if (utils.validateMobile(userName)) {
       final response = await getLoginOtp(params: userName);
       if (response is DataSuccess) {
@@ -43,8 +41,7 @@ class LoginBloc extends BaseBlock<LoginEvent, LoginState> {
             "userName": userName,
             "isExistingUser": isExistingUser
           };
-          emit(LoginNavigate(
-            RouteNames.otp,
+          emit(LoginSuccess(
             arguments,
           ));
         }

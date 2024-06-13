@@ -87,7 +87,7 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
       return;
     }
 
-    if (!utils.isValidUserName(event.otp)) {
+    if (!utils.isValidPassword(event.otp)) {
       emit(OtpError(message: "Invalid Otp"));
       return;
     }

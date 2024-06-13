@@ -30,14 +30,19 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
     await initDefaults();
     String token = LocalStorage.getString(StringConstants.token);
     debugPrint("token: $token");
-    //emit(SplashNavigate(RouteNames.dummy));
-    await Future.delayed(const Duration(seconds: 1)).then((value) async => {
+    //Temp to check screens
+    //comment always or remove
+    emit(SplashNavigate(RouteNames.authentication));
+
+    //Actual logic to go to authentication
+    //Uncomment to check actual flow
+    /* await Future.delayed(const Duration(seconds: 1)).then((value) async => {
           if (token.isNotEmpty){
             await self(emit),
           }
           else
             emit(SplashNavigate(RouteNames.login))
-        });
+        }); */
   }
 
   Future<void> self(Emitter<SplashState> emit) async {

@@ -7,6 +7,7 @@ import '../resources/value_manager.dart';
 ThemeData theme() {
   return ThemeData(
     scaffoldBackgroundColor: Colors.white,
+    fontFamily: FontConstants.fontFamily,
     appBarTheme: appBarTheme(),
     elevatedButtonTheme : ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -23,7 +24,7 @@ ThemeData theme() {
 
 AppBarTheme appBarTheme() {
   return const AppBarTheme(
-      color: Colors.blue,
+      color: kPrimaryColor,
       elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(color: Color(0XFFF08B8B)),

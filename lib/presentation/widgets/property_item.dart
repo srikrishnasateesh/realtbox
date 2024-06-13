@@ -104,56 +104,59 @@ class PropertyItem extends StatelessWidget {
                     const SizedBox(
                       height: 8,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //category name
-                        BorderedText(
-                          text: property.categoryName,
-                          borderColor: Colors.blueGrey,
-                          borderRadius: 2.0,
-                          borderWidth: 1,
-                          textStyle: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: FontSize.s12,
-                            fontFamily: FontConstants.fontFamily,
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //category name
+                          BorderedText(
+                            text: property.categoryName,
+                            borderColor: Colors.blueGrey,
+                            borderRadius: 2.0,
+                            borderWidth: 1,
+                            textStyle: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: FontSize.s12,
+                              fontFamily: FontConstants.fontFamily,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        //size
-                        BorderedText(
-                          text: property.subCategoryName,
-                          borderColor: Colors.blueAccent,
-                          borderRadius: 2.0,
-                          borderWidth: 1,
-                          textStyle: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: FontSize.s12,
-                            fontFamily: FontConstants.fontFamily,
+                          const SizedBox(
+                            width: 12,
                           ),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        //size
-                        BorderedText(
-                          text: property.propertySize,
-                          borderColor: Colors.pinkAccent,
-                          borderRadius: 2.0,
-                          borderWidth: 1,
-                          textStyle: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: FontSize.s12,
-                            fontFamily: FontConstants.fontFamily,
+                          //size
+                          BorderedText(
+                            text: property.subCategoryName,
+                            borderColor: Colors.blueAccent,
+                            borderRadius: 2.0,
+                            borderWidth: 1,
+                            textStyle: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: FontSize.s12,
+                              fontFamily: FontConstants.fontFamily,
+                            ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          //size
+                          BorderedText(
+                            text: property.propertySize,
+                            borderColor: Colors.pinkAccent,
+                            borderRadius: 2.0,
+                            borderWidth: 1,
+                            textStyle: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: FontSize.s12,
+                              fontFamily: FontConstants.fontFamily,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 10,

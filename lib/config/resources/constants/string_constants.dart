@@ -25,6 +25,8 @@ class StringConstants {
 
   static const String enrollmentTypeAdmin = "Admin";
 
+   static const String registerText = "If you don’t have an account register\nYou can   Register here !";
+
   //Local storage
   static const String enrollmentType = "enrollmentType"; //Admin,Company
   static const String phoneNumber = "phoneNumber";

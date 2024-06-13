@@ -4,6 +4,8 @@ part of 'login_bloc.dart';
 sealed class LoginEvent extends BaseEvent {}
 
 class OnLoginOtpRequested extends LoginEvent {
-  String userName;
-  OnLoginOtpRequested(this.userName);
+  String mobileNumber;
+  OnLoginOtpRequested(this.mobileNumber);
 }
+
+class OnMobileInputChanged extends LoginEvent {}

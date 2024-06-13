@@ -19,6 +19,13 @@ final class LoginNavigate extends LoginState {
   );
 }
 
+class LoginSuccess extends LoginState {
+  final Object arguments;
+  LoginSuccess(
+    this.arguments,
+  );
+}
+
 final class LoginError extends LoginState {
   final String errorMessage;
   LoginError(this.errorMessage);

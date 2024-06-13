@@ -7,6 +7,8 @@ import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
+import 'package:realtbox/presentation/authentication/authentication.dart';
+import 'package:realtbox/presentation/authentication/bloc/auth_bloc.dart';
 import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
 import 'package:realtbox/presentation/home/home_page.dart';
 import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
@@ -37,6 +39,11 @@ class AppRoute {
                 getIt<GetUserSelf>(),
               ),
               child: const SplashScreen(),
+            );
+          case RouteNames.authentication:
+            return BlocProvider(
+              create: (context) => AuthBloc(getIt<GetLoginOtp>()),
+              child: const Authentication(),
             );
           case RouteNames.login:
             return BlocProvider(
