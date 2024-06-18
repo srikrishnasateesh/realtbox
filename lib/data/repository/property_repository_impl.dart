@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/data/datasource/remote/api_service.dart';
 import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
+import 'package:realtbox/data/model/enquiry_list/enquiry_list_dto.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
+import 'package:realtbox/domain/entity/enquiry_list/enquiry_data_model.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/repository/propert_repository.dart';
 import 'package:dio/dio.dart';
@@ -67,7 +69,8 @@ class PropertyRepositoryImplementation extends PropertyRepository {
 
   @override
   Future<DataState> enquiry(EnquiryRequestObject enquiryRequestObject) async {
-    final httpResponse = await apiService.enquiry(enquiryRequestObject.propertyId,enquiryRequestObject.enquiryRequest);
+    final httpResponse = await apiService.enquiry(
+        enquiryRequestObject.propertyId, enquiryRequestObject.enquiryRequest);
     if (httpResponse.response.statusCode == HttpStatus.ok) {
       return DataSuccess(null);
     } else {
@@ -80,5 +83,37 @@ class PropertyRepositoryImplementation extends PropertyRepository {
         List.empty(),
       );
     }
+  }
+
+  @override
+  Future<DataState<List<EnquiryDataModel>>> enquiryList(String propertyId) async {
+   final httpResponse = await apiService.enquiryList(
+        propertyId);
+    if (httpResponse.response.statusCode == HttpStatus.ok) {
+      List<EnquiryData> dataList = httpResponse.data.data ?? List.empty();
+      List<EnquiryDataModel> list = dataList.map(enquiryDtoToEnquiryModel).toList();
+      return DataSuccess(
+        list
+      );
+    } else {
+      return DataFailed(
+        DioException(
+            error: httpResponse.response.statusMessage,
+            response: httpResponse.response,
+            type: DioExceptionType.unknown,
+            requestOptions: httpResponse.response.requestOptions),
+        List.empty(),
+      );
+    }
+  }
+
+  EnquiryDataModel enquiryDtoToEnquiryModel(EnquiryData enquiryData) {
+    return EnquiryDataModel(
+      message: enquiryData.message ?? "",
+      created: enquiryData.created??DateTime.now(),
+      userName: enquiryData.user?.name??"",
+      userPhone: enquiryData.phoneNumber??"",
+      userImageUrl: enquiryData.user?.profileUrl?.objectUrl??"",
+    );
   }
 }

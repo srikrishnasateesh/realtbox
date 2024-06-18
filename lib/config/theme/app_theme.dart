@@ -27,6 +27,6 @@ AppBarTheme appBarTheme() {
       color: kPrimaryColor,
       elevation: 0,
       centerTitle: true,
-      iconTheme: IconThemeData(color: Color(0XFFF08B8B)),
-      titleTextStyle: TextStyle(color: Color(0XFFAA8B8B), fontSize: 18));
+      iconTheme: IconThemeData(color: kSecondaryColor),
+      titleTextStyle: TextStyle(color: kSecondaryColor, fontSize: 18));
 }

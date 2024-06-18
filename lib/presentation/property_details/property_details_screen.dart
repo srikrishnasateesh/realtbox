@@ -68,6 +68,7 @@ class PropertyDetailsScreen extends StatelessWidget {
                     },
                   );
                 },
+                onEnquiryListPressed: () {},
               ),
               SliverToBoxAdapter(
                 child: Padding(

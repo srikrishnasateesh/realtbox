@@ -32,17 +32,17 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
     debugPrint("token: $token");
     //Temp to check screens
     //comment always or remove
-    emit(SplashNavigate(RouteNames.authentication));
+    //emit(SplashNavigate(RouteNames.authentication));
 
     //Actual logic to go to authentication
     //Uncomment to check actual flow
-    /* await Future.delayed(const Duration(seconds: 1)).then((value) async => {
+    await Future.delayed(const Duration(seconds: 1)).then((value) async => {
           if (token.isNotEmpty){
             await self(emit),
           }
           else
-            emit(SplashNavigate(RouteNames.login))
-        }); */
+            emit(SplashNavigate(RouteNames.authentication))
+        });
   }
 
   Future<void> self(Emitter<SplashState> emit) async {

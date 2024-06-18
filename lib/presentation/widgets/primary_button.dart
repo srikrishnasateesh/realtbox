@@ -23,7 +23,7 @@ class PrimaryButton extends StatelessWidget {
           buttonText,
           style: const TextStyle(
             fontSize: 18,
-            color: Colors.white,
+            color: kSecondaryColor,
           ),
         ),
       ),

@@ -7,9 +7,14 @@ import 'package:realtbox/config/resources/color_manager.dart';
 class PropertyDetailAppBar extends StatefulWidget {
   final List<String> imageUrls;
   final VoidCallback onFullScreenPressed;
+  final VoidCallback onEnquiryListPressed;
 
-  const PropertyDetailAppBar(
-      {super.key, required this.imageUrls, required this.onFullScreenPressed});
+  const PropertyDetailAppBar({
+    super.key,
+    required this.imageUrls,
+    required this.onFullScreenPressed,
+    required this.onEnquiryListPressed,
+  });
 
   @override
   State<PropertyDetailAppBar> createState() => _PropertyDetailAppBarState();
@@ -85,7 +90,7 @@ class _PropertyDetailAppBarState extends State<PropertyDetailAppBar> {
                     widget.onFullScreenPressed();
                   },
                   icon: const CircleAvatar(
-                    child:  Icon(
+                    child: Icon(
                       Icons.fullscreen_rounded,
                       size: 30,
                       color: Colors.pinkAccent,

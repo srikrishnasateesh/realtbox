@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
+import 'package:realtbox/domain/usecase/enquiry_list.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
@@ -9,6 +10,8 @@ import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 import 'package:realtbox/presentation/authentication/authentication.dart';
 import 'package:realtbox/presentation/authentication/bloc/auth_bloc.dart';
+import 'package:realtbox/presentation/enquiry_list/bloc/enquiry_list_bloc.dart';
+import 'package:realtbox/presentation/enquiry_list/enquiry_list.dart';
 import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
 import 'package:realtbox/presentation/home/home_page.dart';
 import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
@@ -99,7 +102,14 @@ class AppRoute {
             final isNetworkUrls = args['network_images'];
             return PropertyDocumentsScreen(
                 imageList: imageList, isNetworkUrls: isNetworkUrls);
-
+          case RouteNames.enquiryList:
+          Map<String,dynamic> args = settings.arguments as Map<String,dynamic>;
+          String propId = args["propId"];
+          String propName = args["propName"];
+            return BlocProvider(
+              create: (context) => EnquiryListBloc(getIt<GetEnquiryList>()),
+              child: EnquiryList(propertyId: propId,propertyName: propName,),
+            );
           default:
             return unDefinedRoute();
         }

@@ -204,7 +204,11 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                 BlocBuilder<EnquiryBloc, EnquiryState>(
                   builder: (context, state) {
                     if (state is ShowProgress) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(
+                          backgroundColor: kPrimaryColor,
+                        ),
+                      );
                     }
                     return Container();
                   },

@@ -1,3 +1,4 @@
+import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/resources/value_manager.dart';
 import 'package:realtbox/presentation/splash/bloc/splash_bloc.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class SplashScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.blue,
+        backgroundColor: kSecondaryColor,
         body: SafeArea(
           child: Center(
             child: Column(
@@ -29,11 +30,13 @@ class SplashScreen extends StatelessWidget {
                 Text(
                   'Checking Info ...',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Colors.white
+                    color: kPrimaryColor
                   ),
                 ),
                 const SizedBox(height: AppMargin.m18),
-                const CircularProgressIndicator.adaptive(),
+                const CircularProgressIndicator.adaptive(
+                  backgroundColor: kPrimaryColor,
+                ),
               ],
             ),
           ),

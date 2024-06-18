@@ -6,4 +6,5 @@ class ApiConstants {
   static const String self = "v1/oauth/self";
   static const String property = "v1/property";
   static const String enquiry = "v1/property_Enq/enquiry";
+  static const String enquiryList = "v1/property_Enq";
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/resources/constants/string_constants.dart';
+import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/config/services/local_storage.dart';
 import 'package:realtbox/core/utils/dialog_utils.dart';
 import 'package:realtbox/di.dart';
@@ -63,7 +65,10 @@ class PropertyList extends StatelessWidget {
               if (state is PropertListInitial ||
                   state is PropertListLoading &&
                       (state is! PropertListLoaded)) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                    child: CircularProgressIndicator.adaptive(
+                  backgroundColor: kPrimaryColor,
+                ));
               } else if (state is PropertListLoaded) {
                 var list = state.data;
                 isRefreshing = false;
@@ -81,7 +86,10 @@ class PropertyList extends StatelessWidget {
                       itemBuilder: (context, index) {
                         if (index >= list.length) {
                           return const Center(
-                              child: CircularProgressIndicator());
+                            child: CircularProgressIndicator.adaptive(
+                              backgroundColor: kPrimaryColor,
+                            ),
+                          );
                         }
                         return PropertyItem(
                           property: list[index],
@@ -90,7 +98,16 @@ class PropertyList extends StatelessWidget {
                           onEnquiryClicked: () {
                             String propertyId = list[index].propertyId;
                             debugPrint("PropertyId: $propertyId");
-                            showBottomSheet(context,propertyId);
+                            showBottomSheet(context, propertyId);
+                          },
+                          onEnquiryListClicked: () {
+                            String propertyId = list[index].propertyId;
+                            String name = list[index].projectName;
+                            Navigator.pushNamed(context, RouteNames.enquiryList,
+                                arguments: {
+                                  "propId": propertyId,
+                                  "propName": name
+                                });
                           },
                         );
                       },
@@ -117,7 +134,9 @@ class PropertyList extends StatelessWidget {
       context: context,
       builder: (context) => BlocProvider(
         create: (context) => EnquiryBloc(getIt<SubmitEnquiry>()),
-        child:  BottomSheetWidget(propertyId: id,),
+        child: BottomSheetWidget(
+          propertyId: id,
+        ),
       ),
     );
   }

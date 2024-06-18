@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/resources/font_manager.dart';
 import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
@@ -12,6 +13,7 @@ class PropertyItem extends StatelessWidget {
   final Property property;
   final int index;
   final VoidCallback onEnquiryClicked;
+  final VoidCallback onEnquiryListClicked;
   final bool showEnquiry;
   const PropertyItem({
     super.key,
@@ -19,6 +21,7 @@ class PropertyItem extends StatelessWidget {
     required this.index,
     required this.onEnquiryClicked,
     required this.showEnquiry,
+    required this.onEnquiryListClicked,
   });
 
   @override
@@ -58,7 +61,7 @@ class PropertyItem extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 4.0),
-                      color: Colors.green,
+                      color: kPrimaryColor,
                       child: Text(
                         "${property.price} INR",
                         style: const TextStyle(
@@ -68,6 +71,17 @@ class PropertyItem extends StatelessWidget {
                       ),
                     ),
                   ),
+                  if (!showEnquiry)
+                    Positioned(
+                      bottom: 10,
+                      right: 10,
+                      child: InkWell(
+                        onTap: onEnquiryListClicked,
+                        child: const CircleAvatar(
+                            backgroundColor: kPrimaryColor,
+                            child: Icon(Icons.list_rounded)),
+                      ),
+                    ),
                   if (showEnquiry)
                     Positioned(
                         bottom: 20,

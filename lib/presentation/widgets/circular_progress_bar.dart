@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:realtbox/config/resources/color_manager.dart';
 
 class CircularProgressBar extends StatelessWidget {
   CircularProgressBar({super.key});
@@ -19,6 +20,7 @@ class CircularProgressBar extends StatelessWidget {
                 children: <Widget>[
                   CircularProgressIndicator(
                     semanticsLabel: 'Circular progress indicator',
+                    backgroundColor: kPrimaryColor,
                   ),
                 ],
               ),
