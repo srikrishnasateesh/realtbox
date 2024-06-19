@@ -54,6 +54,7 @@ class EnquiryList extends StatelessWidget {
                       message: enquiry.message,
                       mobile: enquiry.userPhone,
                       imageUrl: enquiry.userImageUrl,
+                      created: enquiry.created,
                     );
                   },
                 );

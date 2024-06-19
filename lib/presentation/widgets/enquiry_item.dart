@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
+import 'package:realtbox/core/utils/date_utils.dart';
 import 'package:realtbox/presentation/widgets/avatar_widget.dart';
 
 class EnquiryItem extends StatelessWidget {
@@ -7,6 +8,7 @@ class EnquiryItem extends StatelessWidget {
   final String userName;
   final String mobile;
   final String imageUrl;
+  final DateTime created;
 
   const EnquiryItem({
     Key? key,
@@ -14,6 +16,7 @@ class EnquiryItem extends StatelessWidget {
     required this.userName,
     required this.imageUrl,
     required this.mobile,
+    required this.created,
   }) : super(key: key);
 
   @override
@@ -41,8 +44,7 @@ class EnquiryItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Align(
-                    alignment: Alignment.centerRight, child: Text("Today"))
+                Align(alignment: Alignment.centerRight, child: Text(formatDateTime(created)))
               ],
             ),
             const Padding(
@@ -64,7 +66,6 @@ class EnquiryItem extends StatelessWidget {
               ],
             ),
           ],
-        
         ),
       ),
     );

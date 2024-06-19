@@ -44,7 +44,7 @@ class PropertyItem extends StatelessWidget {
               Stack(
                 children: [
                   Card(
-                    shadowColor: Colors.red,
+                    shadowColor: kPrimaryColor,
                     elevation: 4,
                     clipBehavior: Clip.antiAlias,
                     child: Ink.image(
@@ -71,17 +71,6 @@ class PropertyItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (!showEnquiry)
-                    Positioned(
-                      bottom: 10,
-                      right: 10,
-                      child: InkWell(
-                        onTap: onEnquiryListClicked,
-                        child: const CircleAvatar(
-                            backgroundColor: kPrimaryColor,
-                            child: Icon(Icons.list_rounded)),
-                      ),
-                    ),
                   if (showEnquiry)
                     Positioned(
                         bottom: 20,
@@ -103,17 +92,33 @@ class PropertyItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Hero(
-                      tag: "title_${property.propertyId}",
-                      child: BasicText(
-                        text: property.projectName,
-                        textStyle: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: FontSize.s28,
-                          fontFamily: FontConstants.fontFamily,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Hero(
+                            tag: "title_${property.propertyId}",
+                            child: BasicText(
+                              text: property.projectName,
+                              textStyle: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: FontSize.s20,
+                                fontFamily: FontConstants.fontFamily,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        !showEnquiry
+                            ? InkWell(
+                                onTap: onEnquiryListClicked,
+                                child: const CircleAvatar(
+                                    backgroundColor: kPrimaryColor,
+                                    child: Icon(Icons.list_rounded)),
+                              )
+                            : Container(),
+                      ],
                     ),
                     const SizedBox(
                       height: 8,

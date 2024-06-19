@@ -77,7 +77,9 @@ class PropertyList extends StatelessWidget {
                 } else {
                   return RefreshIndicator.adaptive(
                     onRefresh: () => handleRefresh(context),
-                    child: ListView.builder(
+                    child: 
+                    //Using listview
+                    ListView.builder(
                       physics: const AlwaysScrollableScrollPhysics(),
                       shrinkWrap: false,
                       itemCount:
