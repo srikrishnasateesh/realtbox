@@ -18,3 +18,4 @@ const String phoneSvg = "$iconsPath/phone_icon.svg";
 const String emailSvg = "$iconsPath/email_icon.svg"; 
 const String userSvg = "$iconsPath/user_icon.svg"; 
 const String passwordSvg = "$iconsPath/password_icon.svg"; 
+const String locationPinSvg = "$iconsPath/location_pin.svg"; 

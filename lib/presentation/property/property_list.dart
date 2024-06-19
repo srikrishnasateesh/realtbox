@@ -11,6 +11,8 @@ import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 import 'package:realtbox/presentation/enquiry/bloc/enquiry_bloc.dart';
 import 'package:realtbox/presentation/enquiry/enquiry_form_bottomsheet.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
+import 'package:realtbox/presentation/widgets/new_property_item.dart';
+import 'package:realtbox/presentation/widgets/property_grid_card.dart';
 import 'package:realtbox/presentation/widgets/property_item.dart';
 
 class PropertyList extends StatelessWidget {
@@ -93,7 +95,7 @@ class PropertyList extends StatelessWidget {
                             ),
                           );
                         }
-                        return PropertyItem(
+                        return PropertyItemNew(
                           property: list[index],
                           index: index,
                           showEnquiry: showEnquiry,

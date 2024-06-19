@@ -11,6 +11,7 @@ const textInputHintColor = Color(0xFF000842);
 const textInputBoxColor = Color(0xFF000842);
 const textInputLabelColor = Color(0xFF999999);
 const textInputPrefixIconColor = Color(0xFF000842);
+const blueGreyColor = Color(0xFF415770);
 
 
 

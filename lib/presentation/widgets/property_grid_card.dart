@@ -74,20 +74,6 @@ class PropertyCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                /* Text(
-                  'View Project',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 14.0,
-                  ),
-                ),
-                Text(
-                  'Enquiry list',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 14.0,
-                  ),
-                ), */
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
