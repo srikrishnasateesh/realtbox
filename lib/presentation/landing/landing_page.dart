@@ -47,37 +47,100 @@ class LandingPage extends StatelessWidget {
             }
           },
         ),
-        bottomNavigationBar: BlocBuilder<LandingBloc, LandingState>(
-          builder: (context, state) {
-            return SafeArea(
-              child: ClipRRect(
-                clipBehavior: Clip.antiAlias,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12)),
-                child: BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  backgroundColor: Colors.white,
-                  selectedItemColor: Colors.amber,
-                  unselectedItemColor: Colors.grey,
-                  currentIndex: landingBloc.currentIndex,
-                  showSelectedLabels: true,
-                  showUnselectedLabels: true,
-                  elevation: 5,
-                  items: const [
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.business_rounded),
-                        label: "Properties"),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.person_2_rounded), label: "Profile"),
-                  ],
-                  onTap: (index) => BlocProvider.of<LandingBloc>(context).add(
-                    OnMenuChanged(pageIndex: index),
+        bottomNavigationBar: SafeArea(
+          child: /*  Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+          border: Border.all(
+            color: Colors.amber,
+            width: 2.0,
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+            child: BottomNavigationBar(
+              //backgroundColor: Colors.white,
+              elevation: 0,
+              type: BottomNavigationBarType.fixed,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.apartment),
+                  label: 'Properties',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.notifications),
+                  label: 'Notifications',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Settings',
+                ),
+              ],
+              currentIndex: 0,
+              selectedItemColor: Colors.amber,
+              unselectedItemColor: Colors.grey,
+              onTap: (index) => {},
+            ),
+          ),
+        ),), */
+              BlocBuilder<LandingBloc, LandingState>(
+            builder: (context, state) {
+              return SafeArea(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
+                    ),
+                    border: Border.all(
+                      color: Colors.amber,
+                      width: 2.0,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
+                    ),
+                    child: BottomNavigationBar(
+                      type: BottomNavigationBarType.fixed,
+                      backgroundColor: Colors.white,
+                      selectedItemColor: Colors.amber,
+                      unselectedItemColor: Colors.grey,
+                      currentIndex: landingBloc.currentIndex,
+                      showSelectedLabels: true,
+                      showUnselectedLabels: true,
+                      elevation: 5,
+                      items: const [
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.business_rounded),
+                            label: "Properties"),
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.person_2_rounded),
+                            label: "Profile"),
+                      ],
+                      onTap: (index) =>
+                          BlocProvider.of<LandingBloc>(context).add(
+                        OnMenuChanged(pageIndex: index),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
