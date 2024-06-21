@@ -45,7 +45,7 @@ class PropertyItemNew extends StatelessWidget {
                     imageUrl,
                   ),
                   height: 150,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
               ),
               Padding(
