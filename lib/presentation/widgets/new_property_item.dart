@@ -25,26 +25,7 @@ class PropertyItemNew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageUrl = property.images[0];
-    final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
-      foregroundColor: Colors.black87,
-      minimumSize: Size(88, 36),
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(2)),
-      ),
-    ).copyWith(
-      side: MaterialStateProperty.resolveWith<BorderSide?>(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.pressed)) {
-            return BorderSide(
-              color: Theme.of(context).colorScheme.primary,
-              width: 1,
-            );
-          }
-          return null;
-        },
-      ),
-    );
+    
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(

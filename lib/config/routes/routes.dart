@@ -20,6 +20,7 @@ import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
 import 'package:realtbox/presentation/property/property_list.dart';
 import 'package:realtbox/presentation/property_details/bloc/propert_detail_bloc.dart';
 import 'package:realtbox/presentation/property_details/property_details_screen.dart';
+import 'package:realtbox/presentation/property_details/property_view.dart';
 import 'package:realtbox/presentation/property_documents.dart/property_documents_screen.dart';
 
 import '../../presentation/authentication/login/bloc/login_bloc.dart';
@@ -90,7 +91,7 @@ class AppRoute {
               create: (context) => PropertDetailBloc(
                 getIt<SubmitEnquiry>(),
               ),
-              child: PropertyDetailsScreen(
+              child: PropertyView(
                 property: (settings.arguments as Property),
               ),
             );
