@@ -16,6 +16,7 @@ import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
 import 'package:realtbox/presentation/home/home_page.dart';
 import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
 import 'package:realtbox/presentation/landing/landing_page.dart';
+import 'package:realtbox/presentation/property-filter/bloc/property_filetr_bloc.dart';
 import 'package:realtbox/presentation/property-filter/property-filter-entity.dart';
 import 'package:realtbox/presentation/property-filter/property-filters-screen.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
@@ -118,9 +119,11 @@ class AppRoute {
               ),
             );
           case RouteNames.propertyfilters:
-          final filter = settings.arguments as PropertyFilter;
-            return PropertyFiltersScreen(
-              propertyFilter: filter);
+            final filter = settings.arguments as PropertyFilter;
+            return BlocProvider(
+              create: (context) => PropertyFilterBloc(),
+              child: PropertyFiltersScreen(propertyFilter: filter),
+            );
 
           default:
             return unDefinedRoute();

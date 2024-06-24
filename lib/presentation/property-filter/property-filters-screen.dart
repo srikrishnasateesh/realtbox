@@ -9,6 +9,7 @@ import 'package:realtbox/presentation/amenities/amenities-select-list.dart';
 import 'package:realtbox/presentation/amenities/bloc/amenities_bloc.dart';
 import 'package:realtbox/presentation/budget-dropdown/bloc/budget_dropdown_bloc.dart';
 import 'package:realtbox/presentation/budget-dropdown/budget-dropdown-field.dart';
+import 'package:realtbox/presentation/property-filter/bloc/property_filetr_bloc.dart';
 import 'package:realtbox/presentation/property-filter/property-filter-entity.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
 import 'dart:async';
@@ -24,7 +25,10 @@ class PropertyFiltersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Received Back : ${propertyFilter.selectedAmenities.join(",")}");
+    // debugPrint("Received Back : ${propertyFilter.selectedAmenities.join(",")}");
+    context
+        .read<PropertyFilterBloc>()
+        .add(OnFilterInit(propertyFilter: propertyFilter));
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: _buildFooter(context),
@@ -36,7 +40,7 @@ class PropertyFiltersScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context,propertyFilter);
                   },
                   child: const Icon(
                     Icons.close,
@@ -48,68 +52,79 @@ class PropertyFiltersScreen extends StatelessWidget {
         body: Stack(
           children: [
             Expanded(
-              child: ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              child: BlocBuilder<PropertyFilterBloc, PropertyFilterState>(
+                builder: (context, state) {
+                  if (state is LoadFilters) {
+                    return ListView(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(12.0, 8, 0, 8),
-                          child: BasicText(
-                            text: "Filters",
-                            textStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: FontSize.s25),
-                          ),
-                        ),
                         Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const BasicText(
-                                text: "Amenities",
-                                textStyle:
-                                    TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10,),
-                              BlocProvider(
-                                create: (context) =>
-                                    AmenitiesBloc(getIt<GetAmenityList>()),
-                                child: AmenitiesSelection(
-                                  selectedAmenities: propertyFilter.selectedAmenities,
-                                  onAmenitiesSelected: (amenities) {
-                                    propertyFilter.selectedAmenities = amenities;
-                                    debugPrint(
-                                        "amenities:selected ${amenities.join()}");
-                                  },
+                              const Padding(
+                                padding: EdgeInsets.fromLTRB(12.0, 8, 0, 8),
+                                child: BasicText(
+                                  text: "Filters",
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: FontSize.s25),
                                 ),
                               ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const BasicText(
+                                      text: "Amenities",
+                                      textStyle: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    BlocProvider(
+                                      create: (context) => AmenitiesBloc(
+                                          getIt<GetAmenityList>()),
+                                      child: AmenitiesSelection(
+                                        selectedAmenities: state
+                                            .propertyFilter.selectedAmenities,
+                                        onAmenitiesSelected: (amenities) {
+                                          context
+                                              .read<PropertyFilterBloc>()
+                                              .add(OnAmenitiesReceived(
+                                                  amenities: amenities));
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              /*  BlocProvider(
+                                      create: (context) => BudgetDropdownBloc(),
+                                      child: BudgetDropDownFiled(
+                                        title: "Budget",
+                                        onValueChanged: (String? selectedValue) {
+                                          debugPrint("Budget: $selectedValue");
+                                        },
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () async {
+                                        await _handlePressButton(context);
+                                      },
+                                      child: const Text("Search Location"),
+                                    ) */
                             ],
                           ),
-                        ),
-
-                        /*  BlocProvider(
-                        create: (context) => BudgetDropdownBloc(),
-                        child: BudgetDropDownFiled(
-                          title: "Budget",
-                          onValueChanged: (String? selectedValue) {
-                            debugPrint("Budget: $selectedValue");
-                          },
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          await _handlePressButton(context);
-                        },
-                        child: const Text("Search Location"),
-                      ) */
+                        )
                       ],
-                    ),
-                  )
-                ],
+                    );
+                  }
+                  return Container();
+                },
               ),
             ),
           ],
@@ -120,7 +135,7 @@ class PropertyFiltersScreen extends StatelessWidget {
 
   Widget _buildFooter(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 241, 244, 247),
         boxShadow: [
@@ -136,7 +151,7 @@ class PropertyFiltersScreen extends StatelessWidget {
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                 debugPrint("clear all");
+                context.read<PropertyFilterBloc>().add(OnFilterClearClicked());
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
@@ -148,10 +163,9 @@ class PropertyFiltersScreen extends StatelessWidget {
           const SizedBox(width: 16.0),
           Expanded(
             child: ElevatedButton.icon(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               onPressed: () {
-                debugPrint("Search");
-                Navigator.pop(context,propertyFilter);
+                Navigator.pop(context, propertyFilter);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orange,
