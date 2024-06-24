@@ -29,6 +29,13 @@ final class PropertListError extends PropertListState {
   List<Object> get props => [message];
 }
 
+class NavigatetoRoute extends PropertListState{
+  final String route;
+  final PropertyFilter propertyFilter;
+
+  NavigatetoRoute({super.showConfirmation, required this.route, required this.propertyFilter});
+}
+
 
 class RequestProcess extends PropertListState {}
 

@@ -16,6 +16,8 @@ import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
 import 'package:realtbox/presentation/home/home_page.dart';
 import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
 import 'package:realtbox/presentation/landing/landing_page.dart';
+import 'package:realtbox/presentation/property-filter/property-filter-entity.dart';
+import 'package:realtbox/presentation/property-filter/property-filters-screen.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
 import 'package:realtbox/presentation/property/property_list.dart';
 import 'package:realtbox/presentation/property_details/bloc/propert_detail_bloc.dart';
@@ -104,13 +106,22 @@ class AppRoute {
             return PropertyDocumentsScreen(
                 imageList: imageList, isNetworkUrls: isNetworkUrls);
           case RouteNames.enquiryList:
-          Map<String,dynamic> args = settings.arguments as Map<String,dynamic>;
-          String propId = args["propId"];
-          String propName = args["propName"];
+            Map<String, dynamic> args =
+                settings.arguments as Map<String, dynamic>;
+            String propId = args["propId"];
+            String propName = args["propName"];
             return BlocProvider(
               create: (context) => EnquiryListBloc(getIt<GetEnquiryList>()),
-              child: EnquiryList(propertyId: propId,propertyName: propName,),
+              child: EnquiryList(
+                propertyId: propId,
+                propertyName: propName,
+              ),
             );
+          case RouteNames.propertyfilters:
+          final filter = settings.arguments as PropertyFilter;
+            return PropertyFiltersScreen(
+              propertyFilter: filter);
+
           default:
             return unDefinedRoute();
         }

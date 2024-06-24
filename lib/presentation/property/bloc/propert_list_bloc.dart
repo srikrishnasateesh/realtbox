@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
+import 'package:realtbox/presentation/property-filter/property-filter-entity.dart';
 
 part 'propert_list_event.dart';
 part 'propert_list_state.dart';
@@ -20,6 +22,9 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
 
   bool showEnquiryConfirmation = false;
 
+  String? category;
+  PropertyFilter? propertyFilter;
+
   PropertListBloc(
     this.getPropertyList,
     this.submitEnquiry,
@@ -28,14 +33,35 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
       showEnquiryConfirmation = false;
       switch (event) {
         case OnPropertyListInit():
-          count = 0;
-          await fetchData(emit);
+          {
+            category = null;
+            if (event.category.isNotEmpty) {
+              category = event.category;
+            }
+            count = 0;
+            await fetchData(emit);
+          }
         case LoadMoreData():
           await loadMoreData(emit);
         case RefreshData():
           await refreshData(emit);
         case OnEnquiryReceived():
           await handleEnquirySubmit(emit, event);
+          break;
+        case OnPropertyFiletr():
+          propertyFilter = event.propertyFilter;
+          await refreshData(emit);
+          break;
+        case OnPropertyFilterClicked():
+          final filter = propertyFilter ??
+              PropertyFilter(
+                selectedAmenities: [],
+                selectedBudget: null,
+                selectedLocation: null,
+                sortBy: null,
+              );
+          emit(NavigatetoRoute(
+              route: RouteNames.propertyfilters, propertyFilter: filter));
           break;
       }
     });
@@ -86,8 +112,10 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
 
   Future<DataState<List<Property>>> getData(
       Emitter<PropertListState> emit) async {
+    final params = PropertyRequest(
+        category: category, propertyFilter: propertyFilter, skip: count);
     return await getPropertyList(
-      params: count,
+      params: params,
     );
   }
 

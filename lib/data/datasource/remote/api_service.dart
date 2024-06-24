@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:realtbox/config/resources/constants/api_constnats.dart';
+import 'package:realtbox/data/model/amenities/amenity-list-dto.dart';
+import 'package:realtbox/data/model/category-type/category-list-dto.dart';
 import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/data/model/enquiry_list/enquiry_list_dto.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
@@ -32,7 +35,9 @@ abstract class ApiService {
 
   @GET(ApiConstants.property)
   Future<HttpResponse<PropertyResponse>> propertyList(
-    @Query('skip') int skip
+    @Query('skip') int skip,
+    @Query('categoryName') String? categoryName,
+    @Query('amenity_in') String? amenity_in,
   );
 
   @POST("${ApiConstants.enquiry}/{id}")
@@ -45,4 +50,10 @@ abstract class ApiService {
   Future<HttpResponse<EnquiryList>> enquiryList(
     @Path("id") String id,
   );
+
+  @GET(ApiConstants.categoryList)
+  Future<HttpResponse<CategoryList>> categoryList();
+
+  @GET(ApiConstants.amenityList)
+  Future<HttpResponse<AmenityList>> amenityList();
 }

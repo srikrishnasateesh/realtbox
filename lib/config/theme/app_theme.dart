@@ -8,6 +8,8 @@ ThemeData theme() {
   return ThemeData(
     scaffoldBackgroundColor: Colors.white,
     fontFamily: FontConstants.fontFamily,
+    primaryColor: kPrimaryColor,
+    focusColor: kPrimaryColor,
     appBarTheme: appBarTheme(),
     elevatedButtonTheme : ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(

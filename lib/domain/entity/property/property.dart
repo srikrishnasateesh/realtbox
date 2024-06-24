@@ -1,8 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'property.g.dart';
 
-@JsonSerializable()
 class Property {
   final String propertyId;
   final String categoryId;
@@ -17,6 +15,7 @@ class Property {
   final String price;
   final String location;
   final List<String> images;
+  final List<String> amenities;
 
   Property({
     required this.propertyId,
@@ -32,5 +31,6 @@ class Property {
     required this.price,
     required this.location,
     required this.images,
+    required this.amenities,
   });
 }

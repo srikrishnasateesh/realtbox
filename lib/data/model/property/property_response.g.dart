@@ -40,6 +40,10 @@ PropertyData _$PropertyDataFromJson(Map<String, dynamic> json) => PropertyData(
           .toList(),
       created: DateTime.parse(json['created'] as String),
       formattedAddress: json['formattedAddress'] as String?,
+      advanceFeatures: json['advanceFeatures'] == null
+          ? null
+          : AdvanceFeatures.fromJson(
+              json['advanceFeatures'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PropertyDataToJson(PropertyData instance) =>
@@ -61,6 +65,7 @@ Map<String, dynamic> _$PropertyDataToJson(PropertyData instance) =>
       'propertyDocs': instance.propertyDocs,
       'created': instance.created.toIso8601String(),
       'formattedAddress': instance.formattedAddress,
+      'advanceFeatures': instance.advanceFeatures,
     };
 
 PropertyDoc _$PropertyDocFromJson(Map<String, dynamic> json) => PropertyDoc(
@@ -72,4 +77,21 @@ Map<String, dynamic> _$PropertyDocToJson(PropertyDoc instance) =>
     <String, dynamic>{
       'objectUrl': instance.objectUrl,
       'document': instance.document,
+    };
+
+AdvanceFeatures _$AdvanceFeaturesFromJson(Map<String, dynamic> json) =>
+    AdvanceFeatures(
+      maxRooms: (json['maxRooms'] as num?)?.toInt(),
+      beds: (json['beds'] as num?)?.toInt(),
+      baths: (json['baths'] as num?)?.toInt(),
+      amenity:
+          (json['amenity'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$AdvanceFeaturesToJson(AdvanceFeatures instance) =>
+    <String, dynamic>{
+      'maxRooms': instance.maxRooms,
+      'beds': instance.beds,
+      'baths': instance.baths,
+      'amenity': instance.amenity,
     };

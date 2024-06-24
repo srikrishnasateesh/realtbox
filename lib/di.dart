@@ -8,6 +8,8 @@ import 'package:realtbox/data/repository/auth_repository_impl.dart';
 import 'package:realtbox/data/repository/property_repository_impl.dart';
 import 'package:realtbox/domain/repository/auth_repository.dart';
 import 'package:realtbox/domain/repository/propert_repository.dart';
+import 'package:realtbox/domain/usecase/amenity-list.dart';
+import 'package:realtbox/domain/usecase/category-list.dart';
 import 'package:realtbox/domain/usecase/enquiry_list.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
@@ -51,6 +53,17 @@ Future<void> initDI() async {
   );
   getIt.registerSingleton<GetEnquiryList>(
     GetEnquiryList(
+      repository: getIt<PropertyRepository>(),
+    ),
+  );
+  getIt.registerSingleton<GetCategoryList>(
+    GetCategoryList(
+      repository: getIt<PropertyRepository>(),
+    ),
+  );
+
+  getIt.registerSingleton<GetAmenityList>(
+    GetAmenityList(
       repository: getIt<PropertyRepository>(),
     ),
   );

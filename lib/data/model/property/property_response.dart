@@ -36,6 +36,7 @@ class PropertyData {
   final List<PropertyDoc> propertyDocs;
   final DateTime created;
   final String? formattedAddress;
+  final AdvanceFeatures? advanceFeatures;
 
   PropertyData({
     required this.id,
@@ -55,6 +56,7 @@ class PropertyData {
     required this.propertyDocs,
     required this.created,
     required this.formattedAddress,
+    required this.advanceFeatures,
   });
 
   factory PropertyData.fromJson(Map<String, dynamic> json) =>
@@ -76,4 +78,23 @@ class PropertyDoc {
       _$PropertyDocFromJson(json);
 
   Map<String, dynamic> toJson() => _$PropertyDocToJson(this);
+}
+
+@JsonSerializable()
+class AdvanceFeatures {
+  final int? maxRooms;
+  final int? beds;
+  final int? baths;
+  final List<String>? amenity;
+
+  AdvanceFeatures({
+    required this.maxRooms,
+    required this.beds,
+    required this.baths,
+    required this.amenity,
+  });
+
+  factory AdvanceFeatures.fromJson(Map<String, dynamic> json) => _$AdvanceFeaturesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AdvanceFeaturesToJson(this);
 }

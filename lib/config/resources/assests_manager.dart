@@ -20,3 +20,4 @@ const String userSvg = "$iconsPath/user_icon.svg";
 const String passwordSvg = "$iconsPath/password_icon.svg"; 
 const String locationPinSvg = "$iconsPath/location_pin.svg"; 
 const String properitiesSvg = "$iconsPath/properties_bottom_icon.svg"; 
+const String filterSvg = "$iconsPath/filter_icon.svg"; 

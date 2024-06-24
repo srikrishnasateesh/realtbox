@@ -54,9 +54,8 @@ class _PropertyViewState extends State<PropertyView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final property = widget.property;
-    final imageUrl = property.images[0];
 
-    List<String> amnities = [
+    List<String> amnities = property.amenities; /* [
       "Ac & Heating",
       "Clubhouse",
       "Dishwasher",
@@ -65,7 +64,7 @@ class _PropertyViewState extends State<PropertyView> {
       "Pool",
       "Fitness Center",
       "Valet Parking",
-    ];
+    ]; */
 
     return SafeArea(
       child: Scaffold(
@@ -196,8 +195,8 @@ class _PropertyViewState extends State<PropertyView> {
                                         gridDelegate:
                                             const SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 2,
-                                          childAspectRatio: 4,
-                                          mainAxisSpacing: 4,
+                                          childAspectRatio: 2,
+                                          mainAxisSpacing: 8,
                                           crossAxisSpacing: 8,
                                         ),
                                         itemCount: amnities.length,

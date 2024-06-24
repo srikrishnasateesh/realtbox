@@ -7,4 +7,6 @@ class ApiConstants {
   static const String property = "v1/property";
   static const String enquiry = "v1/property_Enq/enquiry";
   static const String enquiryList = "v1/property_Enq";
+  static const String categoryList = "v1/category/list";
+  static const String amenityList = "v1/amenity";
 }

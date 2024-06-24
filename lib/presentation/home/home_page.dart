@@ -7,7 +7,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.primary,
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
         title: const Text("Home"),
         leading: IconButton(

@@ -4,7 +4,11 @@ sealed class PropertListEvent extends BaseEvent {
   const PropertListEvent();
 }
 
-class OnPropertyListInit extends PropertListEvent {}
+class OnPropertyListInit extends PropertListEvent {
+  final String category;
+
+  OnPropertyListInit({required this.category});
+}
 
 class LoadMoreData extends PropertListEvent {}
 
@@ -17,3 +21,11 @@ class OnEnquiryReceived extends PropertListEvent{
 
   OnEnquiryReceived({required this.mobile, required this.message,required this.propertyId});
 }
+
+class OnPropertyFiletr extends PropertListEvent {
+  final PropertyFilter? propertyFilter;
+
+  OnPropertyFiletr({required this.propertyFilter});
+}
+
+class OnPropertyFilterClicked extends PropertListEvent {}

@@ -13,6 +13,8 @@ const textInputLabelColor = Color(0xFF999999);
 const textInputPrefixIconColor = Color(0xFF000842);
 const blueGreyColor = Color(0xFF415770);
 const lightgrey = Color(0xFAA9A9A9);
+const dropdownBoarder = Color(0xFFDFE3E7);
+const check = Color(0xFFd17d11);
 
 
 
