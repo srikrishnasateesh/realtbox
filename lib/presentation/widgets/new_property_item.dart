@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/routes/route_names.dart';
+import 'package:realtbox/core/utils/price-fromatter.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
 import 'package:realtbox/presentation/widgets/primary_button.dart';
@@ -71,10 +72,11 @@ class PropertyItemNew extends StatelessWidget {
                             height: 4,
                           ),
                           BasicText(
-                            text: '\u{20B9} ${property.price}',
+                            text: '\u{20B9} ${formatStringPrice(property.price)}',
                             textStyle: const TextStyle(
-                              color: Colors.red,
+                              color: Color(0XFFFF5B19),
                               fontSize: 14.0,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                           const SizedBox(

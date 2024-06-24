@@ -112,12 +112,20 @@ class _ApiService implements ApiService {
     int skip,
     String? categoryName,
     String? amenity_in,
+    String? price_min,
+    String? price_max,
+    String? sort,
+    String? sortDir,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'skip': skip,
       r'categoryName': categoryName,
       r'amenity_in': amenity_in,
+      r'price_min': price_min,
+      r'price_max': price_max,
+      r'sort': sort,
+      r'sortDir': sortDir,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

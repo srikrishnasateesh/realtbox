@@ -26,9 +26,9 @@ class PropertyList extends StatelessWidget {
 
   PropertyFilter propertyFilter = PropertyFilter(
     selectedAmenities: [],
-    selectedBudget: null,
+    selectedBudget: Budget(rangeValues: const RangeValues(0, 0)),
     selectedLocation: null,
-    sortBy: null,
+    sortBy: SortBy(selectedId: ""),
   );
 
   Future<void> handleRefresh(BuildContext context) async {

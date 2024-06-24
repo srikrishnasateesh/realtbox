@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:realtbox/domain/entity/amenity.dart';
 
 class PropertyFilter extends Equatable {
   List<Amenity> selectedAmenities;
-  Budget? selectedBudget;
+  Budget selectedBudget;
   Location? selectedLocation;
-  SortBy? sortBy;
-
+  SortBy sortBy;
 
   PropertyFilter({
     required this.selectedAmenities,
@@ -21,18 +21,20 @@ class PropertyFilter extends Equatable {
 
 class SortBy {
   final String selectedId;
-
   SortBy({required this.selectedId});
 }
 
 class Budget extends Equatable {
-  final String selectedBudgetFrom;
-  final String selectedBudgetTo;
+  RangeValues rangeValues;
 
-  Budget({required this.selectedBudgetFrom, required this.selectedBudgetTo});
+  Budget({
+    required this.rangeValues,
+  });
 
   @override
-  List<Object?> get props => [selectedBudgetFrom, selectedBudgetTo];
+  List<Object?> get props => [
+        rangeValues,
+      ];
 }
 
 class Location extends Equatable {
@@ -47,5 +49,5 @@ class Location extends Equatable {
   });
 
   @override
-  List<Object?> get props => [address,lattitude,longitude];
+  List<Object?> get props => [address, lattitude, longitude];
 }

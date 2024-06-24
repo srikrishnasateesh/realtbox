@@ -26,11 +26,23 @@ class PropertyRepositoryImplementation extends PropertyRepository {
     int skip,
     String? category,
     String? amenity_in,
+    String? price_min,
+    String? price_max,
+    String? sort,
+    String? sortDir,
   ) async {
     try {
       /* return DataSuccess(LoginResponseModel(
           success: true, data: Data(message: "mes", isExists: false))); */
-      final httpResponse = await apiService.propertyList(skip, category,amenity_in);
+      final httpResponse = await apiService.propertyList(
+        skip,
+        category,
+        amenity_in,
+        price_min,
+        price_max,
+        sort,
+        sortDir
+      );
       debugPrint(httpResponse.toString());
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         final response = httpResponse.data;
@@ -58,7 +70,6 @@ class PropertyRepositoryImplementation extends PropertyRepository {
   }
 
   Property convertPropertyDataToProperty(PropertyData propertyData) {
-    debugPrint("PropData:${propertyData.advanceFeatures?.amenity}");
     return Property(
       propertyId: propertyData.id,
       categoryId: propertyData.category,

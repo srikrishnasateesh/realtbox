@@ -11,6 +11,8 @@ import 'package:realtbox/presentation/budget-dropdown/bloc/budget_dropdown_bloc.
 import 'package:realtbox/presentation/budget-dropdown/budget-dropdown-field.dart';
 import 'package:realtbox/presentation/property-filter/bloc/property_filetr_bloc.dart';
 import 'package:realtbox/presentation/property-filter/property-filter-entity.dart';
+import 'package:realtbox/presentation/range-slider/bloc/range_slider_bloc.dart';
+import 'package:realtbox/presentation/range-slider/range-slider-widget.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
 import 'dart:async';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -40,7 +42,7 @@ class PropertyFiltersScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                   onTap: () {
-                    Navigator.pop(context,propertyFilter);
+                    Navigator.pop(context, propertyFilter);
                   },
                   child: const Icon(
                     Icons.close,
@@ -55,6 +57,8 @@ class PropertyFiltersScreen extends StatelessWidget {
               child: BlocBuilder<PropertyFilterBloc, PropertyFilterState>(
                 builder: (context, state) {
                   if (state is LoadFilters) {
+                    debugPrint(
+                        "Budget:${state.propertyFilter.selectedBudget.rangeValues}");
                     return ListView(
                       children: [
                         Padding(
@@ -72,10 +76,159 @@ class PropertyFiltersScreen extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(8),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    //Budget
+                                    const BasicText(
+                                      text: "Budget",
+                                      textStyle: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+
+                                    BlocProvider(
+                                      create: (context) => RangeSliderBloc(),
+                                      child: RangeSliderWidget(
+                                        receivedValues: state.propertyFilter
+                                            .selectedBudget.rangeValues,
+                                        onBudgetChange: (p0) {
+                                          context
+                                              .read<PropertyFilterBloc>()
+                                              .add(OnBudgetChanged(
+                                                  rangeValues: p0));
+                                        },
+                                      ),
+                                    ),
+
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+
+                                    //sort by
+                                    const BasicText(
+                                      text: "Sort By",
+                                      textStyle: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+
+                                    Container(
+                                      width: double.infinity,
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 6.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0, vertical: 16.0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0),
+                                        ),
+                                        border: Border.all(
+                                          color: kSecondaryColor,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const BasicText(
+                                            text: "Most Viewed",
+                                            textStyle: TextStyle(
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                               context
+                                                  .read<PropertyFilterBloc>()
+                                                  .add(OnSortTypeSelected(
+                                                      selectedId:
+                                                          "MostViewd-ASC"));
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.symmetric(
+                                                  horizontal: 6.0),
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 16.0,
+                                                  vertical: 2.0),
+                                              decoration: BoxDecoration(
+                                                color: state.propertyFilter.sortBy
+                                                            .selectedId ==
+                                                        "MostViewd-ASC"
+                                                    ? kPrimaryColor
+                                                    : Colors.grey[200],
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                              ),
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons
+                                                      .keyboard_double_arrow_up_outlined,
+                                                  color: state
+                                                              .propertyFilter
+                                                              .sortBy
+                                                              .selectedId ==
+                                                          "MostViewd-ASC"
+                                                      ? Colors.white
+                                                      : kSecondaryColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              context
+                                                  .read<PropertyFilterBloc>()
+                                                  .add(OnSortTypeSelected(
+                                                      selectedId:
+                                                          "MostViewd-DESC"));
+                                            },
+                                            child: Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 6.0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16.0,
+                                                      vertical: 2.0),
+                                              decoration: BoxDecoration(
+                                                color: state
+                                                            .propertyFilter
+                                                            .sortBy
+                                                            .selectedId ==
+                                                        "MostViewd-DESC"
+                                                    ? kPrimaryColor
+                                                    : Colors.grey[200],
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                              ),
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons
+                                                      .keyboard_double_arrow_down_outlined,
+                                                  color: state
+                                                              .propertyFilter
+                                                              .sortBy
+                                                              .selectedId ==
+                                                          "MostViewd-DESC"
+                                                      ? Colors.white
+                                                      : kSecondaryColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    //Amenities
                                     const BasicText(
                                       text: "Amenities",
                                       textStyle: TextStyle(
@@ -101,22 +254,6 @@ class PropertyFiltersScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-
-                              /*  BlocProvider(
-                                      create: (context) => BudgetDropdownBloc(),
-                                      child: BudgetDropDownFiled(
-                                        title: "Budget",
-                                        onValueChanged: (String? selectedValue) {
-                                          debugPrint("Budget: $selectedValue");
-                                        },
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () async {
-                                        await _handlePressButton(context);
-                                      },
-                                      child: const Text("Search Location"),
-                                    ) */
                             ],
                           ),
                         )

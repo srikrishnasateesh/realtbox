@@ -22,10 +22,39 @@ class GetPropertyList
   @override
   Future<DataState<List<Property>>> call({PropertyRequest? params}) {
     final amenitiesIn = params?.propertyFilter?.selectedAmenities.map((e)=>e.name).join(",");
+    final rangeValues = params?.propertyFilter?.selectedBudget;
+    
+    String price_min = "0";
+    String? price_max;
+    if(rangeValues!=null){
+      price_min = ((rangeValues.rangeValues?.start ?? 0.0).toInt()).toString();
+      price_max = ((rangeValues.rangeValues?.end ?? 0.0).toInt()).toString();
+      if(price_max == "0"){
+        price_max = null;
+      }
+    }
+
+    String? sort;
+    String? sortDir;
+    SortBy? sortBy = params?.propertyFilter?.sortBy;
+    if(sortBy!=null){
+      if(sortBy.selectedId == "MostViewd-ASC"){
+        sort = "mostViewed";
+        sortDir = "1";
+      } else if(sortBy.selectedId == "MostViewd-DESC"){
+        sort = "mostViewed";
+        sortDir = "-1";
+      }
+    }
+
     return repository.getPropertiesList(
       params?.skip ?? 0,
       params?.category,
       amenitiesIn,
+      price_min,
+      price_max,
+      sort,
+      sortDir,
     );
   }
 }

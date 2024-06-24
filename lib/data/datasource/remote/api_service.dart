@@ -38,6 +38,10 @@ abstract class ApiService {
     @Query('skip') int skip,
     @Query('categoryName') String? categoryName,
     @Query('amenity_in') String? amenity_in,
+    @Query('price_min') String? price_min,
+    @Query('price_max') String? price_max,
+    @Query('sort') String? sort,
+    @Query('sortDir') String? sortDir,
   );
 
   @POST("${ApiConstants.enquiry}/{id}")

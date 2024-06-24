@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
@@ -56,9 +57,9 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
           final filter = propertyFilter ??
               PropertyFilter(
                 selectedAmenities: [],
-                selectedBudget: null,
+                selectedBudget: Budget(rangeValues: RangeValues(0,0)),
                 selectedLocation: null,
-                sortBy: null,
+                sortBy: SortBy(selectedId: ""),
               );
           emit(NavigatetoRoute(
               route: RouteNames.propertyfilters, propertyFilter: filter));

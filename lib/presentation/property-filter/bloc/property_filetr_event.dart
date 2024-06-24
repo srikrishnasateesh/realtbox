@@ -20,3 +20,15 @@ class OnAmenitiesReceived extends PropertyFilterEvent {
 
   OnAmenitiesReceived({required this.amenities});
 }
+
+class OnBudgetChanged extends PropertyFilterEvent {
+  final RangeValues rangeValues;
+
+  OnBudgetChanged({required this.rangeValues});
+}
+
+class OnSortTypeSelected extends PropertyFilterEvent {
+  final String selectedId;
+
+  OnSortTypeSelected({required this.selectedId});
+}
