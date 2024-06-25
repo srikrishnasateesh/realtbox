@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:realtbox/config/resources/color_manager.dart';
 
 class ProgressLoader extends StatefulWidget {
   const ProgressLoader({super.key});
@@ -42,6 +43,7 @@ class _ProgressLoaderState extends State<ProgressLoader>
             children: <Widget>[
               CircularProgressIndicator(
                 value: controller.value,
+                valueColor: const AlwaysStoppedAnimation<Color>(kSecondaryColor),
                 semanticsLabel: 'Circular progress indicator',
               ),
             ],

@@ -104,11 +104,8 @@ class RegisterScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 30, right: 30),
                   child: PrimaryButton(
-                    buttonText: "Register",
+                    buttonText: isExistingUser ? "Submit OTP" : "Register",
                     onPressed: () {
-                      debugPrint("Email: ${emailInputController.text}");
-                      debugPrint("Name: ${nameInputController.text}");
-                      debugPrint("Otp: ${otpInputController.text}");
                       registerBloc.add(OnOtpSubmit(
                         otp: otpInputController.text,
                         email: emailInputController.text,

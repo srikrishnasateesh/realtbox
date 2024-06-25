@@ -207,6 +207,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                       return const Center(
                         child: CircularProgressIndicator.adaptive(
                           backgroundColor: kPrimaryColor,
+                          valueColor: AlwaysStoppedAnimation<Color>(kSecondaryColor),
                         ),
                       );
                     }

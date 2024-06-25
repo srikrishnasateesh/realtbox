@@ -138,6 +138,7 @@ class PropertyList extends StatelessWidget {
                         child: Center(
                             child: CircularProgressIndicator.adaptive(
                           backgroundColor: kPrimaryColor,
+                          valueColor: AlwaysStoppedAnimation<Color>(kSecondaryColor),
                         )),
                       );
                     } else if (state is PropertListLoaded) {
@@ -162,6 +163,7 @@ class PropertyList extends StatelessWidget {
                                   return const Center(
                                     child: CircularProgressIndicator.adaptive(
                                       backgroundColor: kPrimaryColor,
+                                      valueColor: AlwaysStoppedAnimation<Color>(kSecondaryColor),
                                     ),
                                   );
                                 }

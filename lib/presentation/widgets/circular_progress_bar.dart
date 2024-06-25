@@ -21,6 +21,7 @@ class CircularProgressBar extends StatelessWidget {
                   CircularProgressIndicator(
                     semanticsLabel: 'Circular progress indicator',
                     backgroundColor: kPrimaryColor,
+                    valueColor: AlwaysStoppedAnimation<Color>(kSecondaryColor),
                   ),
                 ],
               ),

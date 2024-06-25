@@ -3,17 +3,24 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
+import 'package:realtbox/core/utils/price-fromatter.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
 
 class PropertyView extends StatefulWidget {
   final Property property;
-  const PropertyView({super.key, required this.property});
+  final int activePage;
+  const PropertyView({
+    super.key,
+    required this.property,
+    this.activePage = 0,
+  });
 
   @override
   State<PropertyView> createState() => _PropertyViewState();
 }
 
+int _activePage = 0;
 Timer? timer;
 
 class _PropertyViewState extends State<PropertyView> {
@@ -22,6 +29,7 @@ class _PropertyViewState extends State<PropertyView> {
   @override
   void initState() {
     super.initState();
+    _activePage = widget.activePage;
     imageUrls = widget.property.images;
     startTimer();
   }
@@ -55,7 +63,8 @@ class _PropertyViewState extends State<PropertyView> {
     final size = MediaQuery.of(context).size;
     final property = widget.property;
 
-    List<String> amnities = property.amenities; /* [
+    List<String> amnities = property
+        .amenities; /* [
       "Ac & Heating",
       "Clubhouse",
       "Dishwasher",
@@ -65,7 +74,6 @@ class _PropertyViewState extends State<PropertyView> {
       "Fitness Center",
       "Valet Parking",
     ]; */
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -96,22 +104,60 @@ class _PropertyViewState extends State<PropertyView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: size.height / 3,
-                    width: double.infinity,
-                    child: PageView.builder(
-                      controller: pageController,
-                      itemCount: imageUrls.length,
-                      itemBuilder: (context, index) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Image.network(
-                            imageUrls[index],
-                            fit: BoxFit.cover,
+                  Stack(
+                    children: [
+                      SizedBox(
+                        height: size.height / 3,
+                        width: double.infinity,
+                        child: PageView.builder(
+                          physics: ClampingScrollPhysics(),
+                          controller: pageController,
+                          itemCount: imageUrls.length,
+                          onPageChanged: (value) => {
+                            if (mounted)
+                              {
+                                setState(() {
+                                  _activePage = value;
+                                })
+                              }
+                          },
+                          itemBuilder: (context, index) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.network(
+                                imageUrls[index],
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        left: 0,
+                        bottom: 10,
+                        right: 0,
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(
+                                imageUrls.length,
+                                (index) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5.0),
+                                      child: InkWell(
+                                        child: CircleAvatar(
+                                          radius: 4,
+                                          backgroundColor: _activePage == index
+                                              ? kPrimaryColor
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                    )),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      )
+                    ],
                   ),
                   const SizedBox(
                     height: 15,
@@ -147,7 +193,8 @@ class _PropertyViewState extends State<PropertyView> {
                                     ),
                                   ),
                                   BasicText(
-                                    text: "\u{20B9} ${property.price}",
+                                    text:
+                                        "\u{20B9} ${formatStringPrice(property.price)}",
                                     textStyle: const TextStyle(
                                       color: kSecondaryColor,
                                       fontSize: 20.0,
@@ -233,10 +280,10 @@ class _PropertyViewState extends State<PropertyView> {
                             BasicText(
                               text: property.projectName,
                               textStyle: const TextStyle(
-                                        color: kSecondaryColor,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                color: kSecondaryColor,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                             BasicText(
                               text: property.description,
