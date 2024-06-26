@@ -116,6 +116,8 @@ class _ApiService implements ApiService {
     String? price_max,
     String? sort,
     String? sortDir,
+    double? latitude,
+    double? longitude,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -126,6 +128,8 @@ class _ApiService implements ApiService {
       r'price_max': price_max,
       r'sort': sort,
       r'sortDir': sortDir,
+      r'latitude': latitude,
+      r'longitude': longitude,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -198,7 +202,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              'v1/property_Enq/${id}',
+              'v1/property-enq/${id}',
               queryParameters: queryParameters,
               data: _data,
             )

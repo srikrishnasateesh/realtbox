@@ -42,7 +42,11 @@ abstract class ApiService {
     @Query('price_max') String? price_max,
     @Query('sort') String? sort,
     @Query('sortDir') String? sortDir,
+    @Query('latitude') double? latitude,
+    @Query('longitude') double? longitude,
   );
+
+  //https://api.qa.realtbox.in/api/v1/property?skip=0&latitude=78.3746233&longitude=17.4706081
 
   @POST("${ApiConstants.enquiry}/{id}")
   Future<HttpResponse> enquiry(

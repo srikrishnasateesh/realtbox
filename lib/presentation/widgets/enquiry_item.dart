@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/core/utils/date_utils.dart';
 import 'package:realtbox/presentation/widgets/avatar_widget.dart';
+import 'package:realtbox/presentation/widgets/basic_text.dart';
 
 class EnquiryItem extends StatelessWidget {
   final String message;
@@ -23,14 +24,14 @@ class EnquiryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(3.0),
         child: Column(
           children: [
             Row(
               children: [
-                AvatarWidget(radius: 20, imageUrl: imageUrl, name: userName),
+                AvatarWidget(radius: 30, imageUrl: imageUrl, name: userName),
                 const SizedBox(
-                  width: 20,
+                  width: 10,
                 ),
                 // ignore: prefer_const_constructors
                 Expanded(
@@ -39,7 +40,12 @@ class EnquiryItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
-                      Text(userName.isEmpty ? "--" : userName),
+                      BasicText(text:userName.isEmpty ? "--" : userName,
+                      textStyle: TextStyle(
+                        fontSize: 20,
+                        color: kSecondaryColor,
+                        fontWeight: FontWeight.bold
+                      ),),
                       Text(mobile.isEmpty ? "--" : mobile),
                     ],
                   ),

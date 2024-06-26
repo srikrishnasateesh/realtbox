@@ -1,12 +1,13 @@
 class ApiConstants {
   static const String baseUrl = "https://api.qa.realtbox.in/api/";
+  //static const String baseUrl = "http://192.168.68.129:5313/";
   static const String versionCheck = "management/mobile-app-version-check";
   static const String requestOtp = "v1/oauth/generate-login-otp";
   static const String requestToken = "v1/oauth/token-using-otp";
   static const String self = "v1/oauth/self";
   static const String property = "v1/property";
   static const String enquiry = "v1/property_Enq/enquiry";
-  static const String enquiryList = "v1/property_Enq";
+  static const String enquiryList = "v1/property-enq";
   static const String categoryList = "v1/category/list";
   static const String amenityList = "v1/amenity";
 }

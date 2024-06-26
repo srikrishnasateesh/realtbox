@@ -11,7 +11,11 @@ class PropertyRequest {
   final PropertyFilter? propertyFilter;
   final int skip;
 
-  PropertyRequest({required this.category, required this.skip,this.propertyFilter,});
+  PropertyRequest({
+    required this.category,
+    required this.skip,
+    this.propertyFilter,
+  });
 }
 
 class GetPropertyList
@@ -21,29 +25,45 @@ class GetPropertyList
   GetPropertyList({required this.repository});
   @override
   Future<DataState<List<Property>>> call({PropertyRequest? params}) {
-    final amenitiesIn = params?.propertyFilter?.selectedAmenities.map((e)=>e.name).join(",");
+    String? amenitiesIn =
+        params?.propertyFilter?.selectedAmenities.map((e) => e.name).join(",") ?? "";
     final rangeValues = params?.propertyFilter?.selectedBudget;
-    
-    String price_min = "0";
-    String? price_max;
-    if(rangeValues!=null){
-      price_min = ((rangeValues.rangeValues?.start ?? 0.0).toInt()).toString();
-      price_max = ((rangeValues.rangeValues?.end ?? 0.0).toInt()).toString();
-      if(price_max == "0"){
-        price_max = null;
+    if(amenitiesIn.isEmpty){
+      amenitiesIn = null;
+    }
+    //price
+    String priceMin = "0";
+    String? priceMax;
+    if (rangeValues != null) {
+      priceMin = ((rangeValues.rangeValues.start).toInt()).toString();
+      priceMax = ((rangeValues.rangeValues.end).toInt()).toString();
+      if (priceMax == "0") {
+        priceMax = null;
       }
     }
 
+    //sort
     String? sort;
     String? sortDir;
     SortBy? sortBy = params?.propertyFilter?.sortBy;
-    if(sortBy!=null){
-      if(sortBy.selectedId == "MostViewd-ASC"){
+    if (sortBy != null) {
+      if (sortBy.selectedId == "MostViewd-ASC") {
         sort = "mostViewed";
         sortDir = "1";
-      } else if(sortBy.selectedId == "MostViewd-DESC"){
+      } else if (sortBy.selectedId == "MostViewd-DESC") {
         sort = "mostViewed";
         sortDir = "-1";
+      }
+    }
+
+    //location
+    PlaceDetail? place = params?.propertyFilter?.selectedLocation;
+    double? lat;
+    double? lng;
+    if (place != null) {
+      if(place.lattitude!=0.0 && place.longitude!=0.0){
+        lat = place.lattitude;
+        lng = place.longitude;
       }
     }
 
@@ -51,10 +71,12 @@ class GetPropertyList
       params?.skip ?? 0,
       params?.category,
       amenitiesIn,
-      price_min,
-      price_max,
+      priceMin,
+      priceMax,
       sort,
       sortDir,
+      lat,
+      lng,
     );
   }
 }

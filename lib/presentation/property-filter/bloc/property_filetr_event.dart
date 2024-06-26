@@ -32,3 +32,12 @@ class OnSortTypeSelected extends PropertyFilterEvent {
 
   OnSortTypeSelected({required this.selectedId});
 }
+
+class OnPlaceDetailSelected extends PropertyFilterEvent {
+  final PlaceDetail? placeDetail;
+
+  OnPlaceDetailSelected({required this.placeDetail});
+}
+class OnPlaceDetailCleared extends PropertyFilterEvent {
+  OnPlaceDetailCleared();
+}

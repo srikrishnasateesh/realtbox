@@ -30,6 +30,8 @@ class PropertyRepositoryImplementation extends PropertyRepository {
     String? price_max,
     String? sort,
     String? sortDir,
+    double? latitude,
+    double? longitude,
   ) async {
     try {
       /* return DataSuccess(LoginResponseModel(
@@ -41,7 +43,10 @@ class PropertyRepositoryImplementation extends PropertyRepository {
         price_min,
         price_max,
         sort,
-        sortDir
+        sortDir,
+        latitude,
+        longitude
+        
       );
       debugPrint(httpResponse.toString());
       if (httpResponse.response.statusCode == HttpStatus.ok) {

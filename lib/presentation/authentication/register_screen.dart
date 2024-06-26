@@ -99,10 +99,10 @@ class RegisterScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
+                  padding: const EdgeInsets.only(left: 30, right: 30,bottom: 30, top: 10),
                   child: PrimaryButton(
                     buttonText: isExistingUser ? "Submit OTP" : "Register",
                     onPressed: () {

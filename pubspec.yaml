@@ -48,8 +48,9 @@ dependencies:
   firebase_messaging: ^14.9.3
   flutter_svg: 2.0.9
   flutter_native_splash: ^2.4.0
-  flutter_google_places: 0.3.0
+  # flutter_google_places: 0.3.0
   http: any
+  flutter_google_places_hoc081098: ^1.0.0-nullsafety.1
  
   
 

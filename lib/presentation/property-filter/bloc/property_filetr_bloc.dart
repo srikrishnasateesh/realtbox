@@ -24,13 +24,13 @@ class PropertyFilterBloc
           /* propsFilter.selectedBudget = Budget(rangeValues: event.rangeValues);
           emit(PropertyFiletrInitial());
           emit(LoadFilters(propertyFilter: propsFilter)); */
-          if(state is LoadFilters){
-          final curState = (state as LoadFilters);
-          PropertyFilter filter = (curState.propertyFilter);
-          filter.selectedBudget = Budget(rangeValues: event.rangeValues);
-           emit(PropertyFiletrInitial());
-           emit(LoadFilters(propertyFilter: filter));
-        }
+          if (state is LoadFilters) {
+            final curState = (state as LoadFilters);
+            PropertyFilter filter = (curState.propertyFilter);
+            filter.selectedBudget = Budget(rangeValues: event.rangeValues);
+            emit(PropertyFiletrInitial());
+            emit(LoadFilters(propertyFilter: filter));
+          }
           break;
         case OnFilterClearClicked():
           propsFilter.selectedAmenities = [];
@@ -44,13 +44,31 @@ class PropertyFilterBloc
           emit(LoadFilters(propertyFilter: propsFilter));
           break;
         case OnSortTypeSelected():
-        if(state is LoadFilters){
-          final curState = (state as LoadFilters);
-          PropertyFilter filter = (curState.propertyFilter);
-          filter.sortBy = SortBy(selectedId: event.selectedId);
-           emit(PropertyFiletrInitial());
-           emit(LoadFilters(propertyFilter: filter));
-        }
+          if (state is LoadFilters) {
+            final curState = (state as LoadFilters);
+            PropertyFilter filter = (curState.propertyFilter);
+            filter.sortBy = SortBy(selectedId: event.selectedId);
+            emit(PropertyFiletrInitial());
+            emit(LoadFilters(propertyFilter: filter));
+          }
+          break;
+        case OnPlaceDetailSelected():
+          if (state is LoadFilters) {
+            final curState = (state as LoadFilters);
+            PropertyFilter filter = (curState.propertyFilter);
+            filter.selectedLocation = event.placeDetail;
+            emit(PropertyFiletrInitial());
+            emit(LoadFilters(propertyFilter: filter));
+          }
+          break;
+        case OnPlaceDetailCleared():
+          if (state is LoadFilters) {
+            final curState = (state as LoadFilters);
+            PropertyFilter filter = (curState.propertyFilter);
+            filter.selectedLocation = null;
+            emit(PropertyFiletrInitial());
+            emit(LoadFilters(propertyFilter: filter));
+          }
           break;
       }
     });

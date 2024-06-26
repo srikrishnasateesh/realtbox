@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/domain/entity/enquiry_list/enquiry_data_model.dart';
@@ -24,6 +25,7 @@ class EnquiryListBloc extends BaseBlock<EnquiryListEvent, EnquiryListState> {
       String propertyId, Emitter<EnquiryListState> emit) async {
     emit(EnquiryListLoading());
     final response = await enquiryList(params: propertyId);
+    debugPrint("ENQ list-Response: $response");
     if (response is DataFailed) {
       emit(EnquiryListLoaded(data: List.empty()));
       return;

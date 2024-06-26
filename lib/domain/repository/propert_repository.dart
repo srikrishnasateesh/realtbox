@@ -15,9 +15,12 @@ abstract class PropertyRepository {
     String? price_max,
     String? sort,
     String? sortDir,
+    double? latitude,
+    double? longitude,
   );
   Future<DataState> enquiry(EnquiryRequestObject enquiryRequest);
   Future<DataState<List<EnquiryDataModel>>> enquiryList(String propertyId);
   Future<DataState<List<Category>>> categoryList();
   Future<DataState<List<Amenity>>> amenityList();
 }
+

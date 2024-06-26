@@ -5,7 +5,7 @@ import 'package:realtbox/domain/entity/amenity.dart';
 class PropertyFilter extends Equatable {
   List<Amenity> selectedAmenities;
   Budget selectedBudget;
-  Location? selectedLocation;
+  PlaceDetail? selectedLocation;
   SortBy sortBy;
 
   PropertyFilter({
@@ -37,12 +37,12 @@ class Budget extends Equatable {
       ];
 }
 
-class Location extends Equatable {
+class PlaceDetail extends Equatable {
   final String address;
   final double lattitude;
   final double longitude;
 
-  Location({
+  PlaceDetail({
     required this.address,
     required this.lattitude,
     required this.longitude,
