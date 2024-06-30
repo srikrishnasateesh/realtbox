@@ -1,3 +1,15 @@
+//App
+
+const String packageName = "in.axivise.realtbox";
+const int versionCode = 1;
+const String versionName = "1.0.0";
+
+const String forceUpdateMessage = "New version of the app availabe, Please update to continue.";
+const String recommendUpgradeMessage = "New version of the app availabe.";
+
+const String skip = "Skip?";
+const String update = "Update!";
+
 class StringConstants {
   static const String appNamePrefix = "Clean";
 
@@ -17,7 +29,8 @@ class StringConstants {
   static const String lostConnection = "Lost Internet Connection";
   static const String connected = "Internet Connected";
   static const String otpTitle = "OTP Authentication";
-  static const String codeVerification = "We have sent the code verification to Your Mobile Number";
+  static const String codeVerification =
+      "We have sent the code verification to Your Mobile Number";
   static const String submit = "Submit";
   static const String phoneCode = "+91";
   static const String resend = "Resend";
@@ -25,7 +38,8 @@ class StringConstants {
 
   static const String enrollmentTypeAdmin = "Admin";
 
-   static const String registerText = "If you don’t have an account register\nYou can   Register here !";
+  static const String registerText =
+      "If you don’t have an account register\nYou can   Register here !";
 
   //Local storage
   static const String enrollmentType = "enrollmentType"; //Admin,Company
@@ -37,4 +51,5 @@ class StringConstants {
   static const String userName = "name";
   static const String profileImage = "profile_url";
   static const String fcmToken = "fcm_token";
+  static const String deviceId = "device-id";
 }

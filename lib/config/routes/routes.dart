@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/usecase/enquiry_list.dart';
+import 'package:realtbox/domain/usecase/fcm-token.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
+import 'package:realtbox/domain/usecase/version-check.dart';
 import 'package:realtbox/presentation/authentication/authentication.dart';
 import 'package:realtbox/presentation/authentication/bloc/auth_bloc.dart';
 import 'package:realtbox/presentation/enquiry_list/bloc/enquiry_list_bloc.dart';
@@ -44,6 +46,8 @@ class AppRoute {
             return BlocProvider(
               create: (context) => SplashBloc(
                 getIt<GetUserSelf>(),
+                getIt<CheckVersion>(),
+                getIt<GetFcmToken>(),
               ),
               child: const SplashScreen(),
             );

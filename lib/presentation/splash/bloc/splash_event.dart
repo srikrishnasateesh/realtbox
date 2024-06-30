@@ -4,3 +4,6 @@ part of 'splash_bloc.dart';
 sealed class SplashEvent extends BaseEvent {}
 
 class OnSplashScrennShown extends SplashEvent {}
+
+class OnSkipVersion extends SplashEvent {}
+

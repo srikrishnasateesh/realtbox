@@ -10,16 +10,23 @@ class HeaderInterceptor extends Interceptor {
     headers["contentType"] = "application/json";
   }
 
-  Future<Map<String, String>> getAppHeaders()  async {
+  Future<Map<String, String>> getAppHeaders() async {
     final headers = <String, String>{};
     await LocalStorage.init();
-    String token =  LocalStorage.getString(StringConstants.token);
+    
+    String token = LocalStorage.getString(StringConstants.token);
     if (token.isNotEmpty) {
       headers["Authorization"] = "Bearer $token";
     }
-    headers["package"] = "in.axivise.realtbox";
-    headers["versionCode"] = "1";
-    headers["versionName"] = "1.0";
+    
+    String deviceId = LocalStorage.getString(StringConstants.deviceId);
+    if (deviceId.isNotEmpty) {
+      headers["deviceid"] = deviceId;
+    }
+    
+    headers["app-id"] = packageName;
+    headers["versionCode"] = "$versionCode";
+    headers["versionName"] = versionName;
     return headers;
   }
 
@@ -33,6 +40,6 @@ class HeaderInterceptor extends Interceptor {
     headers.forEach((key, value) {
       options.headers[key] = value;
     });
-    return  super.onRequest(options, handler);
+    return super.onRequest(options, handler);
   }
 }

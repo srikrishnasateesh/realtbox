@@ -91,6 +91,7 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
       emit(OtpError(message: "Invalid Otp"));
       return;
     }
+    emit(OtpInProgress(isLoading: true));
     String fcmToken = LocalStorage.getString(StringConstants.fcmToken);
     if (fcmToken.isEmpty) {
       await firebaseMessaging.getToken().then((token) async => {
@@ -99,7 +100,7 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
           });
     }
 
-    emit(OtpInProgress(isLoading: true));
+    
     final response = await getToken(
       params: TokenRequest(
         phoneNumber: phoneNumber,

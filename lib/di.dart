@@ -11,11 +11,13 @@ import 'package:realtbox/domain/repository/propert_repository.dart';
 import 'package:realtbox/domain/usecase/amenity-list.dart';
 import 'package:realtbox/domain/usecase/category-list.dart';
 import 'package:realtbox/domain/usecase/enquiry_list.dart';
+import 'package:realtbox/domain/usecase/fcm-token.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
+import 'package:realtbox/domain/usecase/version-check.dart';
 
 final getIt = GetIt.instance;
 
@@ -66,6 +68,15 @@ Future<void> initDI() async {
     GetAmenityList(
       repository: getIt<PropertyRepository>(),
     ),
+  );
+
+  getIt.registerSingleton<CheckVersion>(
+    CheckVersion(
+      repository: getIt<AuthRepository>(),
+    ),
+  );
+  getIt.registerSingleton<GetFcmToken>(
+    GetFcmToken(),
   );
 }
 

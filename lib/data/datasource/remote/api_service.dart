@@ -6,10 +6,12 @@ import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/data/model/enquiry_list/enquiry_list_dto.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
 import 'package:realtbox/data/model/self/self_response.dart';
+import 'package:realtbox/data/model/version/version-dto.dart';
 import 'package:realtbox/domain/entity/login/login_request_entity.dart';
 import 'package:realtbox/domain/entity/login/login_response.dart';
 import 'package:realtbox/domain/entity/otp/token_request_entity.dart';
 import 'package:realtbox/domain/entity/otp/token_response.dart';
+import 'package:realtbox/domain/entity/version-request/version-request.dart';
 import 'package:retrofit/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -19,6 +21,11 @@ part 'api_service.g.dart';
 @RestApi(baseUrl: ApiConstants.baseUrl)
 abstract class ApiService {
   factory ApiService(Dio dio) = _ApiService;
+
+  @POST(ApiConstants.versionCheck)
+  Future<HttpResponse<VersionDto>> version(
+    @Body() VersionRequest versionRequest,
+  );
 
   @POST(ApiConstants.requestOtp)
   Future<HttpResponse<LoginResponse>> requestOtp(
@@ -45,9 +52,6 @@ abstract class ApiService {
     @Query('latitude') double? latitude,
     @Query('longitude') double? longitude,
   );
-
-  //https://api.qa.realtbox.in/api/v1/property?skip=0&latitude=78.3746233&longitude=17.4706081
-
   @POST("${ApiConstants.enquiry}/{id}")
   Future<HttpResponse> enquiry(
     @Path("id") String id,

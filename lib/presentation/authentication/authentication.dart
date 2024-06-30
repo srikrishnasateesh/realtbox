@@ -12,6 +12,7 @@ import 'package:realtbox/presentation/authentication/register_screen.dart';
 import 'package:realtbox/presentation/authentication/sign_in_screen.dart';
 import 'package:realtbox/presentation/widgets/auth_stack_image.dart';
 import 'package:realtbox/presentation/widgets/app_logo.dart';
+import 'package:realtbox/presentation/widgets/basic_text.dart';
 import 'package:realtbox/presentation/widgets/circular_progress_bar.dart';
 
 class Authentication extends StatelessWidget {
@@ -38,9 +39,9 @@ class Authentication extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    'Sign in',
-                    style: TextStyle(
+                  BasicText(
+                    text:'Sign in',
+                    textStyle: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeightManager.semiBold,
                     ),

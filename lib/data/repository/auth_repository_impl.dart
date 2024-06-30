@@ -10,12 +10,35 @@ import 'package:realtbox/domain/entity/login/login_response.dart';
 import 'package:realtbox/domain/entity/otp/token_request_entity.dart';
 import 'package:realtbox/domain/entity/otp/token_response.dart';
 import 'package:realtbox/domain/entity/self/self.dart';
+import 'package:realtbox/domain/entity/version-request/version-request.dart';
+import 'package:realtbox/domain/entity/version-request/version-response.dart';
 import 'package:realtbox/domain/repository/auth_repository.dart';
 import 'package:dio/dio.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   ApiService apiService;
   AuthRepositoryImpl(this.apiService);
+
+  @override
+  Future<DataState<VersionResponse>> version(
+      VersionRequest versionRequest) async {
+    try {
+      final httpResponse = await apiService.version(versionRequest);
+      if (httpResponse.response.statusCode == HttpStatus.ok) {
+        final data = httpResponse.data.data;
+        return DataSuccess(VersionResponse(
+          forceUpgrade: data?.forceUpgrade ?? false,
+          recommendUpgrade: data?.recommendUpgrade ?? false,
+        ));
+      }
+      return DataSuccess(VersionResponse(
+        forceUpgrade: false,
+        recommendUpgrade: false,
+      ));
+    } on DioException catch (e) {
+      return DataFailed(e, null);
+    }
+  }
 
   @override
   Future<DataState<LoginResponse>> requestOtp(
@@ -25,7 +48,6 @@ class AuthRepositoryImpl implements AuthRepository {
       /* return DataSuccess(LoginResponseModel(
           success: true, data: Data(message: "mes", isExists: false))); */
       final httpResponse = await apiService.requestOtp(loginRequest);
-      debugPrint(httpResponse.toString());
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSuccess(httpResponse.data);
       } else {
@@ -96,14 +118,13 @@ class AuthRepositoryImpl implements AuthRepository {
 
   Self maptoSelf(SelfData data) {
     return Self(
-      createdBy: data.createdBy ?? "",
-      id: data.id ?? "",
-      name: data.name ?? "",
-      phoneNumber: data.phoneNumber ?? "",
-      created: data.created ?? DateTime.now(),
-      enrollmentType: data.enrollmentType ?? "",
-      profileImageUrl: data.profileUrl?.objectUrl ?? "",
-      email: data.email ?? ""
-    );
+        createdBy: data.createdBy ?? "",
+        id: data.id ?? "",
+        name: data.name ?? "",
+        phoneNumber: data.phoneNumber ?? "",
+        created: data.created ?? DateTime.now(),
+        enrollmentType: data.enrollmentType ?? "",
+        profileImageUrl: data.profileUrl?.objectUrl ?? "",
+        email: data.email ?? "");
   }
 }

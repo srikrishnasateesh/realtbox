@@ -4,6 +4,7 @@ import 'package:realtbox/config/resources/constants/string_constants.dart';
 import 'package:realtbox/config/resources/font_manager.dart';
 import 'package:realtbox/presentation/authentication/bloc/auth_bloc.dart';
 import 'package:realtbox/presentation/authentication/login/bloc/login_bloc.dart';
+import 'package:realtbox/presentation/widgets/basic_text.dart';
 import 'package:realtbox/presentation/widgets/circular_progress_bar.dart';
 import 'package:realtbox/presentation/widgets/mobile_input_field.dart';
 import 'package:realtbox/presentation/widgets/primary_button.dart';
@@ -36,9 +37,9 @@ class SignInScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                const Text(
-                  StringConstants.registerText,
-                  style: TextStyle(
+                const BasicText(
+                 text: StringConstants.registerText,
+                  textStyle: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeightManager.regular,
                   ),
