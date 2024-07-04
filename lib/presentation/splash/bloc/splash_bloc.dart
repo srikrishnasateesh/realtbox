@@ -9,8 +9,11 @@ import 'package:flutter/foundation.dart';
 import 'package:realtbox/config/services/local_storage.dart';
 import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
+import 'package:realtbox/domain/entity/token/refresh_token_request.dart';
+import 'package:realtbox/domain/entity/token/token_response.dart';
 import 'package:realtbox/domain/entity/version-request/version-request.dart';
 import 'package:realtbox/domain/usecase/fcm-token.dart';
+import 'package:realtbox/domain/usecase/get_refresh_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/version-check.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,11 +25,10 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
   CheckVersion checkVersion;
   GetUserSelf getUserSelf;
   GetFcmToken getFcmToken;
-  SplashBloc(
-    this.getUserSelf,
-    this.checkVersion,
-    this.getFcmToken,
-  ) : super(SplashInitial()) {
+  GetRefreshToken getRefreshToken;
+  SplashBloc(this.getUserSelf, this.checkVersion, this.getFcmToken,
+      this.getRefreshToken)
+      : super(SplashInitial()) {
     on<SplashEvent>((event, emit) async {
       switch (event) {
         case OnSplashScrennShown():
@@ -100,6 +102,7 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
     Emitter<SplashState> emit,
   ) async {
     String token = LocalStorage.getString(StringConstants.token);
+    String refresh = LocalStorage.getString(StringConstants.refreshToken);
     debugPrint("token: $token");
     //Temp to check screens
     //comment always or remove
@@ -107,14 +110,12 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
 
     //Actual logic to go to authentication
     //Uncomment to check actual flow
-    await Future.delayed(const Duration(seconds: 1)).then((value) async => {
-          if (token.isNotEmpty)
-            {
-              await self(emit),
-            }
-          else
-            emit(SplashNavigate(RouteNames.authentication))
-        });
+    if (refresh.isNotEmpty) {
+      //call refresh token here
+      await refreshToken(refresh,emit);
+    } else {
+      emit(SplashNavigate(RouteNames.authentication));
+    }
   }
 
   Future<void> self(Emitter<SplashState> emit) async {
@@ -142,6 +143,19 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
         StringConstants.userEmail,
         self?.email ?? "",
       );
+      await LocalStorage.setString(
+        StringConstants.enrollmentType,
+        self?.enrollmentType ?? "",
+      );
+      await LocalStorage.setString(
+        StringConstants.phoneNumber,
+        self?.phoneNumber ?? "",
+      );
+      await LocalStorage.setString(
+        StringConstants.id,
+        self?.id ?? "",
+      );
+
       //navigate to next
       emit(SplashNavigate(RouteNames.landing));
     }
@@ -167,5 +181,35 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
     SharedPreferences? preferences = await LocalStorage.init();
     await preferences?.clear();
     emit(SplashNavigate(RouteNames.splash));
+  }
+
+  Future<void> refreshToken(String refreshToken, Emitter<SplashState> emit) async {
+    final response = await getRefreshToken(
+      params: RefreshTokenRequest(refreshToken: refreshToken),
+    );
+     if (response is DataFailed) {
+      return;
+    }
+    if (response is DataSuccess) {
+      
+      if (response.data?.success == true) {
+        final tokenData = response.data?.data;
+        if (tokenData != null) {
+          await saveTokenData(tokenData);
+          await self(emit);
+        }
+      }
+    }
+  }
+
+  Future<void> saveTokenData(TokenData tokenData) async {
+    await LocalStorage.setString(
+      StringConstants.token,
+      tokenData.token,
+    );
+    await LocalStorage.setString(
+      StringConstants.refreshToken,
+      tokenData.refreshToken,
+    );
   }
 }

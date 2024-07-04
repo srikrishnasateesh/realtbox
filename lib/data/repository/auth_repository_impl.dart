@@ -7,8 +7,9 @@ import 'package:realtbox/data/datasource/remote/api_service.dart';
 import 'package:realtbox/data/model/self/self_response.dart';
 import 'package:realtbox/domain/entity/login/login_request_entity.dart';
 import 'package:realtbox/domain/entity/login/login_response.dart';
-import 'package:realtbox/domain/entity/otp/token_request_entity.dart';
-import 'package:realtbox/domain/entity/otp/token_response.dart';
+import 'package:realtbox/domain/entity/token/refresh_token_request.dart';
+import 'package:realtbox/domain/entity/token/token_request_entity.dart';
+import 'package:realtbox/domain/entity/token/token_response.dart';
 import 'package:realtbox/domain/entity/self/self.dart';
 import 'package:realtbox/domain/entity/version-request/version-request.dart';
 import 'package:realtbox/domain/entity/version-request/version-response.dart';
@@ -93,6 +94,34 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<DataState<TokenResponse>> refreshToken(RefreshTokenRequest? tokenRequest) async{
+    try {
+      if (tokenRequest == null) {
+        return DataFailed(
+          DioException(
+              requestOptions: RequestOptions(baseUrl: ApiConstants.baseUrl),
+              error: "Inavlid request"),
+          null,
+        );
+      }
+      final httpResponse = await apiService.refreshToken(tokenRequest);
+      if (httpResponse.response.statusCode == HttpStatus.ok) {
+        return DataSuccess(httpResponse.data);
+      } else {
+        return DataFailed(
+            DioException(
+                error: httpResponse.response.statusMessage,
+                response: httpResponse.response,
+                type: DioExceptionType.unknown,
+                requestOptions: httpResponse.response.requestOptions),
+            httpResponse.data);
+      }
+    } on DioException catch (e) {
+      return DataFailed(e, null);
+    }
+  }
+
+  @override
   Future<DataState<Self>> self() async {
     try {
       final httpResponse = await apiService.self();
@@ -127,4 +156,6 @@ class AuthRepositoryImpl implements AuthRepository {
         profileImageUrl: data.profileUrl?.objectUrl ?? "",
         email: data.email ?? "");
   }
+  
+  
 }

@@ -5,6 +5,7 @@ import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/usecase/enquiry_list.dart';
 import 'package:realtbox/domain/usecase/fcm-token.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
+import 'package:realtbox/domain/usecase/get_refresh_token.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
@@ -48,6 +49,7 @@ class AppRoute {
                 getIt<GetUserSelf>(),
                 getIt<CheckVersion>(),
                 getIt<GetFcmToken>(),
+                getIt<GetRefreshToken>(),
               ),
               child: const SplashScreen(),
             );

@@ -19,21 +19,12 @@ class TokenResponse {
 
 @JsonSerializable()
 class TokenData {
-  final String user;
-  final String phoneNumber;
-  final String enrollmentType;
-  final bool isValid;
-  @JsonKey(name:"_id")
-  final String id;
   final String token;
+  final String refreshToken;
 
   TokenData({
-    required this.user,
-    required this.phoneNumber,
-    required this.enrollmentType,
-    required this.isValid,
-    required this.id,
     required this.token,
+    required this.refreshToken,
   });
 
   Map<String, dynamic> toJson()  => _$TokenDataToJson(this);

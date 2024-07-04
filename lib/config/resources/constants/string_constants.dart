@@ -46,6 +46,7 @@ class StringConstants {
   static const String phoneNumber = "phoneNumber";
   static const String userEmail = "email";
   static const String token = "token";
+  static const String refreshToken = "refreshToken";
   static const String user = "user";
   static const String id = "id";
   static const String userName = "name";

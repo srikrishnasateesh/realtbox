@@ -13,6 +13,7 @@ import 'package:realtbox/domain/usecase/category-list.dart';
 import 'package:realtbox/domain/usecase/enquiry_list.dart';
 import 'package:realtbox/domain/usecase/fcm-token.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
+import 'package:realtbox/domain/usecase/get_refresh_token.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
@@ -42,6 +43,7 @@ Future<void> initDI() async {
   //usecases
   getIt.registerSingleton<GetLoginOtp>(GetLoginOtp(getIt<AuthRepository>()));
   getIt.registerSingleton<GetToken>(GetToken(getIt<AuthRepository>()));
+  getIt.registerSingleton<GetRefreshToken>(GetRefreshToken(getIt<AuthRepository>()));
   getIt.registerSingleton<GetUserSelf>(GetUserSelf(getIt<AuthRepository>()));
   getIt.registerSingleton<GetPropertyList>(
     GetPropertyList(

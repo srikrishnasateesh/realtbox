@@ -29,10 +29,11 @@ class PropertyData {
   final String asset;
   final String assetName;
   final String? location;
-  final String propertysize;
+  final Propertysize propertySize;
   final String projectName;
   final String currencyType;
-  final int price;
+  final double price;
+  final double pricePerUnit;
   final List<PropertyDoc> propertyDocs;
   final DateTime created;
   final String? formattedAddress;
@@ -49,7 +50,7 @@ class PropertyData {
     required this.asset,
     required this.assetName,
     required this.location,
-    required this.propertysize,
+    required this.propertySize,
     required this.projectName,
     required this.currencyType,
     required this.price,
@@ -57,6 +58,7 @@ class PropertyData {
     required this.created,
     required this.formattedAddress,
     required this.advanceFeatures,
+    required this.pricePerUnit,
   });
 
   factory PropertyData.fromJson(Map<String, dynamic> json) =>
@@ -94,7 +96,31 @@ class AdvanceFeatures {
     required this.amenity,
   });
 
-  factory AdvanceFeatures.fromJson(Map<String, dynamic> json) => _$AdvanceFeaturesFromJson(json);
+  factory AdvanceFeatures.fromJson(Map<String, dynamic> json) =>
+      _$AdvanceFeaturesFromJson(json);
 
   Map<String, dynamic> toJson() => _$AdvanceFeaturesToJson(this);
 }
+
+@JsonSerializable()
+class Propertysize {
+  final double? value;
+  final String? unit;
+
+  Propertysize({
+    required this.value,
+    required this.unit,
+  });
+
+  factory Propertysize.fromJson(Map<String, dynamic> json) =>
+      _$PropertysizeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PropertysizeToJson(this);
+
+  @override
+  String toString() {
+    return "$value $unit";
+  }
+}
+
+//propertySize: {value: 1000, unit: sq.ft},

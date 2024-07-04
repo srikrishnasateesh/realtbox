@@ -31,10 +31,11 @@ PropertyData _$PropertyDataFromJson(Map<String, dynamic> json) => PropertyData(
       asset: json['asset'] as String,
       assetName: json['assetName'] as String,
       location: json['location'] as String?,
-      propertysize: json['propertysize'] as String,
+      propertySize:
+          Propertysize.fromJson(json['propertySize'] as Map<String, dynamic>),
       projectName: json['projectName'] as String,
       currencyType: json['currencyType'] as String,
-      price: (json['price'] as num).toInt(),
+      price: (json['price'] as num).toDouble(),
       propertyDocs: (json['propertyDocs'] as List<dynamic>)
           .map((e) => PropertyDoc.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -44,6 +45,7 @@ PropertyData _$PropertyDataFromJson(Map<String, dynamic> json) => PropertyData(
           ? null
           : AdvanceFeatures.fromJson(
               json['advanceFeatures'] as Map<String, dynamic>),
+      pricePerUnit: (json['pricePerUnit'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$PropertyDataToJson(PropertyData instance) =>
@@ -58,10 +60,11 @@ Map<String, dynamic> _$PropertyDataToJson(PropertyData instance) =>
       'asset': instance.asset,
       'assetName': instance.assetName,
       'location': instance.location,
-      'propertysize': instance.propertysize,
+      'propertySize': instance.propertySize,
       'projectName': instance.projectName,
       'currencyType': instance.currencyType,
       'price': instance.price,
+      'pricePerUnit': instance.pricePerUnit,
       'propertyDocs': instance.propertyDocs,
       'created': instance.created.toIso8601String(),
       'formattedAddress': instance.formattedAddress,
@@ -94,4 +97,15 @@ Map<String, dynamic> _$AdvanceFeaturesToJson(AdvanceFeatures instance) =>
       'beds': instance.beds,
       'baths': instance.baths,
       'amenity': instance.amenity,
+    };
+
+Propertysize _$PropertysizeFromJson(Map<String, dynamic> json) => Propertysize(
+      value: (json['value'] as num?)?.toDouble(),
+      unit: json['unit'] as String?,
+    );
+
+Map<String, dynamic> _$PropertysizeToJson(Propertysize instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'unit': instance.unit,
     };

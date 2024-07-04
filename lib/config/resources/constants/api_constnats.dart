@@ -4,6 +4,7 @@ class ApiConstants {
   static const String versionCheck = "v1/management/mobile-app-version-check";
   static const String requestOtp = "v1/oauth/generate-login-otp";
   static const String requestToken = "v1/oauth/token-using-otp";
+  static const String refreshToken = "v1/oauth/refresh-token";
   static const String self = "v1/oauth/self";
   static const String property = "v1/property";
   static const String enquiry = "v1/property_Enq/enquiry";

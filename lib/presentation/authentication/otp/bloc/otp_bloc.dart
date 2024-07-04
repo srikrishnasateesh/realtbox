@@ -9,8 +9,8 @@ import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/core/utils/validation_utils.dart';
 import 'package:realtbox/di.dart';
-import 'package:realtbox/domain/entity/otp/token_request_entity.dart';
-import 'package:realtbox/domain/entity/otp/token_response.dart';
+import 'package:realtbox/domain/entity/token/token_request_entity.dart';
+import 'package:realtbox/domain/entity/token/token_response.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
@@ -100,7 +100,6 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
           });
     }
 
-    
     final response = await getToken(
       params: TokenRequest(
         phoneNumber: phoneNumber,
@@ -153,33 +152,34 @@ class OtpBloc extends BaseBlock<OtpEvent, OtpState> {
         StringConstants.profileImage,
         self?.profileImageUrl ?? "",
       );
-       await LocalStorage.setString(
+      await LocalStorage.setString(
         StringConstants.userEmail,
         self?.email ?? "",
+      );
+
+      await LocalStorage.setString(
+        StringConstants.enrollmentType,
+        self?.enrollmentType ?? "",
+      );
+      await LocalStorage.setString(
+        StringConstants.phoneNumber,
+        self?.phoneNumber ?? "",
+      );
+      await LocalStorage.setString(
+        StringConstants.id,
+        self?.id ?? "",
       );
     }
   }
 
   Future<void> saveTokenData(TokenData tokenData) async {
     await LocalStorage.setString(
-      StringConstants.enrollmentType,
-      tokenData.enrollmentType,
-    );
-    await LocalStorage.setString(
-      StringConstants.phoneNumber,
-      tokenData.phoneNumber,
-    );
-    await LocalStorage.setString(
       StringConstants.token,
       tokenData.token,
     );
     await LocalStorage.setString(
-      StringConstants.user,
-      tokenData.user,
-    );
-    await LocalStorage.setString(
-      StringConstants.id,
-      tokenData.id,
+      StringConstants.refreshToken,
+      tokenData.refreshToken,
     );
   }
 }

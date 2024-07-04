@@ -84,7 +84,7 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       description: propertyData.description,
       assetId: propertyData.asset,
       assetName: propertyData.assetName,
-      propertySize: propertyData.propertysize,
+      propertySize: propertyData.propertySize.toString(),
       projectName: propertyData.projectName,
       price: "${propertyData.price}",
       location: propertyData.formattedAddress ?? propertyData.location ?? "",

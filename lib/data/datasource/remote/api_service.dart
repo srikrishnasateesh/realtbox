@@ -9,8 +9,9 @@ import 'package:realtbox/data/model/self/self_response.dart';
 import 'package:realtbox/data/model/version/version-dto.dart';
 import 'package:realtbox/domain/entity/login/login_request_entity.dart';
 import 'package:realtbox/domain/entity/login/login_response.dart';
-import 'package:realtbox/domain/entity/otp/token_request_entity.dart';
-import 'package:realtbox/domain/entity/otp/token_response.dart';
+import 'package:realtbox/domain/entity/token/refresh_token_request.dart';
+import 'package:realtbox/domain/entity/token/token_request_entity.dart';
+import 'package:realtbox/domain/entity/token/token_response.dart';
 import 'package:realtbox/domain/entity/version-request/version-request.dart';
 import 'package:retrofit/dio.dart';
 import 'package:dio/dio.dart';
@@ -35,6 +36,11 @@ abstract class ApiService {
   @POST(ApiConstants.requestToken)
   Future<HttpResponse<TokenResponse>> token(
     @Body() TokenRequest tokenRequest,
+  );
+
+   @POST(ApiConstants.refreshToken)
+  Future<HttpResponse<TokenResponse>> refreshToken(
+    @Body() RefreshTokenRequest tokenRequest,
   );
 
   @GET(ApiConstants.self)
