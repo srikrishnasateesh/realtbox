@@ -1,11 +1,13 @@
 const String imagePath = "assets/images";
 
+const String appBg = "$imagePath/app_bg.jpeg";
 const String appLogo = "$imagePath/header_log.png";
 const String loginLogo = "$imagePath/apps.png";
 const String appBarLogo = "$imagePath/india.png";
 const String profileLogo = "$imagePath/sms.png";
 
 const String authHeaderImage = "$imagePath/login_header_image.jpeg";
+const String authHeaderBannerImage = "$imagePath/auth_login.jpeg";
 const String authLogoImage = "$imagePath/auth_logo_image.png";
   
 

@@ -24,7 +24,7 @@ class AuthStackImage extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(14),
                   child: Image.asset(
-                    authHeaderImage,
+                    authHeaderBannerImage,
                     height: 200,
                     fit: BoxFit.cover,
                   ),

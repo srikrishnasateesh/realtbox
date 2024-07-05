@@ -185,19 +185,22 @@ class _PropertyViewState extends State<PropertyView> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   const BasicText(
-                                    text: 'Sale',
+                                    textAlign: TextAlign.center,
+                                    text: 'Asset Value',
                                     textStyle: TextStyle(
                                       color: kSecondaryColor,
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.w700,
+                                      
                                     ),
                                   ),
                                   BasicText(
+                                    textAlign: TextAlign.center,
                                     text:
                                         "\u{20B9} ${formatStringPrice(property.price)}",
                                     textStyle: const TextStyle(
                                       color: kSecondaryColor,
-                                      fontSize: 20.0,
+                                      fontSize: 16.0,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
@@ -235,21 +238,23 @@ class _PropertyViewState extends State<PropertyView> {
                                     ),
                                     SizedBox(
                                       height: 150,
-                                      child: GridView.builder(
-                                        shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          childAspectRatio: 2,
-                                          mainAxisSpacing: 8,
-                                          crossAxisSpacing: 8,
+                                      child: SingleChildScrollView(
+                                        child: GridView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          gridDelegate:
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            childAspectRatio: 2,
+                                            mainAxisSpacing: 8,
+                                            crossAxisSpacing: 8,
+                                          ),
+                                          itemCount: amnities.length,
+                                          itemBuilder: (context, index) {
+                                            return Text(amnities[index]);
+                                          },
                                         ),
-                                        itemCount: amnities.length,
-                                        itemBuilder: (context, index) {
-                                          return Text(amnities[index]);
-                                        },
                                       ),
                                     ),
                                   ],

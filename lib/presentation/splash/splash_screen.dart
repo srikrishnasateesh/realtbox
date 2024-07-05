@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/resources/constants/string_constants.dart';
 import 'package:realtbox/config/resources/value_manager.dart';
@@ -53,24 +54,33 @@ class SplashScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: kSecondaryColor,
         body: SafeArea(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Checking Info ...',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(color: kPrimaryColor),
-                ),
-                const SizedBox(height: AppMargin.m18),
-                const CircularProgressIndicator.adaptive(
-                  backgroundColor: kPrimaryColor,
-                  valueColor: AlwaysStoppedAnimation<Color>(kSecondaryColor),
-                ),
-              ],
+          child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(appBg),
+                fit: BoxFit.cover
+              ),
+              
+            ),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Checking Info ...',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium
+                        ?.copyWith(color: kPrimaryColor),
+                  ),
+                  const SizedBox(height: AppMargin.m18),
+                  const CircularProgressIndicator.adaptive(
+                    backgroundColor: kPrimaryColor,
+                    valueColor: AlwaysStoppedAnimation<Color>(kSecondaryColor),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
