@@ -31,7 +31,9 @@ class _PropertyViewState extends State<PropertyView> {
     super.initState();
     _activePage = widget.activePage;
     imageUrls = widget.property.images;
-    startTimer();
+    if (imageUrls.length > 1) {
+      startTimer();
+    }
   }
 
   @override
@@ -43,9 +45,7 @@ class _PropertyViewState extends State<PropertyView> {
   }
 
   void startTimer() {
-    debugPrint("startTimer:");
     timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      debugPrint("startTimer: $timer");
       if ((pageController.page ?? 0) < imageUrls.length - 1) {
         pageController.nextPage(
             duration: const Duration(milliseconds: 500),
@@ -63,17 +63,7 @@ class _PropertyViewState extends State<PropertyView> {
     final size = MediaQuery.of(context).size;
     final property = widget.property;
 
-    List<String> amnities = property
-        .amenities; /* [
-      "Ac & Heating",
-      "Clubhouse",
-      "Dishwasher",
-      "Spa",
-      "Balcony",
-      "Pool",
-      "Fitness Center",
-      "Valet Parking",
-    ]; */
+    List<String> amnities = property.amenities;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -97,208 +87,224 @@ class _PropertyViewState extends State<PropertyView> {
                 BoxShadow(color: kSecondaryColor, spreadRadius: 1),
               ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      SizedBox(
-                        height: size.height / 3,
-                        width: double.infinity,
-                        child: PageView.builder(
-                          physics: ClampingScrollPhysics(),
-                          controller: pageController,
-                          itemCount: imageUrls.length,
-                          onPageChanged: (value) => {
-                            if (mounted)
-                              {
-                                setState(() {
-                                  _activePage = value;
-                                })
-                              }
-                          },
-                          itemBuilder: (context, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image.network(
-                                imageUrls[index],
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      Positioned(
-                        left: 0,
-                        bottom: 10,
-                        right: 0,
-                        child: Container(
-                          color: Colors.transparent,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(
-                                imageUrls.length,
-                                (index) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5.0),
-                                      child: InkWell(
-                                        child: CircleAvatar(
-                                          radius: 4,
-                                          backgroundColor: _activePage == index
-                                              ? kPrimaryColor
-                                              : Colors.grey,
-                                        ),
-                                      ),
-                                    )),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      children: [
+                        SizedBox(
+                          height: size.height / 3,
+                          width: double.infinity,
+                          child: PageView.builder(
+                            physics: ClampingScrollPhysics(),
+                            controller: pageController,
+                            itemCount: imageUrls.length,
+                            onPageChanged: (value) => {
+                              if (mounted)
+                                {
+                                  setState(() {
+                                    _activePage = value;
+                                  })
+                                }
+                            },
+                            itemBuilder: (context, index) {
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Image.network(
+                                  imageUrls[index],
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  IntrinsicHeight(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          flex: 30,
+                      imageUrls.length>1 ?  Positioned(
+                          left: 0,
+                          bottom: 10,
+                          right: 0,
                           child: Container(
+                            color: Colors.transparent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(
+                                  imageUrls.length,
+                                  (index) => Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5.0),
+                                        child: InkWell(
+                                          child: CircleAvatar(
+                                            radius: 4,
+                                            backgroundColor:
+                                                _activePage == index
+                                                    ? kPrimaryColor
+                                                    : Colors.grey,
+                                          ),
+                                        ),
+                                      )),
+                            ),
+                          ),
+                        ) : Container()
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Column(
+                      children: [
+                        IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(
+                                flex: 30,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    color: kPrimaryColor,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: kSecondaryColor,
+                                          spreadRadius: 0),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(30.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const BasicText(
+                                          textAlign: TextAlign.center,
+                                          text: 'Asset Value',
+                                          textStyle: TextStyle(
+                                            color: kSecondaryColor,
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        BasicText(
+                                          textAlign: TextAlign.center,
+                                          text:
+                                              "\u{20B9} ${formatStringPrice(property.price)}",
+                                          textStyle: const TextStyle(
+                                            color: kSecondaryColor,
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 45,
+                                child: Container(
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10)),
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: kSecondaryColor,
+                                            spreadRadius: 1),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          const BasicText(
+                                            text: 'Additional Features',
+                                            textStyle: TextStyle(
+                                              color: kSecondaryColor,
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 150,
+                                            child: SingleChildScrollView(
+                                              child: GridView.builder(
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 2,
+                                                  childAspectRatio: 2,
+                                                  mainAxisSpacing: 8,
+                                                  crossAxisSpacing: 8,
+                                                ),
+                                                itemCount: amnities.length,
+                                                itemBuilder:
+                                                    (context, index) {
+                                                  return Text(
+                                                      amnities[index]);
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8, 0, 5),
+                          child: Container(
+                            width: size.width,
                             decoration: const BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
-                              color: kPrimaryColor,
+                              color: lightgrey,
                               boxShadow: [
                                 BoxShadow(
-                                    color: kSecondaryColor, spreadRadius: 0),
+                                    color: kSecondaryColor,
+                                    spreadRadius: 0.5),
                               ],
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(30.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const BasicText(
-                                    textAlign: TextAlign.center,
-                                    text: 'Asset Value',
-                                    textStyle: TextStyle(
+                                  BasicText(
+                                    text: property.projectName,
+                                    textStyle: const TextStyle(
                                       color: kSecondaryColor,
                                       fontSize: 18.0,
-                                      fontWeight: FontWeight.w700,
-                                      
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   BasicText(
-                                    textAlign: TextAlign.center,
-                                    text:
-                                        "\u{20B9} ${formatStringPrice(property.price)}",
-                                    textStyle: const TextStyle(
-                                      color: kSecondaryColor,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
+                                    text: property.description,
+                                  )
                                 ],
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          flex: 45,
-                          child: Container(
-                              decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: kSecondaryColor, spreadRadius: 1),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    const BasicText(
-                                      text: 'Additional Features',
-                                      textStyle: TextStyle(
-                                        color: kSecondaryColor,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 150,
-                                      child: SingleChildScrollView(
-                                        child: GridView.builder(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          gridDelegate:
-                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            childAspectRatio: 2,
-                                            mainAxisSpacing: 8,
-                                            crossAxisSpacing: 8,
-                                          ),
-                                          itemCount: amnities.length,
-                                          itemBuilder: (context, index) {
-                                            return Text(amnities[index]);
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
-                        ),
                       ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 5),
-                    child: Container(
-                      width: size.width,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: lightgrey,
-                        boxShadow: [
-                          BoxShadow(color: kSecondaryColor, spreadRadius: 0.5),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            BasicText(
-                              text: property.projectName,
-                              textStyle: const TextStyle(
-                                color: kSecondaryColor,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            BasicText(
-                              text: property.description,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),
