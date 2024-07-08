@@ -234,7 +234,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              'v1/property_Enq/enquiry/${id}',
+              'v1/property-Enq/enquiry/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
