@@ -53,300 +53,298 @@ class PropertyFiltersScreen extends StatelessWidget {
         ),
         body: Stack(
           children: [
-            Expanded(
-              child: BlocBuilder<PropertyFilterBloc, PropertyFilterState>(
-                builder: (context, state) {
-                  if (state is LoadFilters) {
-                    debugPrint(
-                        "Budget:${state.propertyFilter.selectedBudget.rangeValues}");
-                    locationController.text =
-                        state.propertyFilter.selectedLocation?.address ?? "";
-                    return ListView(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(12.0, 8, 0, 8),
-                                child: BasicText(
-                                  text: "Filters",
-                                  textStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: FontSize.s25),
-                                ),
+            BlocBuilder<PropertyFilterBloc, PropertyFilterState>(
+              builder: (context, state) {
+                if (state is LoadFilters) {
+                  debugPrint(
+                      "Budget:${state.propertyFilter.selectedBudget.rangeValues}");
+                  locationController.text =
+                      state.propertyFilter.selectedLocation?.address ?? "";
+                  return ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(12.0, 8, 0, 8),
+                              child: BasicText(
+                                text: "Filters",
+                                textStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: FontSize.s25),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    //Budget
-                                    const BasicText(
-                                      text: "Budget",
-                                      textStyle: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //Budget
+                                  const BasicText(
+                                    text: "Budget",
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+            
+                                  BlocProvider(
+                                    create: (context) => RangeSliderBloc(),
+                                    child: RangeSliderWidget(
+                                      receivedValues: state.propertyFilter
+                                          .selectedBudget.rangeValues,
+                                      onBudgetChange: (p0) {
+                                        context
+                                            .read<PropertyFilterBloc>()
+                                            .add(OnBudgetChanged(
+                                                rangeValues: p0));
+                                      },
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-
-                                    BlocProvider(
-                                      create: (context) => RangeSliderBloc(),
-                                      child: RangeSliderWidget(
-                                        receivedValues: state.propertyFilter
-                                            .selectedBudget.rangeValues,
-                                        onBudgetChange: (p0) {
-                                          context
-                                              .read<PropertyFilterBloc>()
-                                              .add(OnBudgetChanged(
-                                                  rangeValues: p0));
-                                        },
+                                  ),
+            
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+            
+                                  //location
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const BasicText(
+                                        text: "Location",
+                                        textStyle: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      if (locationController.text.isNotEmpty)
+                                        InkWell(
+                                          onTap: () {
+                                            context
+                                                .read<PropertyFilterBloc>()
+                                                .add(OnPlaceDetailCleared());
+                                          },
+                                          child: const BasicText(
+                                            text: "Clear",
+                                            textStyle: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+            
+                                  InkWell(
+                                    onTap: () async {
+                                      PlaceDetail? placeDetail =
+                                          await _handleLocationSearch(
+                                              context);
+                                      debugPrint(
+                                          "location3: ${placeDetail.toString()}");
+                                      BlocProvider.of<PropertyFilterBloc>(
+                                              context)
+                                          .add(OnPlaceDetailSelected(
+                                              placeDetail: placeDetail));
+                                    },
+                                    child: TextField(
+                                      controller: locationController,
+                                      keyboardType: TextInputType.text,
+                                      enabled: false,
+                                      minLines: 1,
+                                      maxLines: 3,
+                                      style: const TextStyle(
+                                          color: kSecondaryColor),
+                                      decoration: InputDecoration(
+                                        counterText: "",
+                                        prefixIcon: Align(
+                                          widthFactor: 1.0,
+                                          heightFactor: 1.0,
+                                          child: SvgPicture.asset(
+                                            locationPinSvg,
+                                          ),
+                                        ),
+                                        labelText:
+                                            locationController.text.isNotEmpty
+                                                ? ""
+                                                : "Select Location",
+                                        hintText: "Select Location",
+                                        filled: false,
+                                        labelStyle: const TextStyle(
+                                            color: textInputLabelColor,
+                                            fontWeight: FontWeight.w500),
+                                        hintStyle: const TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            color: textInputHintColor),
                                       ),
                                     ),
-
-                                    const SizedBox(
-                                      height: 20,
+                                  ),
+            
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  //sort by
+                                  const BasicText(
+                                    text: "Sort By",
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+            
+                                  Container(
+                                    width: double.infinity,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 6.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0, vertical: 16.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ),
+                                      border: Border.all(
+                                        color: kSecondaryColor,
+                                        width: 1.0,
+                                      ),
                                     ),
-
-                                    //location
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                    child: Row(
                                       children: [
                                         const BasicText(
-                                          text: "Location",
+                                          text: "Most Viewed",
                                           textStyle: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.normal),
                                         ),
-                                        if (locationController.text.isNotEmpty)
-                                          InkWell(
-                                            onTap: () {
-                                              context
-                                                  .read<PropertyFilterBloc>()
-                                                  .add(OnPlaceDetailCleared());
-                                            },
-                                            child: const BasicText(
-                                              text: "Clear",
-                                              textStyle: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.red),
+                                        InkWell(
+                                          onTap: () {
+                                            context
+                                                .read<PropertyFilterBloc>()
+                                                .add(OnSortTypeSelected(
+                                                    selectedId:
+                                                        "MostViewd-ASC"));
+                                          },
+                                          child: Container(
+                                            margin:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 6.0),
+                                            padding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16.0,
+                                                    vertical: 2.0),
+                                            decoration: BoxDecoration(
+                                              color: state
+                                                          .propertyFilter
+                                                          .sortBy
+                                                          .selectedId ==
+                                                      "MostViewd-ASC"
+                                                  ? kPrimaryColor
+                                                  : Colors.grey[200],
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
                                             ),
-                                          ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-
-                                    InkWell(
-                                      onTap: () async {
-                                        PlaceDetail? placeDetail =
-                                            await _handleLocationSearch(
-                                                context);
-                                        debugPrint(
-                                            "location3: ${placeDetail.toString()}");
-                                        BlocProvider.of<PropertyFilterBloc>(
-                                                context)
-                                            .add(OnPlaceDetailSelected(
-                                                placeDetail: placeDetail));
-                                      },
-                                      child: TextField(
-                                        controller: locationController,
-                                        keyboardType: TextInputType.text,
-                                        enabled: false,
-                                        minLines: 1,
-                                        maxLines: 3,
-                                        style: const TextStyle(
-                                            color: kSecondaryColor),
-                                        decoration: InputDecoration(
-                                          counterText: "",
-                                          prefixIcon: Align(
-                                            widthFactor: 1.0,
-                                            heightFactor: 1.0,
-                                            child: SvgPicture.asset(
-                                              locationPinSvg,
-                                            ),
-                                          ),
-                                          labelText:
-                                              locationController.text.isNotEmpty
-                                                  ? ""
-                                                  : "Select Location",
-                                          hintText: "Select Location",
-                                          filled: false,
-                                          labelStyle: const TextStyle(
-                                              color: textInputLabelColor,
-                                              fontWeight: FontWeight.w500),
-                                          hintStyle: const TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              color: textInputHintColor),
-                                        ),
-                                      ),
-                                    ),
-
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    //sort by
-                                    const BasicText(
-                                      text: "Sort By",
-                                      textStyle: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-
-                                    Container(
-                                      width: double.infinity,
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 6.0),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0, vertical: 16.0),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ),
-                                        border: Border.all(
-                                          color: kSecondaryColor,
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          const BasicText(
-                                            text: "Most Viewed",
-                                            textStyle: TextStyle(
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              context
-                                                  .read<PropertyFilterBloc>()
-                                                  .add(OnSortTypeSelected(
-                                                      selectedId:
-                                                          "MostViewd-ASC"));
-                                            },
-                                            child: Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 6.0),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 16.0,
-                                                      vertical: 2.0),
-                                              decoration: BoxDecoration(
+                                            child: Center(
+                                              child: Icon(
+                                                Icons
+                                                    .keyboard_double_arrow_up_outlined,
                                                 color: state
                                                             .propertyFilter
                                                             .sortBy
                                                             .selectedId ==
                                                         "MostViewd-ASC"
-                                                    ? kPrimaryColor
-                                                    : Colors.grey[200],
-                                                borderRadius:
-                                                    BorderRadius.circular(20.0),
-                                              ),
-                                              child: Center(
-                                                child: Icon(
-                                                  Icons
-                                                      .keyboard_double_arrow_up_outlined,
-                                                  color: state
-                                                              .propertyFilter
-                                                              .sortBy
-                                                              .selectedId ==
-                                                          "MostViewd-ASC"
-                                                      ? Colors.white
-                                                      : kSecondaryColor,
-                                                ),
+                                                    ? Colors.white
+                                                    : kSecondaryColor,
                                               ),
                                             ),
                                           ),
-                                          InkWell(
-                                            onTap: () {
-                                              context
-                                                  .read<PropertyFilterBloc>()
-                                                  .add(OnSortTypeSelected(
-                                                      selectedId:
-                                                          "MostViewd-DESC"));
-                                            },
-                                            child: Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 6.0),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 16.0,
-                                                      vertical: 2.0),
-                                              decoration: BoxDecoration(
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            context
+                                                .read<PropertyFilterBloc>()
+                                                .add(OnSortTypeSelected(
+                                                    selectedId:
+                                                        "MostViewd-DESC"));
+                                          },
+                                          child: Container(
+                                            margin:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 6.0),
+                                            padding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16.0,
+                                                    vertical: 2.0),
+                                            decoration: BoxDecoration(
+                                              color: state
+                                                          .propertyFilter
+                                                          .sortBy
+                                                          .selectedId ==
+                                                      "MostViewd-DESC"
+                                                  ? kPrimaryColor
+                                                  : Colors.grey[200],
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            child: Center(
+                                              child: Icon(
+                                                Icons
+                                                    .keyboard_double_arrow_down_outlined,
                                                 color: state
                                                             .propertyFilter
                                                             .sortBy
                                                             .selectedId ==
                                                         "MostViewd-DESC"
-                                                    ? kPrimaryColor
-                                                    : Colors.grey[200],
-                                                borderRadius:
-                                                    BorderRadius.circular(20.0),
-                                              ),
-                                              child: Center(
-                                                child: Icon(
-                                                  Icons
-                                                      .keyboard_double_arrow_down_outlined,
-                                                  color: state
-                                                              .propertyFilter
-                                                              .sortBy
-                                                              .selectedId ==
-                                                          "MostViewd-DESC"
-                                                      ? Colors.white
-                                                      : kSecondaryColor,
-                                                ),
+                                                    ? Colors.white
+                                                    : kSecondaryColor,
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-
-                                    const SizedBox(
-                                      height: 20,
+                                  ),
+            
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  //Amenities
+                                  const BasicText(
+                                    text: "Amenities",
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  BlocProvider(
+                                    create: (context) => AmenitiesBloc(
+                                        getIt<GetAmenityList>()),
+                                    child: AmenitiesSelection(
+                                      selectedAmenities: state
+                                          .propertyFilter.selectedAmenities,
+                                      onAmenitiesSelected: (amenities) {
+                                        context
+                                            .read<PropertyFilterBloc>()
+                                            .add(OnAmenitiesReceived(
+                                                amenities: amenities));
+                                      },
                                     ),
-                                    //Amenities
-                                    const BasicText(
-                                      text: "Amenities",
-                                      textStyle: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    BlocProvider(
-                                      create: (context) => AmenitiesBloc(
-                                          getIt<GetAmenityList>()),
-                                      child: AmenitiesSelection(
-                                        selectedAmenities: state
-                                            .propertyFilter.selectedAmenities,
-                                        onAmenitiesSelected: (amenities) {
-                                          context
-                                              .read<PropertyFilterBloc>()
-                                              .add(OnAmenitiesReceived(
-                                                  amenities: amenities));
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-                  }
-                  return Container();
-                },
-              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  );
+                }
+                return Container();
+              },
             ),
           ],
         ),
