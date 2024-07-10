@@ -1,5 +1,6 @@
 class ApiConstants {
-  static const String baseUrl = "https://api.qa.realtbox.in/api/";
+  static const String baseUrlDev = "https://api.dev.realtbox.in/";
+  static const String baseUrlQA = "https://api.qa.realtbox.in/";
   //static const String baseUrl = "http://192.168.68.129:5313/";
   static const String versionCheck = "v1/management/mobile-app-version-check";
   static const String requestOtp = "v1/oauth/generate-login-otp";

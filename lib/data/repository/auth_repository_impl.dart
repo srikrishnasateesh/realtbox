@@ -71,7 +71,7 @@ class AuthRepositoryImpl implements AuthRepository {
       if (tokenRequest == null) {
         return DataFailed(
           DioException(
-              requestOptions: RequestOptions(baseUrl: ApiConstants.baseUrl),
+              requestOptions: RequestOptions(baseUrl: ApiConstants.baseUrlDev),
               error: "Inavlid request"),
           null,
         );
@@ -99,7 +99,7 @@ class AuthRepositoryImpl implements AuthRepository {
       if (tokenRequest == null) {
         return DataFailed(
           DioException(
-              requestOptions: RequestOptions(baseUrl: ApiConstants.baseUrl),
+              requestOptions: RequestOptions(baseUrl: ApiConstants.baseUrlDev),
               error: "Inavlid request"),
           null,
         );
