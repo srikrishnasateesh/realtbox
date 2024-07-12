@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://api.dev.realtbox.in/';
+    baseUrl ??= 'https://api.qa.realtbox.in/';
   }
 
   final Dio _dio;

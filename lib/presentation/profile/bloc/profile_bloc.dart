@@ -15,8 +15,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         case OnProfileInit():
           await handleProfileInit(event, emit);
           break;
-
-          break;
         case OnLogoutConfirmed():
           await handleLogout(emit);
           break;
