@@ -18,9 +18,9 @@ class ConnectivityStatus extends StatelessWidget {
           child: BlocListener<InternetCubit, bool>(
             listener: (context, isConnected) {
               if (!isConnected) {
-                Navigator.of(context).push(NoInternetOverlay());
+               // Navigator.of(context).push(NoInternetOverlay());
               } else {
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                //Navigator.of(context).popUntil((route) => route.isFirst);
               }
             },
             child: child,
