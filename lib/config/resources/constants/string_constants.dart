@@ -4,7 +4,8 @@ const String packageName = "in.axivise.realtbox";
 const int versionCode = 1;
 const String versionName = "1.0.0";
 
-const String forceUpdateMessage = "New version of the app availabe, Please update to continue.";
+const String forceUpdateMessage =
+    "New version of the app availabe, Please update to continue.";
 const String recommendUpgradeMessage = "New version of the app availabe.";
 
 const String skip = "Skip?";
@@ -39,7 +40,10 @@ class StringConstants {
   static const String enrollmentTypeAdmin = "Admin";
 
   static const String registerText =
-      "If you don’t have an account register\nYou can   Register here !";
+      "If you don’t have an account register.\nYou can   Register here !";
+
+  static const String deleteConfirmMessage =
+      "Are you sure you want to Remove account? Please provide a reason to proceed.";
 
   //Local storage
   static const String enrollmentType = "enrollmentType"; //Admin,Company

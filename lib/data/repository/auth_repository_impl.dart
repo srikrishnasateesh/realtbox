@@ -5,6 +5,7 @@ import 'package:realtbox/config/resources/constants/api_constnats.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/data/datasource/remote/api_service.dart';
 import 'package:realtbox/data/model/self/self_response.dart';
+import 'package:realtbox/domain/entity/delete_account/delete_account_request.dart';
 import 'package:realtbox/domain/entity/login/login_request_entity.dart';
 import 'package:realtbox/domain/entity/login/login_response.dart';
 import 'package:realtbox/domain/entity/token/refresh_token_request.dart';
@@ -94,7 +95,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<DataState<TokenResponse>> refreshToken(RefreshTokenRequest? tokenRequest) async{
+  Future<DataState<TokenResponse>> refreshToken(
+      RefreshTokenRequest? tokenRequest) async {
     try {
       if (tokenRequest == null) {
         return DataFailed(
@@ -156,6 +158,25 @@ class AuthRepositoryImpl implements AuthRepository {
         profileImageUrl: data.profileUrl?.objectUrl ?? "",
         email: data.email ?? "");
   }
-  
-  
+
+  @override
+  Future<DataState> deleteAccount(String reason) async {
+    try {
+      final httpResponse =
+          await apiService.deleteAccountt(DeleteAccountRequest(reason: reason));
+      if (httpResponse.response.statusCode == HttpStatus.ok) {
+        final data = httpResponse.data;
+        return DataSuccess(data);
+      }
+      return DataFailed(
+          DioException(
+              error: httpResponse.response.statusMessage,
+              response: httpResponse.response,
+              type: DioExceptionType.unknown,
+              requestOptions: httpResponse.response.requestOptions),
+          null);
+    } on DioException catch (e) {
+      return DataFailed(e, null);
+    }
+  }
 }

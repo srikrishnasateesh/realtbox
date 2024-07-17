@@ -2,11 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:realtbox/config/resources/constants/api_constnats.dart';
 import 'package:realtbox/data/model/amenities/amenity-list-dto.dart';
 import 'package:realtbox/data/model/category-type/category-list-dto.dart';
+import 'package:realtbox/data/model/delete_response/delete_response.dart';
 import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/data/model/enquiry_list/enquiry_list_dto.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
 import 'package:realtbox/data/model/self/self_response.dart';
 import 'package:realtbox/data/model/version/version-dto.dart';
+import 'package:realtbox/domain/entity/delete_account/delete_account_request.dart';
 import 'package:realtbox/domain/entity/login/login_request_entity.dart';
 import 'package:realtbox/domain/entity/login/login_response.dart';
 import 'package:realtbox/domain/entity/token/refresh_token_request.dart';
@@ -74,4 +76,9 @@ abstract class ApiService {
 
   @GET(ApiConstants.amenityList)
   Future<HttpResponse<AmenityList>> amenityList();
+
+  @POST(ApiConstants.deleteAccount)
+  Future<HttpResponse<DeleteResponse>> deleteAccountt(
+    @Body() DeleteAccountRequest deleteAccount,
+  );
 }

@@ -10,6 +10,7 @@ import 'package:realtbox/domain/repository/auth_repository.dart';
 import 'package:realtbox/domain/repository/propert_repository.dart';
 import 'package:realtbox/domain/usecase/amenity-list.dart';
 import 'package:realtbox/domain/usecase/category-list.dart';
+import 'package:realtbox/domain/usecase/delete_account.dart';
 import 'package:realtbox/domain/usecase/enquiry_list.dart';
 import 'package:realtbox/domain/usecase/fcm-token.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
@@ -43,7 +44,8 @@ Future<void> initDI() async {
   //usecases
   getIt.registerSingleton<GetLoginOtp>(GetLoginOtp(getIt<AuthRepository>()));
   getIt.registerSingleton<GetToken>(GetToken(getIt<AuthRepository>()));
-  getIt.registerSingleton<GetRefreshToken>(GetRefreshToken(getIt<AuthRepository>()));
+  getIt.registerSingleton<GetRefreshToken>(
+      GetRefreshToken(getIt<AuthRepository>()));
   getIt.registerSingleton<GetUserSelf>(GetUserSelf(getIt<AuthRepository>()));
   getIt.registerSingleton<GetPropertyList>(
     GetPropertyList(
@@ -79,6 +81,10 @@ Future<void> initDI() async {
   );
   getIt.registerSingleton<GetFcmToken>(
     GetFcmToken(),
+  );
+
+  getIt.registerSingleton<DeleteAccount>(
+    DeleteAccount(getIt<AuthRepository>()),
   );
 }
 

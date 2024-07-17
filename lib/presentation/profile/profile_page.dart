@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realtbox/config/resources/color_manager.dart';
+import 'package:realtbox/config/resources/constants/string_constants.dart';
+import 'package:realtbox/core/utils/dialog_utils.dart';
+import 'package:realtbox/di.dart';
+import 'package:realtbox/domain/usecase/delete_account.dart';
+import 'package:realtbox/presentation/delete_account/bloc/delete_account_bloc.dart';
+import 'package:realtbox/presentation/delete_account/delete_account_bottomsheet.dart';
 import 'package:realtbox/presentation/profile/bloc/profile_bloc.dart';
 import 'package:realtbox/presentation/widgets/avatar_widget.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
 import 'package:realtbox/presentation/widgets/key_value_column.dart';
+import 'package:realtbox/presentation/widgets/profile_menu_widget.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -34,6 +42,7 @@ class ProfilePage extends StatelessWidget {
                   builder: (context, state) {
                     if (state is ProfileDataLoaded) {
                       return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           AvatarWidget(
                             imageUrl: state.userImageUrl,
@@ -48,11 +57,46 @@ class ProfilePage extends StatelessWidget {
                             textStyle:
                                 Theme.of(context).textTheme.headlineLarge,
                           ),
-                         
-                          KeyValueColumn(
-                              displayKey: "Mobile", displayValue: state.mobile),
-                          KeyValueColumn(
-                              displayKey: "Email", displayValue: state.email),
+                          BasicText(
+                            text: state.email,
+                            textStyle: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          BasicText(
+                            text: state.mobile,
+                            textStyle: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Divider(color: kOutlineColor, height: 1.0),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          ProfileMenuWidget(
+                              title: "Log out",
+                              icon: Icons.logout,
+                              onPress: () {
+                                showLogoutConfirmationDialog(context, () {
+                                  BlocProvider.of<ProfileBloc>(context)
+                                      .add(OnLogoutConfirmed());
+                                });
+                              }),
+                          ProfileMenuWidget(
+                              title: "Delete Account",
+                              textColor: Colors.red,
+                              icon: Icons.delete,
+                              onPress: () {
+                                showConfirmationDialog(context,
+                                    title: "Confirm!",
+                                    content:
+                                        StringConstants.deleteConfirmMessage,
+                                    showSecondaryAction: true, onConfirmed: () {
+                                  showBottomSheet(context);
+                                }, onCancelled: () {}, confirmButtonText: "Ok");
+                              }),
                           const SizedBox(
                             height: 20,
                           ),
@@ -65,16 +109,19 @@ class ProfilePage extends StatelessWidget {
                                   child: const Text("Edit profile")),
                             ),
                           ),
-                          SizedBox(
-                            width: 200,
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  showLogoutConfirmationDialog(context, () {
-                                    BlocProvider.of<ProfileBloc>(context)
-                                        .add(OnLogoutConfirmed());
-                                  });
-                                },
-                                child: const Text("Log out")),
+                          Visibility(
+                            visible: false,
+                            child: SizedBox(
+                              width: 200,
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    showLogoutConfirmationDialog(context, () {
+                                      BlocProvider.of<ProfileBloc>(context)
+                                          .add(OnLogoutConfirmed());
+                                    });
+                                  },
+                                  child: const Text("Log out")),
+                            ),
                           )
                         ],
                       );
@@ -87,6 +134,19 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  void showBottomSheet(
+    BuildContext context,
+  ) async {
+    final result = await showModalBottomSheet<Map<String, String>>(
+        context: context,
+        builder: (context) => BlocProvider(
+              create: (context) => DeleteAccountBloc(
+                getIt<DeleteAccount>()
+              ),
+              child: const DeleteAccountBottomsheet(),
+            ));
   }
 
   void showLogoutConfirmationDialog(
@@ -117,15 +177,3 @@ class ProfilePage extends StatelessWidget {
     );
   }
 }
-
-
-/* 
-listener: (context, state) {
-                  if (state is ShowLogoutConfirmation) {
-                    showLogoutConfirmationDialog(context, () {
-                      BlocProvider.of<ProfileBloc>(context)
-                          .add(OnLogoutConfirmed());
-                    });
-                  }
-                },
- */

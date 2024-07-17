@@ -16,4 +16,5 @@ abstract class AuthRepository {
   Future<DataState<TokenResponse>> getToken(TokenRequest? tokenRequest);
   Future<DataState<TokenResponse>> refreshToken(RefreshTokenRequest? tokenRequest);
   Future<DataState<Self>> self();
+  Future<DataState> deleteAccount(String reason);
 }
