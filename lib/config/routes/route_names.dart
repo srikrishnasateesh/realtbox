@@ -10,4 +10,5 @@ class RouteNames {
   static const String propertyDocs = 'property_documents_screen';
   static const String propertyfilters = 'property_filters';
   static const String enquiryList = 'enquiry_list';
+  static const String userEnquiryList = 'user_enquiry_list';
 }

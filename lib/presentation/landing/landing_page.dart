@@ -36,7 +36,7 @@ class LandingPage extends StatelessWidget {
               case LandingProfileState():
                 return BlocProvider(
                   create: (context) => ProfileBloc(),
-                  child: const ProfilePage(),
+                  child:  ProfilePage(),
                 );
 
               default:

@@ -8,10 +8,12 @@ import 'package:realtbox/data/model/category-type/category-list-dto.dart';
 import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/data/model/enquiry_list/enquiry_list_dto.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
+import 'package:realtbox/data/model/user_enquiries/user_enquiries.dart';
 import 'package:realtbox/domain/entity/amenity.dart';
 import 'package:realtbox/domain/entity/category-type/category.dart';
 import 'package:realtbox/domain/entity/enquiry_list/enquiry_data_model.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
+import 'package:realtbox/domain/entity/user_enquiry.dart';
 import 'package:realtbox/domain/repository/propert_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
@@ -192,5 +194,35 @@ class PropertyRepositoryImplementation extends PropertyRepository {
         List.empty(),
       );
     }
+  }
+
+  @override
+  Future<DataState<List<UserEnquiry>>> userEnquiryList() async{
+    final httpResponse = await apiService.userEnquiryList();
+    if (httpResponse.response.statusCode == HttpStatus.ok) {
+      List<UserEnquiryData> dataList = httpResponse.data.data ?? List.empty();
+      List<UserEnquiry> list =
+          dataList.map(userenquiryDtoTUseroEnquiryModel).toList();
+      return DataSuccess(list);
+    } else {
+      return DataFailed(
+        DioException(
+            error: httpResponse.response.statusMessage,
+            response: httpResponse.response,
+            type: DioExceptionType.unknown,
+            requestOptions: httpResponse.response.requestOptions),
+        List.empty(),
+      );
+    }
+  }
+  UserEnquiry userenquiryDtoTUseroEnquiryModel(UserEnquiryData enquiryData) {
+    return UserEnquiry(
+      message: enquiryData.message ?? "",
+      created: enquiryData.created ?? DateTime.now(),
+      userName: enquiryData.user?.name ?? "",
+      userPhone: enquiryData.phoneNumber ?? "",
+      userImageUrl: enquiryData.user?.profileUrl?.objectUrl ?? "",
+      propertyName: enquiryData.propertyId?.projectName ?? ""
+    );
   }
 }

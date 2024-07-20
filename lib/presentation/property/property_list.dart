@@ -40,13 +40,14 @@ class PropertyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String enroll = LocalStorage.getString(StringConstants.enrollmentType);
+    String token = LocalStorage.getString(StringConstants.token);
     showEnquiry = enroll != StringConstants.enrollmentTypeAdmin;
     final bloc = BlocProvider.of<PropertListBloc>(context);
     // bloc.add(OnPropertyListInit(category: ""));
-    return buildData(context);
+    return buildData(context, token);
   }
 
-  Widget buildData(BuildContext context) {
+  Widget buildData(BuildContext context, String token) {
     ScrollController scrollController = ScrollController();
 
     scrollController.addListener(() {
@@ -138,7 +139,8 @@ class PropertyList extends StatelessWidget {
                         child: Center(
                             child: CircularProgressIndicator.adaptive(
                           backgroundColor: kPrimaryColor,
-                          valueColor: AlwaysStoppedAnimation<Color>(kSecondaryColor),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(kSecondaryColor),
                         )),
                       );
                     } else if (state is PropertListLoaded) {
@@ -163,7 +165,8 @@ class PropertyList extends StatelessWidget {
                                   return const Center(
                                     child: CircularProgressIndicator.adaptive(
                                       backgroundColor: kPrimaryColor,
-                                      valueColor: AlwaysStoppedAnimation<Color>(kSecondaryColor),
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          kSecondaryColor),
                                     ),
                                   );
                                 }
@@ -172,9 +175,21 @@ class PropertyList extends StatelessWidget {
                                   index: index,
                                   showEnquiry: showEnquiry,
                                   onEnquiryClicked: () {
-                                    String propertyId = list[index].propertyId;
-                                    debugPrint("PropertyId: $propertyId");
-                                    showBottomSheet(context, propertyId);
+                                    if (token.isNotEmpty) {
+                                      String propertyId =
+                                          list[index].propertyId;
+                                      debugPrint("PropertyId: $propertyId");
+                                      showBottomSheet(context, propertyId);
+                                    } else {
+                                      showConfirmationDialog(context,
+                                          title: "Login required",
+                                          content: StringConstants.loginMessage,
+                                          showSecondaryAction: true,
+                                          onConfirmed: () {
+                                        Navigator.pushNamed(
+                                            context, RouteNames.authentication);
+                                      }, onCancelled: () {});
+                                    }
                                   },
                                   onEnquiryListClicked: () {
                                     String propertyId = list[index].propertyId;

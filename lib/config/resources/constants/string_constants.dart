@@ -12,7 +12,7 @@ const String skip = "Skip?";
 const String update = "Update!";
 
 class StringConstants {
-  static const String appNamePrefix = "Clean";
+  static const String loginMessage = "Please login to see your profile and access other information. Thank you.";
 
   static const String sharedPreferencesName = "Local Storage";
 

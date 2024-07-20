@@ -9,8 +9,8 @@ class NameInputField extends StatelessWidget {
   final TextEditingController textEditingController;
   const NameInputField({
     super.key,
-    this.labelText = "Username",
-    this.hint = "Enter your User name",
+    this.labelText = "User name*",
+    this.hint = "Enter your name",
     required this.textEditingController,
   });
 

@@ -11,7 +11,7 @@ class PasswordInputField extends StatefulWidget {
   final TextEditingController textEditingController;
   const PasswordInputField({
     super.key,
-    this.labelText = "Otp",
+    this.labelText = "OTP*",
     this.hint = "Enter your Otp",
     required this.textEditingController,
     this.maxLength = 6,

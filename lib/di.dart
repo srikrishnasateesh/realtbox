@@ -19,6 +19,7 @@ import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
+import 'package:realtbox/domain/usecase/user_enquiry_list.dart';
 import 'package:realtbox/domain/usecase/version-check.dart';
 
 final getIt = GetIt.instance;
@@ -59,6 +60,11 @@ Future<void> initDI() async {
   );
   getIt.registerSingleton<GetEnquiryList>(
     GetEnquiryList(
+      repository: getIt<PropertyRepository>(),
+    ),
+  );
+  getIt.registerSingleton<GetUserEnquiryList>(
+    GetUserEnquiryList(
       repository: getIt<PropertyRepository>(),
     ),
   );

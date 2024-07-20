@@ -10,6 +10,7 @@ import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
+import 'package:realtbox/domain/usecase/user_enquiry_list.dart';
 import 'package:realtbox/domain/usecase/version-check.dart';
 import 'package:realtbox/presentation/authentication/authentication.dart';
 import 'package:realtbox/presentation/authentication/bloc/auth_bloc.dart';
@@ -28,6 +29,8 @@ import 'package:realtbox/presentation/property_details/bloc/propert_detail_bloc.
 import 'package:realtbox/presentation/property_details/property_details_screen.dart';
 import 'package:realtbox/presentation/property_details/property_view.dart';
 import 'package:realtbox/presentation/property_documents.dart/property_documents_screen.dart';
+import 'package:realtbox/presentation/user_enquiry/bloc/user_enquiries_bloc.dart';
+import 'package:realtbox/presentation/user_enquiry/user_enquiries_page.dart';
 
 import '../../presentation/authentication/login/bloc/login_bloc.dart';
 import '../../presentation/authentication/login/login_screen.dart';
@@ -123,6 +126,11 @@ class AppRoute {
                 propertyId: propId,
                 propertyName: propName,
               ),
+            );
+            case RouteNames.userEnquiryList:
+            return BlocProvider(
+              create: (context) => UserEnquiriesBloc(getIt<GetUserEnquiryList>()),
+              child: const UserEnquiryList(),
             );
           case RouteNames.propertyfilters:
             final filter = settings.arguments as PropertyFilter;

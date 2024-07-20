@@ -7,6 +7,7 @@ import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/data/model/enquiry_list/enquiry_list_dto.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
 import 'package:realtbox/data/model/self/self_response.dart';
+import 'package:realtbox/data/model/user_enquiries/user_enquiries.dart';
 import 'package:realtbox/data/model/version/version-dto.dart';
 import 'package:realtbox/domain/entity/delete_account/delete_account_request.dart';
 import 'package:realtbox/domain/entity/login/login_request_entity.dart';
@@ -70,6 +71,9 @@ abstract class ApiService {
   Future<HttpResponse<EnquiryList>> enquiryList(
     @Path("id") String id,
   );
+
+  @GET(ApiConstants.userEnquiryList)
+  Future<HttpResponse<UserEnquiries>> userEnquiryList();
 
   @GET(ApiConstants.categoryList)
   Future<HttpResponse<CategoryList>> categoryList();

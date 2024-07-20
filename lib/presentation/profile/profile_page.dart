@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/resources/constants/string_constants.dart';
+import 'package:realtbox/config/services/local_storage.dart';
 import 'package:realtbox/core/utils/dialog_utils.dart';
 import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/usecase/delete_account.dart';
@@ -14,34 +16,77 @@ import 'package:realtbox/presentation/widgets/key_value_column.dart';
 import 'package:realtbox/presentation/widgets/profile_menu_widget.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  bool isAdmin = false;
+   ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String enroll = LocalStorage.getString(StringConstants.enrollmentType);
+    isAdmin = enroll == StringConstants.enrollmentTypeAdmin;
+    debugPrint("Is Admin: $isAdmin");
     BlocProvider.of<ProfileBloc>(context).add(OnProfileInit());
     return Scaffold(
         backgroundColor: Colors.white,
         body: BlocListener<ProfileBloc, ProfileState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is ShowLogoutConfirmation) {
               showLogoutConfirmationDialog(context, () {
                 BlocProvider.of<ProfileBloc>(context).add(OnLogoutConfirmed());
               });
             }
             if (state is ProfileNavigation) {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, state.route, (route) => true);
+              if (state.removePage) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, state.route, (route) => false);
+              } else {
+                await  Navigator.pushNamed(context, state.route);
+                BlocProvider.of<ProfileBloc>(context).add(OnProfileInit());
+              }
             }
           },
           child: SafeArea(
-            child: SingleChildScrollView(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(24),
-                child: BlocBuilder<ProfileBloc, ProfileState>(
-                  builder: (context, state) {
-                    if (state is ProfileDataLoaded) {
-                      return Column(
+            child: BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                if (state is ShowLoginMessage) {
+                  return Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                      //  mainAxisSize: MainAxisSize.max,
+                        children: [
+                          const BasicText(
+                            text: StringConstants.loginMessage,
+                            textStyle: TextStyle(
+                              color: kSecondaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          SizedBox(
+                            width: 200,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  BlocProvider.of<ProfileBloc>(context)
+                                      .add(OnLoginClicked());
+                                },
+                                child: const Text("Login")),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                if (state is ProfileDataLoaded) {
+                  return SingleChildScrollView(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           AvatarWidget(
@@ -75,6 +120,13 @@ class ProfilePage extends StatelessWidget {
                           const SizedBox(
                             height: 5,
                           ),
+                          ProfileMenuWidget(
+                              title: !isAdmin? "My Enquiries" : "All Enquiries",
+                              icon: Icons.list,
+                              onPress: () {
+                                BlocProvider.of<ProfileBloc>(context)
+                                    .add(OnMyEnquiriesClicked());
+                              }),
                           ProfileMenuWidget(
                               title: "Log out",
                               icon: Icons.logout,
@@ -124,13 +176,13 @@ class ProfilePage extends StatelessWidget {
                             ),
                           )
                         ],
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
-              ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
             ),
           ),
         ));
@@ -142,9 +194,7 @@ class ProfilePage extends StatelessWidget {
     final result = await showModalBottomSheet<Map<String, String>>(
         context: context,
         builder: (context) => BlocProvider(
-              create: (context) => DeleteAccountBloc(
-                getIt<DeleteAccount>()
-              ),
+              create: (context) => DeleteAccountBloc(getIt<DeleteAccount>()),
               child: const DeleteAccountBottomsheet(),
             ));
   }

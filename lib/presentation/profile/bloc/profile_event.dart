@@ -10,3 +10,5 @@ sealed class ProfileEvent extends Equatable {
 class OnProfileInit extends ProfileEvent {}
 
 class OnLogoutConfirmed extends ProfileEvent {}
+class OnLoginClicked extends ProfileEvent {}
+class OnMyEnquiriesClicked extends ProfileEvent {}

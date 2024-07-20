@@ -9,6 +9,8 @@ sealed class ProfileState extends Equatable {
 
 final class ProfileInitial extends ProfileState {}
 
+final class ShowLoginMessage extends ProfileState {}
+
 final class ProfileDataLoaded extends ProfileState {
   final String userName;
   final String userImageUrl;
@@ -27,6 +29,10 @@ final class ShowLogoutConfirmation extends ProfileState {}
 
 final class ProfileNavigation extends ProfileState {
   final String route;
+  final bool removePage;
 
-  ProfileNavigation({required this.route});
+  ProfileNavigation({
+    required this.route,
+    required this.removePage,
+  });
 }
