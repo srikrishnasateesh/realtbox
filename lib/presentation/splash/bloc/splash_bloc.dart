@@ -194,7 +194,7 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
       params: RefreshTokenRequest(refreshToken: refreshToken),
     );
      if (response is DataFailed) {
-      emit(SplashNavigate(RouteNames.authentication));
+      emit(SplashNavigate(RouteNames.landing));
       return;
     }
     if (response is DataSuccess) {

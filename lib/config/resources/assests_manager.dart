@@ -15,6 +15,10 @@ const String authLogoImage = "$imagePath/auth_logo_image.png";
 
 const String iconsPath = "assets/icons";
 
+const String propertiesPng = "$iconsPath/properties_bb_png.png"; 
+const String savedPng = "$iconsPath/save_bb_png.png"; 
+const String profilePng = "$iconsPath/profile_bb.png"; 
+
 const String backIosSvg = "$iconsPath/arrow-ios-back-outline.svg"; 
 const String phoneSvg = "$iconsPath/phone_icon.svg"; 
 const String emailSvg = "$iconsPath/email_icon.svg"; 

@@ -12,4 +12,6 @@ final class LandingInitial extends LandingState {}
 
 class LandingHomeState extends LandingState {}
 
+class LandingSavedState extends LandingState {}
+
 class LandingProfileState extends LandingState {}

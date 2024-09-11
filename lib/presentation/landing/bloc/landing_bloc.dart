@@ -15,7 +15,10 @@ class LandingBloc extends Bloc<LandingEvent, LandingState> {
             case 0:
               emit(LandingHomeState());
               break;
-            case 1:
+               case 1:
+              emit(LandingSavedState());
+              break;
+            case 2:
               emit(LandingProfileState());
               break;
           }

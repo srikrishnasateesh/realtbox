@@ -34,9 +34,6 @@ class _RangeSliderWidgetState extends State<RangeSliderWidget> {
   @override
   void dispose() {
     values = const RangeValues(0, 0);
-    setState(() {
-      
-    });
     super.dispose();
   }
 

@@ -6,14 +6,14 @@ part of 'api_service.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _ApiService implements ApiService {
   _ApiService(
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://api.realtbox.in/';
+    baseUrl ??= 'https://api.dev.realtbox.in/';
   }
 
   final Dio _dio;
@@ -45,8 +45,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = VersionDto.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _value = VersionDto.fromJson(_result.data!);
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -75,8 +75,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = LoginResponse.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _value = LoginResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -104,8 +104,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = TokenResponse.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _value = TokenResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -134,8 +134,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = TokenResponse.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _value = TokenResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -162,8 +162,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = SelfResponse.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _value = SelfResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -211,8 +211,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = PropertyResponse.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _value = PropertyResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -243,8 +243,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = _result.data;
-    final httpResponse = HttpResponse(value, _result);
+    final _value = _result.data;
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -271,8 +271,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = EnquiryList.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _value = EnquiryList.fromJson(_result.data!);
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -299,8 +299,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = UserEnquiries.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _value = UserEnquiries.fromJson(_result.data!);
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -327,8 +327,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CategoryList.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _value = CategoryList.fromJson(_result.data!);
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -355,8 +355,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = AmenityList.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _value = AmenityList.fromJson(_result.data!);
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -385,8 +385,8 @@ class _ApiService implements ApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = DeleteResponse.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _value = DeleteResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
