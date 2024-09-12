@@ -6,6 +6,8 @@ import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
+import 'package:realtbox/presentation/bird_view/bird_view.dart';
+import 'package:realtbox/presentation/bird_view/cluster/cluster_map.dart';
 import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
 import 'package:realtbox/presentation/profile/bloc/profile_bloc.dart';
 import 'package:realtbox/presentation/profile/profile_page.dart';
@@ -40,7 +42,7 @@ class LandingPage extends StatelessWidget {
                     );
 
                   case LandingSavedState():
-                    return const SavedPage();
+                    return  BirdView();
                   case LandingProfileState():
                     return BlocProvider(
                       create: (context) => ProfileBloc(),

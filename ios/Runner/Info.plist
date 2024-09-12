@@ -52,5 +52,17 @@
 			<string>UIInterfaceOrientationLandscapeLeft</string>
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
+		<key>io.flutter.embedded_views_preview</key>
+		<true/>
+		<key>GMSApiKey</key>
+		<string>AIzaSyApTWGv8sRNySOYo_JISDZIZGbmmXC2H9o</string>
+		<key>MTLCompilerService</key>
+		<false/>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app needs access to your location when using the map.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>This app needs access to your location at all times.</string>
+
+
 	</dict>
 </plist>
