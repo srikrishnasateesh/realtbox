@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
-import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 import 'package:realtbox/presentation/bird_view/bird_view.dart';
-import 'package:realtbox/presentation/bird_view/cluster/cluster_map.dart';
 import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
 import 'package:realtbox/presentation/profile/bloc/profile_bloc.dart';
 import 'package:realtbox/presentation/profile/profile_page.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
 import 'package:realtbox/presentation/property/property_list.dart';
-import 'package:realtbox/presentation/saved/saved_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});

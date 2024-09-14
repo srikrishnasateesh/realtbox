@@ -32,13 +32,16 @@ class GetPropertyList
       amenitiesIn = null;
     }
     //price
-    String priceMin = "0";
+    String? priceMin;
     String? priceMax;
     if (rangeValues != null) {
       priceMin = ((rangeValues.rangeValues.start).toInt()).toString();
       priceMax = ((rangeValues.rangeValues.end).toInt()).toString();
       if (priceMax == "0") {
         priceMax = null;
+      }
+      if (priceMin == "0") {
+        priceMin = null;
       }
     }
 
