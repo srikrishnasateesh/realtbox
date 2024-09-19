@@ -16,8 +16,18 @@ AmenityList _$AmenityListFromJson(Map<String, dynamic> json) => AmenityList(
 AmenityData _$AmenityDataFromJson(Map<String, dynamic> json) => AmenityData(
       id: json['_id'] as String?,
       name: json['name'] as String?,
+      icon: json['icon'] as String?,
       created: json['created'] == null
           ? null
           : DateTime.parse(json['created'] as String),
       createdBy: json['createdBy'] as String?,
     );
+
+Map<String, dynamic> _$AmenityDataToJson(AmenityData instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'name': instance.name,
+      'icon': instance.icon,
+      'created': instance.created?.toIso8601String(),
+      'createdBy': instance.createdBy,
+    };

@@ -94,15 +94,22 @@ class LandingPage extends StatelessWidget {
                                 ),
                                 label: "Properties"),
                                 BottomNavigationBarItem(
-                                icon: Image.asset(
+                                icon: /* Image.asset(
                                   savedPng,
                                   height: 30,
                                   width: 30,
                                   color: landingBloc.currentIndex == 1
                                       ? kPrimaryColor
                                       : kSecondaryColor,
+                                ), */
+                                Icon(Icons.map,
+                                size: 30,
+                                 color: landingBloc.currentIndex == 1
+                                      ? kPrimaryColor
+                                      : kSecondaryColor,),
+                                label: "Map View",
+                               
                                 ),
-                                label: "Saved"),
                                 BottomNavigationBarItem(
                                 icon: Image.asset(
                                   profilePng,

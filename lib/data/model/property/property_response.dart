@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:realtbox/core/utils/price-fromatter.dart';
+import 'package:realtbox/data/model/amenities/amenity-list-dto.dart';
 part 'property_response.g.dart';
 
 @JsonSerializable()
@@ -28,16 +30,33 @@ class PropertyData {
   final String status;
   final String asset;
   final String assetName;
-  final String? location;
-  final Propertysize propertySize;
+  //final String? location;
+  // final Propertysize propertySize;
   final String projectName;
   final String currencyType;
-  final double price;
-  final double pricePerUnit;
-  final List<PropertyDoc> propertyDocs;
+  final double? price;
+  final double? pricePerUnit;
   final DateTime created;
   final String? formattedAddress;
   final AdvanceFeatures? advanceFeatures;
+  final AddressData? address;
+  //
+  final int? numberOfTowers;
+  final List<Tower>? towers;
+  final List<VicinityElement>? vicinity;
+  final bool? favProperty;
+  final List<Unit>? units;
+  final double? minimumPrice;
+  final double? maximumPrice;
+  final SizeObject? minimumSize;
+  final SizeObject? maximumSize;
+  final List<PropertyDoc>? brochure;
+  final List<PropertyDoc>? floorPlan;
+  final List<String>? video;
+  final List<PropertyDoc>? galleryPics;
+  final List<PropertyDoc>? buildingPlan;
+  final List<PropertyDoc>? headerSectionPhotos;
+  final List<PropertyDoc>? logo;
 
   PropertyData({
     required this.id,
@@ -49,16 +68,30 @@ class PropertyData {
     required this.status,
     required this.asset,
     required this.assetName,
-    required this.location,
-    required this.propertySize,
     required this.projectName,
     required this.currencyType,
     required this.price,
-    required this.propertyDocs,
     required this.created,
     required this.formattedAddress,
     required this.advanceFeatures,
     required this.pricePerUnit,
+    required this.numberOfTowers,
+    required this.towers,
+    required this.vicinity,
+    required this.favProperty,
+    required this.units,
+    required this.minimumPrice,
+    required this.maximumPrice,
+    required this.minimumSize,
+    required this.maximumSize,
+    required this.brochure,
+    required this.floorPlan,
+    required this.video,
+    required this.galleryPics,
+    required this.buildingPlan,
+    required this.headerSectionPhotos,
+    required this.logo,
+    required this.address,
   });
 
   factory PropertyData.fromJson(Map<String, dynamic> json) =>
@@ -87,7 +120,7 @@ class AdvanceFeatures {
   final int? maxRooms;
   final int? beds;
   final int? baths;
-  final List<String>? amenity;
+  final List<AmenityData>? amenity;
 
   AdvanceFeatures({
     required this.maxRooms,
@@ -121,6 +154,172 @@ class Propertysize {
   String toString() {
     return "$value $unit";
   }
+}
+
+
+
+@JsonSerializable()
+class Tower {
+  Tower({
+    required this.towerNumber,
+    required this.value,
+    required this.id,
+  });
+
+  final String? towerNumber;
+  final int? value;
+
+  @JsonKey(name: '_id')
+  final String? id;
+
+  factory Tower.fromJson(Map<String, dynamic> json) => _$TowerFromJson(json);
+}
+
+@JsonSerializable()
+class VicinityElement {
+  VicinityElement({
+    required this.facility,
+    required this.distance,
+    required this.id,
+  });
+
+  final String? facility;
+  final String? distance;
+
+  @JsonKey(name: '_id')
+  final String? id;
+
+  factory VicinityElement.fromJson(Map<String, dynamic> json) =>
+      _$VicinityElementFromJson(json);
+}
+
+@JsonSerializable()
+class Unit {
+  Unit({
+    required this.unitName,
+    required this.unitSize,
+    required this.unitPrice,
+    required this.unitFacing,
+    required this.id,
+  });
+
+  final String? unitName;
+  final UnitSize? unitSize;
+  final UnitPrice? unitPrice;
+  final List<String?>? unitFacing;
+
+  String getUnitSize() {
+    StringBuffer sb = StringBuffer();
+    final unitType = unitSize?.unitType ?? "";
+    if (unitSize?.minSize != null) {
+      sb.write("${unitSize?.minSize} $unitType");
+    }
+    if (unitSize?.maxSize != null) {
+      if (sb.length > 0) {
+        sb.write(" - ");
+      }
+      sb.write("${unitSize?.maxSize} $unitType");
+    }
+    return sb.toString();
+  }
+
+  String getUnitPrice() {
+    StringBuffer sb = StringBuffer();
+    if (unitPrice?.minPrice != null) {
+      sb.write(formatPrice(unitPrice?.minPrice ?? 0));
+    }
+    if (unitPrice?.maxPrice != null) {
+      if (sb.length > 0) {
+        sb.write(" - ");
+      }
+      sb.write(formatPrice(unitPrice?.maxPrice ?? 0));
+    }
+
+    return sb.toString();
+  }
+
+  String getUnitFacing() {
+    StringBuffer sb = StringBuffer();
+    if(unitFacing!=null){
+      sb.write(unitFacing?.join(","));
+    }
+    return sb.toString();
+  }
+
+  @JsonKey(name: '_id')
+  final String? id;
+
+  factory Unit.fromJson(Map<String, dynamic> json) => _$UnitFromJson(json);
+}
+
+@JsonSerializable()
+class UnitPrice {
+  UnitPrice({
+    required this.minPrice,
+    required this.maxPrice,
+  });
+
+  final double? minPrice;
+  final double? maxPrice;
+
+  factory UnitPrice.fromJson(Map<String, dynamic> json) =>
+      _$UnitPriceFromJson(json);
+}
+
+@JsonSerializable()
+class UnitSize {
+  UnitSize({
+    required this.unitType,
+    required this.minSize,
+    required this.maxSize,
+  });
+
+  final String? unitType;
+  final int? minSize;
+  final int? maxSize;
+
+  factory UnitSize.fromJson(Map<String, dynamic> json) =>
+      _$UnitSizeFromJson(json);
+}
+
+@JsonSerializable()
+class SizeObject {
+  SizeObject({
+    required this.value,
+    required this.unitType,
+  });
+
+  final int? value;
+  final String? unitType;
+
+  factory SizeObject.fromJson(Map<String, dynamic> json) =>
+      _$SizeObjectFromJson(json);
+}
+
+@JsonSerializable()
+class AddressData {
+    AddressData({
+        required this.location,
+        /* required this.line1,
+        required this.line2,
+        required this.city,
+        required this.state,
+        required this.country,
+        required this.pincode,
+        required this.locality, */
+    });
+
+    final List<double>? location;
+    /* final String? line1;
+    final String? line2;
+    final String? city;
+    final String? state;
+    final String? country;
+    final String? pincode;
+    final String? locality; */
+
+    factory AddressData.fromJson(Map<String, dynamic> json) => _$AddressDataFromJson(json);
+
 }
 
 //propertySize: {value: 1000, unit: sq.ft},

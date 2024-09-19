@@ -17,7 +17,7 @@ class _BirdViewState extends State<BirdView> {
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
 
-  static const CameraPosition _center =
+  CameraPosition _center =
       CameraPosition(target: LatLng(17.4065, 78.4772), zoom: 11);
 
   final List<Marker> _markers = [];
@@ -52,11 +52,15 @@ class _BirdViewState extends State<BirdView> {
           icon: circleIcon,
           //infoWindow: loc.infoWindow,
           onTap: () {
+            _customInfoWindowController.hideInfoWindow!();
             setState(() {
-              _customInfoWindowController.addInfoWindow!(
-                _customInfoWindowWidget(),
-                loc.position,
-              );
+              _center = CameraPosition(target: loc.position, zoom: 14);
+              Future.delayed(const Duration(seconds: 1)).then((value) => {
+                    _customInfoWindowController.addInfoWindow!(
+                      _customInfoWindowWidget(),
+                      loc.position,
+                    )
+                  });
             });
           },
         ));

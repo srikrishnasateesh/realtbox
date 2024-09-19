@@ -63,7 +63,7 @@ class _PropertyViewState extends State<PropertyView> {
     final size = MediaQuery.of(context).size;
     final property = widget.property;
 
-    List<String> amnities = property.amenities;
+    List<String> amnities = property.amenities.map((e)=>e.name??"").toList();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

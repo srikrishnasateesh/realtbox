@@ -1,5 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
 
+
+import 'package:realtbox/data/model/amenities/amenity-list-dto.dart';
+import 'package:realtbox/data/model/property/property_response.dart';
 
 class Property {
   final String propertyId;
@@ -15,7 +17,12 @@ class Property {
   final String price;
   final String location;
   final List<String> images;
-  final List<String> amenities;
+  final List<String> headerImages;
+  final List<String> floorImages;
+  final List<String> videos;
+  final List<AmenityData> amenities;
+  final List<Unit> units;
+  final List<double> geoLocation;
 
   Property({
     required this.propertyId,
@@ -31,6 +38,11 @@ class Property {
     required this.price,
     required this.location,
     required this.images,
+    required this.headerImages,
+    required this.floorImages,
+    required this.videos,
     required this.amenities,
+    required this.units,
+    required this.geoLocation,
   });
 }

@@ -13,8 +13,12 @@ String formatPrice(double value) {
 }
 
 String formatStringPrice(String value) {
+  try {
   final v = double.parse(value);
   return formatPrice(v);
+  }catch(e){
+    return value;
+  }
 }
 
 /* old

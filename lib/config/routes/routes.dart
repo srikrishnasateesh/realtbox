@@ -14,6 +14,7 @@ import 'package:realtbox/domain/usecase/user_enquiry_list.dart';
 import 'package:realtbox/domain/usecase/version-check.dart';
 import 'package:realtbox/presentation/authentication/authentication.dart';
 import 'package:realtbox/presentation/authentication/bloc/auth_bloc.dart';
+import 'package:realtbox/presentation/details/project_details.dart';
 import 'package:realtbox/presentation/enquiry_list/bloc/enquiry_list_bloc.dart';
 import 'package:realtbox/presentation/enquiry_list/enquiry_list.dart';
 import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
@@ -100,13 +101,15 @@ class AppRoute {
             );
           case RouteNames.propertyDetails:
             return BlocProvider(
-              create: (context) => PropertDetailBloc(
-                getIt<SubmitEnquiry>(),
-              ),
-              child: PropertyView(
+                create: (context) => PropertDetailBloc(
+                      getIt<SubmitEnquiry>(),
+                    ),
+                child: ProjectDetailsPage(
+                    property: (settings.arguments as Property))
+                /* PropertyView(
                 property: (settings.arguments as Property),
-              ),
-            );
+              ), */
+                );
 
           case RouteNames.propertyDocs:
             Map<String, dynamic> args =
@@ -127,9 +130,10 @@ class AppRoute {
                 propertyName: propName,
               ),
             );
-            case RouteNames.userEnquiryList:
+          case RouteNames.userEnquiryList:
             return BlocProvider(
-              create: (context) => UserEnquiriesBloc(getIt<GetUserEnquiryList>()),
+              create: (context) =>
+                  UserEnquiriesBloc(getIt<GetUserEnquiryList>()),
               child: const UserEnquiryList(),
             );
           case RouteNames.propertyfilters:

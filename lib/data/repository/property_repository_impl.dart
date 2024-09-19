@@ -86,12 +86,17 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       description: propertyData.description,
       assetId: propertyData.asset,
       assetName: propertyData.assetName,
-      propertySize: propertyData.propertySize.toString(),
+      propertySize: ("${propertyData.minimumSize?.value ?? 0} ${propertyData.minimumSize?.unitType ?? ""}"),
       projectName: propertyData.projectName,
-      price: "${propertyData.price}",
-      location: propertyData.formattedAddress ?? propertyData.location ?? "",
-      images: propertyData.propertyDocs.map((e) => e.objectUrl).toList(),
+      price: (propertyData.minimumPrice ?? 0).toString(),
+      location: propertyData.formattedAddress ??  "",
+      images: (propertyData.galleryPics?.map((e) => e.objectUrl).toList()) ?? List.empty(),
+      headerImages: (propertyData.headerSectionPhotos?.map((e) => e.objectUrl).toList()) ?? List.empty(),
+      floorImages: (propertyData.floorPlan?.map((e) => e.objectUrl).toList()) ?? List.empty(),
       amenities: propertyData.advanceFeatures?.amenity ?? List.empty(),
+      units: propertyData.units ?? List.empty(),
+      geoLocation: propertyData.address?.location ?? List.empty(),
+      videos: propertyData.video ?? List.empty(),
     );
   }
 

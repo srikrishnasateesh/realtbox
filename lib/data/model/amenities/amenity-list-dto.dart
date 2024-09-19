@@ -16,11 +16,12 @@ class AmenityList {
 
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class AmenityData {
     AmenityData({
         required this.id,
         required this.name,
+        required this.icon,
         required this.created,
         required this.createdBy,
     });
@@ -28,6 +29,7 @@ class AmenityData {
     @JsonKey(name: '_id') 
     final String? id;
     final String? name;
+    final String? icon;
     final DateTime? created;
     final String? createdBy;
 

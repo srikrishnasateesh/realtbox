@@ -56,6 +56,8 @@ dependencies:
   google_maps_flutter: ^2.9.0
   custom_info_window: ^1.0.1
   clippy_flutter: ^2.0.0-nullsafety.1
+  youtube_player_iframe: ^4.0.4
+  # youtube_player_flutter: ^8.1.2
  
  
   
