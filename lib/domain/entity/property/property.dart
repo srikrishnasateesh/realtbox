@@ -19,6 +19,8 @@ class Property {
   final List<String> images;
   final List<String> headerImages;
   final List<String> floorImages;
+  final List<String> buildingPlanImages;
+  final List<String> brochureImages;
   final List<String> videos;
   final List<AmenityData> amenities;
   final List<Unit> units;
@@ -40,6 +42,8 @@ class Property {
     required this.images,
     required this.headerImages,
     required this.floorImages,
+    required this.buildingPlanImages,
+    required this.brochureImages,
     required this.videos,
     required this.amenities,
     required this.units,

@@ -26,7 +26,7 @@ class GetPropertyList
   @override
   Future<DataState<List<Property>>> call({PropertyRequest? params}) {
     String? amenitiesIn =
-        params?.propertyFilter?.selectedAmenities.map((e) => e.name).join(",") ?? "";
+        params?.propertyFilter?.selectedAmenities.map((e) => e.id).join(",") ?? "";
     final rangeValues = params?.propertyFilter?.selectedBudget;
     if(amenitiesIn.isEmpty){
       amenitiesIn = null;

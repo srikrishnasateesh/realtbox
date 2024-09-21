@@ -6,7 +6,9 @@ import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/resources/font_manager.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
+import 'package:realtbox/presentation/details/amenities_tab.dart';
 import 'package:realtbox/presentation/details/details_tab.dart';
+import 'package:realtbox/presentation/details/documents_tab.dart';
 import 'package:realtbox/presentation/details/floor_plan_tab.dart';
 import 'package:realtbox/presentation/details/gallery_tab.dart';
 import 'package:realtbox/presentation/details/location_tab.dart';
@@ -29,13 +31,16 @@ class ProjectDetailsPage extends StatefulWidget {
 int _activePage = 0;
 Timer? timer;
 
-class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
+class _ProjectDetailsPageState extends State<ProjectDetailsPage>
+    with SingleTickerProviderStateMixin {
   PageController pageController = PageController();
   List<String> imageUrls = List.empty();
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 7, vsync: this);
     _activePage = widget.activePage;
     imageUrls = widget.property.headerImages;
     if (imageUrls.length > 1) {
@@ -68,17 +73,24 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 6, // Number of tabs
+      initialIndex: 0,
+      length: 7, // Number of tabs
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              leading: IconButton(onPressed:(){
-                Navigator.pop(context);
-              }, icon: SvgPicture.asset(backIosSvg,
-              width: 60,
-              height: 60,
-              color: kPrimaryColor,)),
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: SvgPicture.asset(
+                    backIosSvg,
+                    width: 60,
+                    height: 60,
+                    color: widget.property.headerImages.isNotEmpty
+                        ? kPrimaryColor
+                        : kSecondaryColor,
+                  )),
               title: const BasicText(
                 text: 'Property Details',
                 textStyle: TextStyle(color: Colors.white),
@@ -116,13 +128,13 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                         child: BasicText(
                         text: widget.property.projectName.toUpperCase(),
                         textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: FontSize.s25,
-                          fontWeight: FontWeight.bold
-                        ),
+                            color: Colors.white,
+                            fontSize: FontSize.s25,
+                            fontWeight: FontWeight.bold),
                       )),
               ),
               bottom: TabBar(
+                controller: _tabController,
                 isScrollable: true,
                 unselectedLabelColor:
                     Colors.black54, // Text color when not selected
@@ -132,9 +144,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                 indicator: BoxDecoration(
                   color: kPrimaryColor, // Background color of the tab
                   borderRadius: BorderRadius.circular(8),
-                  /* BorderRadius.only(
-                      topLeft:  Radius.circular(8.0),
-                      topRight: Radius.circular(8.0)), */ // Rounded rectangle
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -148,6 +157,10 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                   Padding(
                     padding: EdgeInsets.only(left: 8.0, right: 8.0),
                     child: Tab(text: 'Property Details'),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: Tab(text: 'Amenities'),
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: 8.0, right: 8.0),
@@ -174,19 +187,36 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
             ),
             SliverFillRemaining(
               child: TabBarView(
+                controller: _tabController,
                 children: [
                   // Tab content for each tab
-                  DetailsTab(property: widget.property,),
+                  DetailsTab(
+                    property: widget.property,
+                  ),
+                  AmenitiesTab(
+                    amenityList: widget.property.amenities,
+                  ),
                   LocationTab(
                     location: widget.property.geoLocation,
                     address: widget.property.location,
                     id: widget.property.propertyId,
                     projectName: widget.property.projectName,
                   ),
-                  GalleryTab(imageUrls: widget.property.images,),
-                  FloorPlanTab(imageUrls: widget.property.floorImages,),
-                  VideoTab(videoUrls: widget.property.videos,),
-                  DocumentsTab(),
+                  GalleryTab(
+                    imageUrls: widget.property.images,
+                  ),
+                  FloorPlanTab(
+                    imageUrls: widget.property.floorImages,
+                  ),
+                  VideoTab(
+                    videoUrls: widget.property.videos,
+                  ),
+                  DocumentsTab(
+                    projectName: widget.property.projectName,
+                    brochureImages: widget.property.brochureImages,
+                    buildingPlanImages: widget.property.buildingPlanImages,
+                    floorPlanImages: widget.property.floorImages,
+                  ),
                 ],
               ),
             ),
@@ -201,9 +231,4 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
 
 
 
-class DocumentsTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('Documents Content'));
-  }
-}
+

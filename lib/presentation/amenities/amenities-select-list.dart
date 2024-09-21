@@ -7,10 +7,12 @@ import 'package:realtbox/presentation/amenities/bloc/amenities_bloc.dart';
 class AmenitiesSelection extends StatelessWidget {
   final Function(List<Amenity>) onAmenitiesSelected;
   final List<Amenity> selectedAmenities;
-  const AmenitiesSelection({
+  bool selectable;
+   AmenitiesSelection({
     super.key,
     required this.onAmenitiesSelected,
     required this.selectedAmenities,
+    this.selectable = true,
   });
 
   @override
@@ -18,60 +20,61 @@ class AmenitiesSelection extends StatelessWidget {
     BlocListener<AmenitiesBloc, AmenitiesState>(listener: (context, state) {
       if (state is AmenitiesSelectedList) {
         final list = state.amenitiesSelected;
-        //final stringList = list.map((e) => e.name).toList();
         onAmenitiesSelected(list);
       }
     });
     BlocProvider.of<AmenitiesBloc>(context).add(AmenitiesRequested(
-      amenitiesSelected: selectedAmenities
+      amenitiesSelected: selectedAmenities,
     ));
+
     return BlocBuilder<AmenitiesBloc, AmenitiesState>(
       builder: (context, state) {
         if (state is AmenitiesLoaded) {
           final selectedList = state.amenitiesSelected;
           onAmenitiesSelected(selectedList);
           return SizedBox(
-            //height: 150,
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 4,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 10,
-              ),
-              itemCount: state.amenities.length,
-              itemBuilder: (context, index) {
-                //return Text(state.amenities[index].name);
-                final amenity = state.amenities[index];
+            child: Wrap(
+              spacing: 60.0, // Spacing between items horizontally
+              runSpacing: 16.0, // Spacing between items vertically
+              children: state.amenities.map((amenity) {
                 bool selected = selectedList.contains(amenity);
                 return InkWell(
                   onTap: () {
+                    if(selectable){
                     context
                         .read<AmenitiesBloc>()
                         .add(AmenitySelected(selectedAmenity: amenity));
+                    }
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 6.0),
+                    width: 150, // Adjust width as per requirement
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 2.0),
+                        horizontal: 16.0, vertical: 8.0),
                     decoration: BoxDecoration(
                       color: selected ? kPrimaryColor : Colors.grey[200],
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: Center(
-                      child: Text(
-                        amenity.name,
-                        style: TextStyle(
-                          color: selected ? Colors.white : Colors.black,
-                          fontWeight: FontWeight.bold,
+                    child: Column(
+                      children: [
+                        Image.network(
+                          amenity.icon,
+                          width: 20,
+                          height: 20,
+                          color: selected ? Colors.white : kSecondaryColor,
                         ),
-                      ),
+                        Text(
+                          amenity.name,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: selected ? Colors.white : Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
-              },
+              }).toList(),
             ),
           );
         }

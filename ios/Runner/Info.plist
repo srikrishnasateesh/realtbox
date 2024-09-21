@@ -63,6 +63,27 @@
 		<key>NSLocationAlwaysUsageDescription</key>
 		<string>This app needs access to your location at all times.</string>
 
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>We need your permission to save files to your photo library.</string>
+		<key>NSDocumentsFolderUsageDescription</key>
+		<string>We need your permission to save files to your documents folder.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>We need access to save downloaded files to your photo library.</string>
+		<key>LSSupportsOpeningDocumentsInPlace</key>
+		<true/>
+		<key>UIFileSharingEnabled</key>
+		<true/>
+		<key>UISupportsDocumentBrowser</key> 
+		<true/> 
+		<key>UIFileSharingEnabled</key>
+		<true/>
+		<key>NSDocumentsFolderUsageDescription</key>
+		<string>We need access to your documents folder to select and upload files.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>We need access to your photo library to select files.</string>
+		<key>UIFileSharingEnabled</key>
+		<true/>
+
 
 	</dict>
 </plist>

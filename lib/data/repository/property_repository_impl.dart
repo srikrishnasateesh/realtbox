@@ -93,6 +93,8 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       images: (propertyData.galleryPics?.map((e) => e.objectUrl).toList()) ?? List.empty(),
       headerImages: (propertyData.headerSectionPhotos?.map((e) => e.objectUrl).toList()) ?? List.empty(),
       floorImages: (propertyData.floorPlan?.map((e) => e.objectUrl).toList()) ?? List.empty(),
+      buildingPlanImages: (propertyData.buildingPlan?.map((e) => e.objectUrl).toList()) ?? List.empty(),
+      brochureImages: (propertyData.brochure?.map((e) => e.objectUrl).toList()) ?? List.empty(),
       amenities: propertyData.advanceFeatures?.amenity ?? List.empty(),
       units: propertyData.units ?? List.empty(),
       geoLocation: propertyData.address?.location ?? List.empty(),
@@ -179,6 +181,7 @@ class PropertyRepositoryImplementation extends PropertyRepository {
     return Amenity(
       id: amenityData.id ?? "",
       name: amenityData.name ?? "",
+      icon: amenityData.icon ?? "",
     );
   }
 
