@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:realtbox/config/resources/constants/api_constnats.dart';
 import 'package:realtbox/data/model/amenities/amenity-list-dto.dart';
+import 'package:realtbox/data/model/birdview/birdview_dto.dart';
 import 'package:realtbox/data/model/category-type/category-list-dto.dart';
 import 'package:realtbox/data/model/delete_response/delete_response.dart';
 import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
@@ -85,4 +86,7 @@ abstract class ApiService {
   Future<HttpResponse<DeleteResponse>> deleteAccountt(
     @Body() DeleteAccountRequest deleteAccount,
   );
+
+  @GET(ApiConstants.birdView)
+  Future<HttpResponse<BirdViewDto>> birdView();
 }

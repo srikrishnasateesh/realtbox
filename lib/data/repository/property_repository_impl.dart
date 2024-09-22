@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/data/datasource/remote/api_service.dart';
 import 'package:realtbox/data/model/amenities/amenity-list-dto.dart';
+import 'package:realtbox/data/model/birdview/birdview_dto.dart';
 import 'package:realtbox/data/model/category-type/category-list-dto.dart';
 import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/data/model/enquiry_list/enquiry_list_dto.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
 import 'package:realtbox/data/model/user_enquiries/user_enquiries.dart';
 import 'package:realtbox/domain/entity/amenity.dart';
+import 'package:realtbox/domain/entity/birdview.dart';
 import 'package:realtbox/domain/entity/category-type/category.dart';
 import 'package:realtbox/domain/entity/enquiry_list/enquiry_data_model.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
@@ -17,6 +19,7 @@ import 'package:realtbox/domain/entity/user_enquiry.dart';
 import 'package:realtbox/domain/repository/propert_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
+import 'package:realtbox/presentation/bird_view/bird_view_screen.dart';
 
 class PropertyRepositoryImplementation extends PropertyRepository {
   final ApiService apiService;
@@ -38,18 +41,8 @@ class PropertyRepositoryImplementation extends PropertyRepository {
     try {
       /* return DataSuccess(LoginResponseModel(
           success: true, data: Data(message: "mes", isExists: false))); */
-      final httpResponse = await apiService.propertyList(
-        skip,
-        category,
-        amenity_in,
-        price_min,
-        price_max,
-        sort,
-        sortDir,
-        latitude,
-        longitude
-        
-      );
+      final httpResponse = await apiService.propertyList(skip, category,
+          amenity_in, price_min, price_max, sort, sortDir, latitude, longitude);
       debugPrint(httpResponse.toString());
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         final response = httpResponse.data;
@@ -86,15 +79,25 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       description: propertyData.description,
       assetId: propertyData.asset,
       assetName: propertyData.assetName,
-      propertySize: ("${propertyData.minimumSize?.value ?? 0} ${propertyData.minimumSize?.unitType ?? ""}"),
+      propertySize:
+          ("${propertyData.minimumSize?.value ?? 0} ${propertyData.minimumSize?.unitType ?? ""}"),
       projectName: propertyData.projectName,
       price: (propertyData.minimumPrice ?? 0).toString(),
-      location: propertyData.formattedAddress ??  "",
-      images: (propertyData.galleryPics?.map((e) => e.objectUrl).toList()) ?? List.empty(),
-      headerImages: (propertyData.headerSectionPhotos?.map((e) => e.objectUrl).toList()) ?? List.empty(),
-      floorImages: (propertyData.floorPlan?.map((e) => e.objectUrl).toList()) ?? List.empty(),
-      buildingPlanImages: (propertyData.buildingPlan?.map((e) => e.objectUrl).toList()) ?? List.empty(),
-      brochureImages: (propertyData.brochure?.map((e) => e.objectUrl).toList()) ?? List.empty(),
+      location: propertyData.formattedAddress ?? "",
+      images: (propertyData.galleryPics?.map((e) => e.objectUrl).toList()) ??
+          List.empty(),
+      headerImages: (propertyData.headerSectionPhotos
+              ?.map((e) => e.objectUrl)
+              .toList()) ??
+          List.empty(),
+      floorImages: (propertyData.floorPlan?.map((e) => e.objectUrl).toList()) ??
+          List.empty(),
+      buildingPlanImages:
+          (propertyData.buildingPlan?.map((e) => e.objectUrl).toList()) ??
+              List.empty(),
+      brochureImages:
+          (propertyData.brochure?.map((e) => e.objectUrl).toList()) ??
+              List.empty(),
       amenities: propertyData.advanceFeatures?.amenity ?? List.empty(),
       units: propertyData.units ?? List.empty(),
       geoLocation: propertyData.address?.location ?? List.empty(),
@@ -205,7 +208,7 @@ class PropertyRepositoryImplementation extends PropertyRepository {
   }
 
   @override
-  Future<DataState<List<UserEnquiry>>> userEnquiryList() async{
+  Future<DataState<List<UserEnquiry>>> userEnquiryList() async {
     final httpResponse = await apiService.userEnquiryList();
     if (httpResponse.response.statusCode == HttpStatus.ok) {
       List<UserEnquiryData> dataList = httpResponse.data.data ?? List.empty();
@@ -223,14 +226,49 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       );
     }
   }
+
   UserEnquiry userenquiryDtoTUseroEnquiryModel(UserEnquiryData enquiryData) {
     return UserEnquiry(
-      message: enquiryData.message ?? "",
-      created: enquiryData.created ?? DateTime.now(),
-      userName: enquiryData.user?.name ?? "",
-      userPhone: enquiryData.phoneNumber ?? "",
-      userImageUrl: enquiryData.user?.profileUrl?.objectUrl ?? "",
-      propertyName: enquiryData.propertyId?.projectName ?? ""
+        message: enquiryData.message ?? "",
+        created: enquiryData.created ?? DateTime.now(),
+        userName: enquiryData.user?.name ?? "",
+        userPhone: enquiryData.phoneNumber ?? "",
+        userImageUrl: enquiryData.user?.profileUrl?.objectUrl ?? "",
+        propertyName: enquiryData.propertyId?.projectName ?? "");
+  }
+
+  @override
+  Future<DataState<List<BirdView>>> birdView() async{
+    final httpResponse = await apiService.birdView();
+    if (httpResponse.response.statusCode == HttpStatus.ok) {
+      List<BirdViewData> dataList = httpResponse.data.data ?? List.empty();
+      List<BirdView> list =
+          dataList.map(birdviewDtoToBirdView).toList();
+      return DataSuccess(list);
+    } else {
+      return DataFailed(
+        DioException(
+            error: httpResponse.response.statusMessage,
+            response: httpResponse.response,
+            type: DioExceptionType.unknown,
+            requestOptions: httpResponse.response.requestOptions),
+        List.empty(),
+      );
+    }
+  }
+
+  
+
+  BirdView birdviewDtoToBirdView(BirdViewData data) {
+    return BirdView(
+      id: data.id ?? "",
+      location: data.address?.location ?? List.empty(),
+      projectName: data.projectName ?? "",
+      minPrice: (data.minimumPrice ?? 0).toString(),
+      minSize:
+          ("${data.minimumSize?.value ?? 0} ${data.minimumSize?.unitType ?? ""}"),
+      image: data.projectImage?.objectUrl ?? "",
     );
   }
+
 }

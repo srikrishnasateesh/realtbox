@@ -1,4 +1,5 @@
 import 'package:realtbox/domain/entity/amenity.dart';
+import 'package:realtbox/domain/entity/birdview.dart';
 import 'package:realtbox/domain/entity/category-type/category.dart';
 import 'package:realtbox/domain/entity/enquiry_list/enquiry_data_model.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
@@ -23,5 +24,6 @@ abstract class PropertyRepository {
   Future<DataState<List<UserEnquiry>>> userEnquiryList();
   Future<DataState<List<Category>>> categoryList();
   Future<DataState<List<Amenity>>> amenityList();
+  Future<DataState<List<BirdView>>> birdView();
 }
 

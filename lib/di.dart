@@ -9,6 +9,7 @@ import 'package:realtbox/data/repository/property_repository_impl.dart';
 import 'package:realtbox/domain/repository/auth_repository.dart';
 import 'package:realtbox/domain/repository/propert_repository.dart';
 import 'package:realtbox/domain/usecase/amenity-list.dart';
+import 'package:realtbox/domain/usecase/birdview.dart';
 import 'package:realtbox/domain/usecase/category-list.dart';
 import 'package:realtbox/domain/usecase/delete_account.dart';
 import 'package:realtbox/domain/usecase/enquiry_list.dart';
@@ -91,6 +92,10 @@ Future<void> initDI() async {
 
   getIt.registerSingleton<DeleteAccount>(
     DeleteAccount(getIt<AuthRepository>()),
+  );
+
+   getIt.registerSingleton<GetBirdView>(
+    GetBirdView(repository:  getIt<PropertyRepository>()),
   );
 }
 

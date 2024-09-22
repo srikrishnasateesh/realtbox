@@ -3,16 +3,22 @@ import 'package:clippy_flutter/triangle.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/core/utils/custom_circle_icon.dart';
+import 'package:realtbox/core/utils/price-fromatter.dart';
+import 'package:realtbox/domain/entity/birdview.dart';
+import 'package:realtbox/domain/usecase/birdview.dart';
+import 'package:realtbox/presentation/widgets/basic_text.dart';
 
-class BirdView extends StatefulWidget {
-  const BirdView({super.key});
+class BirdViewScreen extends StatefulWidget {
+  final GetBirdView getBirdView;
+  const BirdViewScreen({super.key, required this.getBirdView});
 
   @override
-  State<BirdView> createState() => _BirdViewState();
+  State<BirdViewScreen> createState() => _BirdViewScreenState();
 }
 
-class _BirdViewState extends State<BirdView> {
+class _BirdViewScreenState extends State<BirdViewScreen> {
   final Completer<GoogleMapController> _mapController = Completer();
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
@@ -31,19 +37,58 @@ class _BirdViewState extends State<BirdView> {
         position: LatLng(17.41905996864118, 78.35000421534583),
         infoWindow: InfoWindow(title: "Ankur"))
   ];
+  late List<BirdView> _markersData;
 
   @override
   void initState() {
     super.initState();
-    // _markers.addAll(_branch);
-    loadMarkers();
+
+    //loadMarkers();
+    fetchMarkers();
+  }
+
+  Future<void> fetchMarkers() async {
+    final response = await widget.getBirdView();
+    _markersData = response.data ?? List.empty();
+    final BitmapDescriptor circleIcon =
+        await createCustomCircleIcon(60.0, Colors.red);
+
+    setState(() {
+      for (BirdView loc in _markersData) {
+        debugPrint("Adding loc ${loc.image}");
+        LatLng position = LatLng(loc.location[0], loc.location[1]);
+        _markers.add(Marker(
+          markerId: MarkerId(loc.id),
+          position: position,
+          icon: circleIcon,
+          //infoWindow: loc.infoWindow,
+          onTap: () {
+            _customInfoWindowController.hideInfoWindow!();
+            setState(() {
+              _center = CameraPosition(target: position, zoom: 14);
+              Future.delayed(const Duration(seconds: 1)).then((value) => {
+                    _customInfoWindowController.addInfoWindow!(
+                      _customInfoWindowWidget(
+                        loc.projectName,
+                        loc.image,
+                        formatStringPrice(loc.minPrice),
+                        loc.minSize,
+                      ),
+                      position,
+                    )
+                  });
+            });
+          },
+        ));
+      }
+    });
   }
 
   Future<void> loadMarkers() async {
     final BitmapDescriptor circleIcon =
         await createCustomCircleIcon(60.0, Colors.red);
 
-    setState(() {
+    /*  setState(() {
       for (Marker loc in _branch) {
         debugPrint("Adding loc ${loc.markerId}");
         _markers.add(Marker(
@@ -57,7 +102,7 @@ class _BirdViewState extends State<BirdView> {
               _center = CameraPosition(target: loc.position, zoom: 14);
               Future.delayed(const Duration(seconds: 1)).then((value) => {
                     _customInfoWindowController.addInfoWindow!(
-                      _customInfoWindowWidget(),
+                      _customInfoWindowWidget("ww"),
                       loc.position,
                     )
                   });
@@ -65,7 +110,7 @@ class _BirdViewState extends State<BirdView> {
           },
         ));
       }
-    });
+    }); */
   }
 
   @override
@@ -91,45 +136,64 @@ class _BirdViewState extends State<BirdView> {
           ),
           CustomInfoWindow(
             controller: _customInfoWindowController,
-            height: 100,
-            width: 200,
-            offset: 0,
+            height: 300,
+            width: 300,
+            offset: 15,
           ),
         ],
       ),
     );
   }
 
-  Widget _customInfoWindowWidget() {
+  Widget _customInfoWindowWidget(
+    String title,
+    String imageUrl,
+    String price,
+    String size,
+  ) {
     return Column(
       children: [
+        Image.network(imageUrl,
+        width: double.infinity,
+        height: 150,),
+        const SizedBox(
+          width: 8.0,
+        ),
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(4),
             ),
             width: double.infinity,
             height: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(
-                    Icons.account_circle,
-                    color: Colors.white,
-                    size: 30,
+                  BasicText(
+                    text: title,
+                    textStyle:
+                        Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: kSecondaryColor,
+                            ),
                   ),
-                  const SizedBox(
-                    width: 8.0,
-                  ),
-                  Text(
-                    "I am here",
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.white,
+                  const SizedBox(height: 8,),
+                  BasicText(
+                    text: "Price: $price onwards",
+                    textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: kSecondaryColor,
                         ),
-                  )
+                  ),
+                  const SizedBox(height: 8,),
+                  BasicText(
+                    text: "Size: $size onwards",
+                    textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: kSecondaryColor,
+                        ),
+                  ),
                 ],
               ),
             ),
@@ -138,7 +202,7 @@ class _BirdViewState extends State<BirdView> {
         Triangle.isosceles(
           edge: Edge.BOTTOM,
           child: Container(
-            color: Colors.blue,
+            color: kPrimaryColor,
             width: 20.0,
             height: 10.0,
           ),

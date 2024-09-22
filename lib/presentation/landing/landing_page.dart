@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/di.dart';
+import 'package:realtbox/domain/usecase/birdview.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
-import 'package:realtbox/presentation/bird_view/bird_view.dart';
+import 'package:realtbox/presentation/bird_view/bird_view_screen.dart';
 import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
 import 'package:realtbox/presentation/profile/bloc/profile_bloc.dart';
 import 'package:realtbox/presentation/profile/profile_page.dart';
@@ -39,7 +40,10 @@ class LandingPage extends StatelessWidget {
                     );
 
                   case LandingSavedState():
-                    return  BirdView();
+                    return  BirdViewScreen(
+                      getBirdView: 
+                      getIt<GetBirdView>(),
+                    );
                   case LandingProfileState():
                     return BlocProvider(
                       create: (context) => ProfileBloc(),
