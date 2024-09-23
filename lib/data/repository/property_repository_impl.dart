@@ -6,7 +6,6 @@ import 'package:realtbox/data/datasource/remote/api_service.dart';
 import 'package:realtbox/data/model/amenities/amenity-list-dto.dart';
 import 'package:realtbox/data/model/birdview/birdview_dto.dart';
 import 'package:realtbox/data/model/category-type/category-list-dto.dart';
-import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/data/model/enquiry_list/enquiry_list_dto.dart';
 import 'package:realtbox/data/model/favourite_dto/favourite_dto.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
@@ -21,7 +20,6 @@ import 'package:realtbox/domain/entity/user_enquiry.dart';
 import 'package:realtbox/domain/repository/propert_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
-import 'package:realtbox/presentation/bird_view/bird_view_screen.dart';
 
 class PropertyRepositoryImplementation extends PropertyRepository {
   final ApiService apiService;
@@ -82,6 +80,7 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       propertySize:
           ("${propertyData.minimumSize?.value ?? 0} ${propertyData.minimumSize?.unitType ?? ""}"),
       projectName: propertyData.projectName,
+      projectBy: propertyData.projectBy ?? "",
       price: (propertyData.minimumPrice ?? 0).toString(),
       location: propertyData.formattedAddress ?? "",
       images: (propertyData.galleryPics?.map((e) => e.objectUrl).toList()) ??

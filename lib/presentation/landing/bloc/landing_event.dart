@@ -10,7 +10,11 @@ sealed class LandingEvent extends Equatable {
 class OnAppStarted extends LandingEvent {}
 
 class OnMenuChanged extends LandingEvent {
-  final int  pageIndex;
+  final int pageIndex;
+  final BottomBarItems item;
 
-  OnMenuChanged({required this.pageIndex});
+  OnMenuChanged({
+    required this.pageIndex,
+    required this.item,
+  });
 }

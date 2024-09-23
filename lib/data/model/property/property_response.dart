@@ -33,6 +33,7 @@ class PropertyData {
   //final String? location;
   // final Propertysize propertySize;
   final String projectName;
+  final String? projectBy;
   final String currencyType;
   final double? price;
   final double? pricePerUnit;
@@ -69,6 +70,7 @@ class PropertyData {
     required this.asset,
     required this.assetName,
     required this.projectName,
+    required this.projectBy,
     required this.currencyType,
     required this.price,
     required this.created,

@@ -36,13 +36,16 @@ class _SavedPageState extends State<SavedPage>
     return DefaultTabController(
         length: _tabs.length,
         child: Scaffold(
-          appBar: AppBar(
-            bottom: TabBar(
-              controller: _tabController,
-              tabs: _tabs,
-              labelColor: kSecondaryColor,
-              indicatorColor: kPrimaryColor,
-              unselectedLabelColor: grey,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: AppBar(
+              bottom: TabBar(
+                controller: _tabController,
+                tabs: _tabs,
+                labelColor: kSecondaryColor,
+                indicatorColor: kPrimaryColor,
+                unselectedLabelColor: grey,
+              ),
             ),
           ),
           body: TabBarView(

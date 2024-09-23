@@ -112,53 +112,19 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage>
                               ? kPrimaryColor
                               : */ kSecondaryColor,
                         )),
-                    title: const BasicText(
-                      text: 'Property Details',
-                      textStyle: TextStyle(color: Colors.white),
+                    title:  BasicText(
+                      text: property.projectName,
+                      textStyle: const TextStyle(color: Colors.white),
                     ),
                     centerTitle: false,
                     pinned: true,
                     floating: true,
-                    expandedHeight: 200.0,
-                    flexibleSpace: FlexibleSpaceBar(
-                      //title: const Text('Property Details'),
-                      background: imageUrls.isNotEmpty
-                          ? PageView.builder(
-                              physics: const ClampingScrollPhysics(),
-                              controller: pageController,
-                              itemCount: imageUrls.length,
-                              onPageChanged: (value) => {
-                                if (mounted)
-                                  {
-                                    setState(() {
-                                      _activePage = value;
-                                    })
-                                  }
-                              },
-                              itemBuilder: (context, index) {
-                                return ClipRRect(
-                                  // borderRadius: BorderRadius.circular(10.0),
-                                  child: Image.network(
-                                    imageUrls[index],
-                                    fit: BoxFit.cover,
-                                  ),
-                                );
-                              },
-                            )
-                          : Center(
-                              child: BasicText(
-                              text: property.projectName.toUpperCase(),
-                              textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: FontSize.s25,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                    ),
+                    //expandedHeight: 200.0,
                     bottom: TabBar(
                       controller: _tabController,
                       isScrollable: true,
                       unselectedLabelColor:
-                          Colors.black54, // Text color when not selected
+                          kSecondaryColor, // Text color when not selected
                       labelColor: Colors.white, // Text color when selected
                       labelStyle: const TextStyle(
                           fontWeight: FontWeight.bold), // Text style

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
+import 'package:realtbox/config/resources/constants/string_constants.dart';
+import 'package:realtbox/config/services/local_storage.dart';
 import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/usecase/birdview.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
@@ -9,6 +11,7 @@ import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 import 'package:realtbox/domain/usecase/toggle_favourite.dart';
 import 'package:realtbox/presentation/bird_view/bird_view_screen.dart';
 import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
+import 'package:realtbox/presentation/landing/bottom_bar_items.dart';
 import 'package:realtbox/presentation/profile/bloc/profile_bloc.dart';
 import 'package:realtbox/presentation/profile/profile_page.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
@@ -22,10 +25,18 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String enroll = LocalStorage.getString(StringConstants.enrollmentType);
     LandingBloc landingBloc = BlocProvider.of<LandingBloc>(context);
     landingBloc.add(
       OnAppStarted(),
     );
+
+    var enabledItems = [BottomBarItems.propertyList, BottomBarItems.mapView];
+    if (enroll != StringConstants.enrollmentTypeAdmin) {
+      enabledItems.add(BottomBarItems.saved);
+    }
+    enabledItems.add(BottomBarItems.profile);
+
     return SafeArea(
       child: BlocBuilder<LandingBloc, LandingState>(
         builder: (context, state) {
@@ -102,45 +113,49 @@ class LandingPage extends StatelessWidget {
                                   propertiesPng,
                                   height: 30,
                                   width: 30,
-                                  color: landingBloc.currentIndex == 0
+                                  color: landingBloc.currentItem == BottomBarItems.propertyList
                                       ? kPrimaryColor
                                       : kSecondaryColor,
                                 ),
-                                label: "Properties"),
+                                label: BottomBarItems.propertyList.label),
                             BottomNavigationBarItem(
                               icon: Icon(
                                 Icons.map,
                                 size: 30,
-                                color: landingBloc.currentIndex == 1
+                                color: landingBloc.currentItem == BottomBarItems.mapView
                                     ? kPrimaryColor
                                     : kSecondaryColor,
                               ),
-                              label: "Map View",
+                              label: BottomBarItems.mapView.label,
                             ),
-                            BottomNavigationBarItem(
-                                icon: Image.asset(
-                                  savedPng,
-                                  height: 30,
-                                  width: 30,
-                                  color: landingBloc.currentIndex == 2
-                                      ? kPrimaryColor
-                                      : kSecondaryColor,
-                                ),
-                                label: "Saved"),
+                            if (enroll != StringConstants.enrollmentTypeAdmin)
+                              BottomNavigationBarItem(
+                                  icon: Image.asset(
+                                    savedPng,
+                                    height: 30,
+                                    width: 30,
+                                    color: landingBloc.currentItem == BottomBarItems.saved
+                                        ? kPrimaryColor
+                                        : kSecondaryColor,
+                                  ),
+                                  label: BottomBarItems.saved.label),
                             BottomNavigationBarItem(
                                 icon: Image.asset(
                                   profilePng,
                                   height: 30,
                                   width: 30,
-                                  color: landingBloc.currentIndex == 3
+                                  color: landingBloc.currentItem == BottomBarItems.profile
                                       ? kPrimaryColor
                                       : kSecondaryColor,
                                 ),
-                                label: "Profile"),
+                                label: BottomBarItems.profile.label),
                           ],
                           onTap: (index) =>
                               BlocProvider.of<LandingBloc>(context).add(
-                            OnMenuChanged(pageIndex: index),
+                            OnMenuChanged(
+                              pageIndex: index,
+                              item: enabledItems[index],
+                            ),
                           ),
                         ),
                       ),

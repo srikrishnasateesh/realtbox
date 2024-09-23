@@ -2,14 +2,24 @@ import 'dart:async';
 import 'package:clippy_flutter/triangle.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/core/utils/custom_circle_icon.dart';
 import 'package:realtbox/core/utils/price-fromatter.dart';
 import 'package:realtbox/domain/entity/birdview.dart';
 import 'package:realtbox/domain/usecase/birdview.dart';
+import 'package:realtbox/presentation/property-filter/property-filter-entity.dart';
+import 'package:realtbox/presentation/property-filter/property-filters-screen.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:realtbox/presentation/widgets/outline_input_field.dart';
+
+const kGoogleApiKey = "AIzaSyApTWGv8sRNySOYo_JISDZIZGbmmXC2H9o";
+GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
 class BirdViewScreen extends StatefulWidget {
   final GetBirdView getBirdView;
@@ -21,11 +31,11 @@ class BirdViewScreen extends StatefulWidget {
 
 class _BirdViewScreenState extends State<BirdViewScreen> {
   final Completer<GoogleMapController> _mapController = Completer();
-  CustomInfoWindowController _customInfoWindowController =
+  final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
 
   CameraPosition _center =
-      CameraPosition(target: LatLng(17.4065, 78.4772), zoom: 11);
+      const CameraPosition(target: LatLng(17.4065, 78.4772), zoom: 11);
 
   final List<Marker> _markers = [];
   late List<BirdView> _markersData;
@@ -74,7 +84,6 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
     });
   }
 
-
   Future<void> _setMapBounds() async {
     final GoogleMapController controller = await _mapController.future;
 
@@ -116,6 +125,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
     );
   }
 
+  TextEditingController locationController = TextEditingController(text: "");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,6 +147,64 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
               _customInfoWindowController.hideInfoWindow!();
             },
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () async {
+                PlaceDetail? placeDetail = await _handleLocationSearch(context);
+                debugPrint("location3: ${placeDetail.toString()}");
+                locationController.text = placeDetail?.address ?? "";
+                LatLng latLng = LatLng(
+                    placeDetail?.lattitude ?? 0, placeDetail?.longitude ?? 0);
+                CameraUpdate cameraUpdate = CameraUpdate.newLatLngZoom(latLng,12);
+                final GoogleMapController controller =
+                    await _mapController.future;
+                controller.moveCamera(cameraUpdate);
+              },
+              child: IntrinsicHeight(
+                child: Card(
+                  child: OutlineInputField(
+                    prefixIcon: const Icon(Icons.search),
+                    labelText: "Search By Location",
+                    hint: "Search By Location",
+                    textEditingController: locationController,
+                    onInputChanged: (v) {},
+                    inputType: TextInputType.text,
+                    enabled: false,
+                    minLines: 1,
+                    maxLines: 3,
+                  ),
+                ),
+              )
+              /* TextField(
+                controller: locationController,
+                keyboardType: TextInputType.text,
+                enabled: false,
+                minLines: 1,
+                maxLines: 3,
+                style: const TextStyle(color: kSecondaryColor),
+                decoration: InputDecoration(
+                  counterText: "",
+                  prefixIcon: Align(
+                    widthFactor: 1.0,
+                    heightFactor: 1.0,
+                    child: SvgPicture.asset(
+                      locationPinSvg,
+                    ),
+                  ),
+                  labelText:
+                      locationController.text.isNotEmpty ? "" : "Search By Location",
+                  hintText: "Search By Location",
+                  filled: false,
+                  labelStyle: const TextStyle(
+                      color: textInputLabelColor, fontWeight: FontWeight.w500),
+                  hintStyle: const TextStyle(
+                      fontWeight: FontWeight.w400, color: textInputHintColor),
+                ),
+              ) */
+              ,
+            ),
+          ),
           CustomInfoWindow(
             controller: _customInfoWindowController,
             height: 330,
@@ -146,6 +214,28 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
         ],
       ),
     );
+  }
+
+  void onError(PlacesAutocompleteResponse response) {
+    debugPrint("Places error : ${response.errorMessage}");
+  }
+
+  Future<PlaceDetail?> _handleLocationSearch(BuildContext context) async {
+    Prediction? p = await PlacesAutocomplete.show(
+      context: context,
+      apiKey: kGoogleApiKey,
+      onError: onError,
+      mode: Mode.fullscreen,
+      language: "en",
+      //components: [Component(Component.country, "IN")],
+    );
+    if (p != null) {
+      debugPrint("Prediction result: ${p.toString()}");
+      PlaceDetail? placeDetail = await displayPrediction(p);
+      debugPrint("location2: ${placeDetail.toString()}");
+      return placeDetail;
+    }
+    return null;
   }
 
   Widget _customInfoWindowWidget(
@@ -235,6 +325,6 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
           ),
         ),
       ],
-    ); 
+    );
   }
 }

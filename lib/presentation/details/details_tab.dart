@@ -35,17 +35,46 @@ class DetailsTab extends StatelessWidget {
             children: [
               property.units.isNotEmpty
                   ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                    
-                        const BasicText(text: "Units",
-                        textStyle: TextStyle(
-                          fontSize: 16,
-                          fontStyle: FontStyle.italic
-                        ),),
-                    
-                        ListView.builder(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          BasicText(
+                            text: property.projectName,
+                            textStyle: const TextStyle(
+                                fontSize: 25,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          property.projectBy.isNotEmpty
+                              ? Column(
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const BasicText(
+                                          text: "By ",
+                                          textStyle: const TextStyle(
+                                            fontSize: 16,
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                        ),
+                                        BasicText(
+                                          text: property.projectBy,
+                                          textStyle: const TextStyle(
+                                              fontSize: 16,
+                                              color: kPrimaryColor,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16,)
+                                ],
+                              )
+                              : Container(),
+                          ListView.builder(
                             itemCount: property.units.length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
@@ -53,21 +82,21 @@ class DetailsTab extends StatelessWidget {
                               return UnitItem(unit: item);
                             },
                           ),
-                      ],
-                    ),
-                  )
+                        ],
+                      ),
+                    )
                   : Column(
-                    children: [
-                      
-                          Container(
-                        margin: const EdgeInsets.all(10),
-                        width: size.width,
-                        height: 150,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.all(10),
+                          width: size.width,
+                          height: 150,
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: kPrimaryColor,
                             boxShadow: [
-                              BoxShadow(color: kSecondaryColor, spreadRadius: 0),
+                              BoxShadow(
+                                  color: kSecondaryColor, spreadRadius: 0),
                             ],
                           ),
                           child: Padding(
@@ -102,9 +131,8 @@ class DetailsTab extends StatelessWidget {
                             ),
                           ),
                         ),
-                  
-                    ],
-                  ),
+                      ],
+                    ),
               const SizedBox(
                 height: 8,
               ),
@@ -123,10 +151,10 @@ class DetailsTab extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       BasicText(
-                        text: property.projectName,
+                        text: "Description",
                         textStyle: const TextStyle(
                           color: kSecondaryColor,
                           fontSize: 18.0,

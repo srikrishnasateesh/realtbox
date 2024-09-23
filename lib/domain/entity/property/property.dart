@@ -14,6 +14,7 @@ class Property {
   final String assetName;
   final String propertySize;
   final String projectName;
+  final String projectBy;
   final String price;
   final String location;
   final List<String> images;
@@ -38,6 +39,7 @@ class Property {
     required this.assetName,
     required this.propertySize,
     required this.projectName,
+    required this.projectBy,
     required this.price,
     required this.location,
     required this.images,

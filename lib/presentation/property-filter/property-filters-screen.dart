@@ -412,7 +412,7 @@ Future<PlaceDetail?> _handleLocationSearch(BuildContext context) async {
     onError: onError,
     mode: Mode.fullscreen,
     language: "en",
-    components: [Component(Component.country, "IN")],
+    //components: [Component(Component.country, "IN")],
   );
   if (p != null) {
     debugPrint("Prediction result: ${p.toString()}");
@@ -420,6 +420,7 @@ Future<PlaceDetail?> _handleLocationSearch(BuildContext context) async {
     debugPrint("location2: ${placeDetail.toString()}");
     return placeDetail;
   }
+  return null;
 }
 
 Future<PlaceDetail?> displayPrediction(Prediction p) async {
