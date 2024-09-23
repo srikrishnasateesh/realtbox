@@ -4,12 +4,14 @@ import 'package:realtbox/di.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/usecase/enquiry_list.dart';
 import 'package:realtbox/domain/usecase/fcm-token.dart';
+import 'package:realtbox/domain/usecase/get_property_details.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/get_refresh_token.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
+import 'package:realtbox/domain/usecase/toggle_favourite.dart';
 import 'package:realtbox/domain/usecase/user_enquiry_list.dart';
 import 'package:realtbox/domain/usecase/version-check.dart';
 import 'package:realtbox/presentation/authentication/authentication.dart';
@@ -96,20 +98,24 @@ class AppRoute {
               create: (context) => PropertListBloc(
                 getIt<GetPropertyList>(),
                 getIt<SubmitEnquiry>(),
+                getIt<ToggleFavourite>(),
               ),
               child: PropertyList(),
             );
           case RouteNames.propertyDetails:
-            return BlocProvider(
-                create: (context) => PropertDetailBloc(
-                      getIt<SubmitEnquiry>(),
-                    ),
-                child: ProjectDetailsPage(
-                    property: (settings.arguments as Property))
-                /* PropertyView(
+           debugPrint("args: ${settings.arguments}");
+          Map<String, dynamic> args =
+                settings.arguments as Map<String, dynamic>;
+            debugPrint("args: $args");
+            String id = args["id"];
+            debugPrint("id: $id");
+            return ProjectDetailsPage(
+              propertyId: id,
+              getPropertyDetails: getIt<GetPropertyDetails>(),
+            );
+          /* PropertyView(
                 property: (settings.arguments as Property),
               ), */
-                );
 
           case RouteNames.propertyDocs:
             Map<String, dynamic> args =

@@ -8,6 +8,7 @@ class ApiConstants {
   static const String refreshToken = "v1/oauth/refresh-token";
   static const String self = "v1/oauth/self";
   static const String property = "v1/property";
+  static const String propertyDetails = "v1/property";
   static const String enquiry = "v1/property-Enq/enquiry";
   static const String enquiryList = "v1/property-enq";
   static const String userEnquiryList = "v1/property-Enq/enquiry-list/list";
@@ -15,4 +16,5 @@ class ApiConstants {
   static const String amenityList = "v1/amenity";
   static const String deleteAccount = "v1/oauth/delete";
   static const String birdView = "v1/property/birdview";
+  static const String favProperty = "v1/property/favproperty";
 }

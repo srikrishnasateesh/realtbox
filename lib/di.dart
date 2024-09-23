@@ -14,12 +14,14 @@ import 'package:realtbox/domain/usecase/category-list.dart';
 import 'package:realtbox/domain/usecase/delete_account.dart';
 import 'package:realtbox/domain/usecase/enquiry_list.dart';
 import 'package:realtbox/domain/usecase/fcm-token.dart';
+import 'package:realtbox/domain/usecase/get_property_details.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/get_refresh_token.dart';
 import 'package:realtbox/domain/usecase/get_token.dart';
 import 'package:realtbox/domain/usecase/get_user_self.dart';
 import 'package:realtbox/domain/usecase/login_otp_usecase.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
+import 'package:realtbox/domain/usecase/toggle_favourite.dart';
 import 'package:realtbox/domain/usecase/user_enquiry_list.dart';
 import 'package:realtbox/domain/usecase/version-check.dart';
 
@@ -96,6 +98,13 @@ Future<void> initDI() async {
 
    getIt.registerSingleton<GetBirdView>(
     GetBirdView(repository:  getIt<PropertyRepository>()),
+  );
+  getIt.registerSingleton<GetPropertyDetails>(
+    GetPropertyDetails(repository:  getIt<PropertyRepository>()),
+  );
+
+  getIt.registerSingleton<ToggleFavourite>(
+    ToggleFavourite(repository:  getIt<PropertyRepository>()),
   );
 }
 

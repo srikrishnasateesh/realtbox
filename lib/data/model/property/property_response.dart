@@ -44,7 +44,7 @@ class PropertyData {
   final int? numberOfTowers;
   final List<Tower>? towers;
   final List<VicinityElement>? vicinity;
-  final bool? favProperty;
+  final bool favProperty;
   final List<Unit>? units;
   final double? minimumPrice;
   final double? maximumPrice;

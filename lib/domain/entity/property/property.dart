@@ -25,6 +25,7 @@ class Property {
   final List<AmenityData> amenities;
   final List<Unit> units;
   final List<double> geoLocation;
+  bool favProperty;
 
   Property({
     required this.propertyId,
@@ -48,5 +49,6 @@ class Property {
     required this.amenities,
     required this.units,
     required this.geoLocation,
+    required this.favProperty,
   });
 }

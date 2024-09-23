@@ -5,9 +5,11 @@ import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/core/base_bloc.dart';
 import 'package:realtbox/core/resources/data_state.dart';
 import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
+import 'package:realtbox/domain/entity/favourite.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
+import 'package:realtbox/domain/usecase/toggle_favourite.dart';
 import 'package:realtbox/presentation/property-filter/property-filter-entity.dart';
 
 part 'propert_list_event.dart';
@@ -15,7 +17,8 @@ part 'propert_list_state.dart';
 
 class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
   final GetPropertyList getPropertyList;
-  SubmitEnquiry submitEnquiry;
+  final SubmitEnquiry submitEnquiry;
+  final ToggleFavourite toggleFavourite;
 
   int count = 0;
 
@@ -29,6 +32,7 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
   PropertListBloc(
     this.getPropertyList,
     this.submitEnquiry,
+    this.toggleFavourite,
   ) : super(PropertListInitial()) {
     on<PropertListEvent>((event, emit) async {
       showEnquiryConfirmation = false;
@@ -57,15 +61,42 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
           final filter = propertyFilter ??
               PropertyFilter(
                 selectedAmenities: [],
-                selectedBudget: Budget(rangeValues: RangeValues(0,0)),
+                selectedBudget: Budget(rangeValues: RangeValues(0, 0)),
                 selectedLocation: null,
                 sortBy: SortBy(selectedId: ""),
               );
           emit(NavigatetoRoute(
               route: RouteNames.propertyfilters, propertyFilter: filter));
           break;
+        case OnFavouriteClicked():
+          await handleToggleFavourite(emit, event);
+          break;
       }
     });
+  }
+
+  Future<void> handleToggleFavourite(
+      Emitter<PropertListState> emit, OnFavouriteClicked event) async {
+    emit(RequestProcess());
+    final response = await toggleFavourite(params: event.id);
+    if (response is DataSuccess) {
+      Favourite? data = response.data;
+      String status = data?.status ?? "";
+      bool fav = false;
+      if (status == "Disable") {
+        fav = false;
+      } else {
+        fav = true;
+      }
+      propertyList.firstWhere((p) => p.propertyId == event.id).favProperty =
+          fav;
+      //await  fetchData(emit);
+      emit(
+        PropertListLoaded(data: propertyList, hasReachedMax: count % 20 > 0),
+      );
+    } else {
+      debugPrint("$response");
+    }
   }
 
   Future<void> handleEnquirySubmit(

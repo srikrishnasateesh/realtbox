@@ -29,3 +29,8 @@ class OnPropertyFiletr extends PropertListEvent {
 }
 
 class OnPropertyFilterClicked extends PropertListEvent {}
+class OnFavouriteClicked extends PropertListEvent {
+  final String id;
+
+  OnFavouriteClicked({required this.id});
+}

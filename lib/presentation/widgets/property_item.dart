@@ -29,8 +29,9 @@ class PropertyItem extends StatelessWidget {
     final imageUrl = property.images[0];
     return GestureDetector(
       onTap: () {
+        final args = {"id": property.propertyId};
         Navigator.pushNamed(context, RouteNames.propertyDetails,
-            arguments: property);
+            arguments: args);
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),

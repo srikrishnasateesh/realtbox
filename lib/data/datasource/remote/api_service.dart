@@ -6,6 +6,8 @@ import 'package:realtbox/data/model/category-type/category-list-dto.dart';
 import 'package:realtbox/data/model/delete_response/delete_response.dart';
 import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/data/model/enquiry_list/enquiry_list_dto.dart';
+import 'package:realtbox/data/model/favourite_dto/favourite_dto.dart';
+import 'package:realtbox/data/model/property-detail-dto/property_details_dto.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
 import 'package:realtbox/data/model/self/self_response.dart';
 import 'package:realtbox/data/model/user_enquiries/user_enquiries.dart';
@@ -62,6 +64,12 @@ abstract class ApiService {
     @Query('latitude') double? latitude,
     @Query('longitude') double? longitude,
   );
+
+@GET("${ApiConstants.propertyDetails}/{id}")
+  Future<HttpResponse<PropertyDetailsDto>> propertyDetails(
+   @Path("id") String id,
+  );
+
   @POST("${ApiConstants.enquiry}/{id}")
   Future<HttpResponse> enquiry(
     @Path("id") String id,
@@ -89,4 +97,9 @@ abstract class ApiService {
 
   @GET(ApiConstants.birdView)
   Future<HttpResponse<BirdViewDto>> birdView();
+
+  @POST("${ApiConstants.favProperty}/{id}")
+  Future<HttpResponse<FavouriteDto>> toggleFavourite(
+    @Path("id") String id,
+  );
 }

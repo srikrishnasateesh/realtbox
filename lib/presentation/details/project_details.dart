@@ -5,7 +5,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/resources/font_manager.dart';
+import 'package:realtbox/core/resources/data_state.dart';
+import 'package:realtbox/core/utils/data_utils.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
+import 'package:realtbox/domain/usecase/get_property_details.dart';
 import 'package:realtbox/presentation/details/amenities_tab.dart';
 import 'package:realtbox/presentation/details/details_tab.dart';
 import 'package:realtbox/presentation/details/documents_tab.dart';
@@ -14,14 +17,17 @@ import 'package:realtbox/presentation/details/gallery_tab.dart';
 import 'package:realtbox/presentation/details/location_tab.dart';
 import 'package:realtbox/presentation/details/video_tab.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
+import 'package:realtbox/presentation/widgets/circular_progress_bar.dart';
 
 class ProjectDetailsPage extends StatefulWidget {
-  final Property property;
+  final GetPropertyDetails getPropertyDetails;
+  final String propertyId;
   final int activePage;
-  const ProjectDetailsPage({
+  ProjectDetailsPage({
     super.key,
-    required this.property,
     this.activePage = 0,
+    required this.getPropertyDetails,
+    required this.propertyId,
   });
 
   @override
@@ -36,15 +42,29 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage>
   PageController pageController = PageController();
   List<String> imageUrls = List.empty();
   late TabController _tabController;
+  late Property property;
+  bool isLoading = true; 
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 7, vsync: this);
-    _activePage = widget.activePage;
-    imageUrls = widget.property.headerImages;
-    if (imageUrls.length > 1) {
-      startTimer();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final response = await widget.getPropertyDetails(params: widget.propertyId);
+    if (response is DataSuccess) {
+      setState(() {
+        property = response.data!;
+        isLoading = false;
+        _tabController = TabController(length: 7, vsync: this);
+        _activePage = widget.activePage;
+        imageUrls = property.headerImages;
+        if (imageUrls.length > 1) {
+          startTimer();
+        }
+        
+      });
     }
   }
 
@@ -72,158 +92,159 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage>
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 7, // Number of tabs
-      child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: SvgPicture.asset(
-                    backIosSvg,
-                    width: 60,
-                    height: 60,
-                    color: widget.property.headerImages.isNotEmpty
-                        ? kPrimaryColor
-                        : kSecondaryColor,
-                  )),
-              title: const BasicText(
-                text: 'Property Details',
-                textStyle: TextStyle(color: Colors.white),
-              ),
-              centerTitle: false,
-              pinned: true,
-              floating: true,
-              expandedHeight: 200.0,
-              flexibleSpace: FlexibleSpaceBar(
-                //title: const Text('Property Details'),
-                background: imageUrls.isNotEmpty
-                    ? PageView.builder(
-                        physics: const ClampingScrollPhysics(),
-                        controller: pageController,
-                        itemCount: imageUrls.length,
-                        onPageChanged: (value) => {
-                          if (mounted)
-                            {
-                              setState(() {
-                                _activePage = value;
-                              })
-                            }
+    return isLoading ? Center(child: CircularProgressBar()) 
+        : DefaultTabController(
+            initialIndex: 0,
+            length: 7, // Number of tabs
+            child: Scaffold(
+              body: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
                         },
-                        itemBuilder: (context, index) {
-                          return ClipRRect(
-                            // borderRadius: BorderRadius.circular(10.0),
-                            child: Image.network(
-                              imageUrls[index],
-                              fit: BoxFit.cover,
-                            ),
-                          );
-                        },
-                      )
-                    : Center(
-                        child: BasicText(
-                        text: widget.property.projectName.toUpperCase(),
-                        textStyle: const TextStyle(
-                            color: Colors.white,
-                            fontSize: FontSize.s25,
-                            fontWeight: FontWeight.bold),
-                      )),
-              ),
-              bottom: TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                unselectedLabelColor:
-                    Colors.black54, // Text color when not selected
-                labelColor: Colors.white, // Text color when selected
-                labelStyle:
-                    const TextStyle(fontWeight: FontWeight.bold), // Text style
-                indicator: BoxDecoration(
-                  color: kPrimaryColor, // Background color of the tab
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3), // Shadow position
+                        icon: SvgPicture.asset(
+                          backIosSvg,
+                          width: 60,
+                          height: 60,
+                          color: property.headerImages.isNotEmpty
+                              ? kPrimaryColor
+                              : kSecondaryColor,
+                        )),
+                    title: const BasicText(
+                      text: 'Property Details',
+                      textStyle: TextStyle(color: Colors.white),
                     ),
-                  ],
-                ),
-                tabs: const [
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Tab(text: 'Property Details'),
+                    centerTitle: false,
+                    pinned: true,
+                    floating: true,
+                    expandedHeight: 200.0,
+                    flexibleSpace: FlexibleSpaceBar(
+                      //title: const Text('Property Details'),
+                      background: imageUrls.isNotEmpty
+                          ? PageView.builder(
+                              physics: const ClampingScrollPhysics(),
+                              controller: pageController,
+                              itemCount: imageUrls.length,
+                              onPageChanged: (value) => {
+                                if (mounted)
+                                  {
+                                    setState(() {
+                                      _activePage = value;
+                                    })
+                                  }
+                              },
+                              itemBuilder: (context, index) {
+                                return ClipRRect(
+                                  // borderRadius: BorderRadius.circular(10.0),
+                                  child: Image.network(
+                                    imageUrls[index],
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              },
+                            )
+                          : Center(
+                              child: BasicText(
+                              text: property.projectName.toUpperCase(),
+                              textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: FontSize.s25,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                    ),
+                    bottom: TabBar(
+                      controller: _tabController,
+                      isScrollable: true,
+                      unselectedLabelColor:
+                          Colors.black54, // Text color when not selected
+                      labelColor: Colors.white, // Text color when selected
+                      labelStyle: const TextStyle(
+                          fontWeight: FontWeight.bold), // Text style
+                      indicator: BoxDecoration(
+                        color: kPrimaryColor, // Background color of the tab
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3), // Shadow position
+                          ),
+                        ],
+                      ),
+                      tabs: const [
+                        Padding(
+                          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: Tab(text: 'Property Details'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: Tab(text: 'Amenities'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: Tab(text: 'Location'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: Tab(text: 'Gallery'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: Tab(text: 'Floor Plan'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: Tab(text: 'Videos'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: Tab(text: 'Documents'),
+                        ),
+                      ],
+                    ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Tab(text: 'Amenities'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Tab(text: 'Location'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Tab(text: 'Gallery'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Tab(text: 'Floor Plan'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Tab(text: 'Videos'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Tab(text: 'Documents'),
+                  SliverFillRemaining(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        // Tab content for each tab
+                        DetailsTab(
+                          property: property,
+                        ),
+                        AmenitiesTab(
+                          amenityList: property.amenities,
+                        ),
+                        LocationTab(
+                          location: property.geoLocation,
+                          address: property.location,
+                          id: property.propertyId,
+                          projectName: property.projectName,
+                        ),
+                        GalleryTab(
+                          imageUrls: property.images,
+                        ),
+                        FloorPlanTab(
+                          imageUrls: property.floorImages,
+                        ),
+                        VideoTab(
+                          videoUrls: property.videos,
+                        ),
+                        DocumentsTab(
+                          projectName: property.projectName,
+                          brochureImages: property.brochureImages,
+                          buildingPlanImages: property.buildingPlanImages,
+                          floorPlanImages: property.floorImages,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-            SliverFillRemaining(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  // Tab content for each tab
-                  DetailsTab(
-                    property: widget.property,
-                  ),
-                  AmenitiesTab(
-                    amenityList: widget.property.amenities,
-                  ),
-                  LocationTab(
-                    location: widget.property.geoLocation,
-                    address: widget.property.location,
-                    id: widget.property.propertyId,
-                    projectName: widget.property.projectName,
-                  ),
-                  GalleryTab(
-                    imageUrls: widget.property.images,
-                  ),
-                  FloorPlanTab(
-                    imageUrls: widget.property.floorImages,
-                  ),
-                  VideoTab(
-                    videoUrls: widget.property.videos,
-                  ),
-                  DocumentsTab(
-                    projectName: widget.property.projectName,
-                    brochureImages: widget.property.brochureImages,
-                    buildingPlanImages: widget.property.buildingPlanImages,
-                    floorPlanImages: widget.property.floorImages,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }
 

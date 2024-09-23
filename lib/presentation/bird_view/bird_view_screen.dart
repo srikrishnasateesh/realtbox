@@ -4,6 +4,7 @@ import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
+import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/core/utils/custom_circle_icon.dart';
 import 'package:realtbox/core/utils/price-fromatter.dart';
 import 'package:realtbox/domain/entity/birdview.dart';
@@ -73,6 +74,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
                         loc.image,
                         formatStringPrice(loc.minPrice),
                         loc.minSize,
+                        loc.id
                       ),
                       position,
                     )
@@ -136,7 +138,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
           ),
           CustomInfoWindow(
             controller: _customInfoWindowController,
-            height: 300,
+            height: 330,
             width: 300,
             offset: 15,
           ),
@@ -150,12 +152,15 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
     String imageUrl,
     String price,
     String size,
+    String id,
   ) {
     return Column(
       children: [
-        Image.network(imageUrl,
-        width: double.infinity,
-        height: 150,),
+        Image.network(
+          imageUrl,
+          width: double.infinity,
+          height: 150,
+        ),
         const SizedBox(
           width: 8.0,
         ),
@@ -175,25 +180,47 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
                 children: [
                   BasicText(
                     text: title,
-                    textStyle:
-                        Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: kSecondaryColor,
-                            ),
+                    textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: kSecondaryColor,
+                        ),
                   ),
-                  const SizedBox(height: 8,),
+                  const SizedBox(
+                    height: 8,
+                  ),
                   BasicText(
                     text: "Price: $price onwards",
                     textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: kSecondaryColor,
                         ),
                   ),
-                  const SizedBox(height: 8,),
+                  const SizedBox(
+                    height: 8,
+                  ),
                   BasicText(
                     text: "Size: $size onwards",
                     textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: kSecondaryColor,
                         ),
                   ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Center(
+                    child: FilledButton.icon(
+                      onPressed: (){
+                        Object args = {"id": id};
+                              Navigator.pushNamed(
+                                  context, RouteNames.propertyDetails,
+                                  arguments: args);
+                      },
+                      icon: const Icon(Icons.remove_red_eye_sharp),
+                      label: const Text('View Details'),
+                      iconAlignment: IconAlignment.end,
+                      style: FilledButton.styleFrom(
+                          backgroundColor: kPrimaryColor,
+                          foregroundColor: Colors.white),
+                    ),
+                  )
                 ],
               ),
             ),

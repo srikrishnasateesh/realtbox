@@ -8,12 +8,14 @@ import 'package:realtbox/data/model/birdview/birdview_dto.dart';
 import 'package:realtbox/data/model/category-type/category-list-dto.dart';
 import 'package:realtbox/data/model/enquiry/enquiry_request.dart';
 import 'package:realtbox/data/model/enquiry_list/enquiry_list_dto.dart';
+import 'package:realtbox/data/model/favourite_dto/favourite_dto.dart';
 import 'package:realtbox/data/model/property/property_response.dart';
 import 'package:realtbox/data/model/user_enquiries/user_enquiries.dart';
 import 'package:realtbox/domain/entity/amenity.dart';
 import 'package:realtbox/domain/entity/birdview.dart';
 import 'package:realtbox/domain/entity/category-type/category.dart';
 import 'package:realtbox/domain/entity/enquiry_list/enquiry_data_model.dart';
+import 'package:realtbox/domain/entity/favourite.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/entity/user_enquiry.dart';
 import 'package:realtbox/domain/repository/propert_repository.dart';
@@ -102,6 +104,7 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       units: propertyData.units ?? List.empty(),
       geoLocation: propertyData.address?.location ?? List.empty(),
       videos: propertyData.video ?? List.empty(),
+      favProperty: propertyData.favProperty ?? false,
     );
   }
 
@@ -238,12 +241,11 @@ class PropertyRepositoryImplementation extends PropertyRepository {
   }
 
   @override
-  Future<DataState<List<BirdView>>> birdView() async{
+  Future<DataState<List<BirdView>>> birdView() async {
     final httpResponse = await apiService.birdView();
     if (httpResponse.response.statusCode == HttpStatus.ok) {
       List<BirdViewData> dataList = httpResponse.data.data ?? List.empty();
-      List<BirdView> list =
-          dataList.map(birdviewDtoToBirdView).toList();
+      List<BirdView> list = dataList.map(birdviewDtoToBirdView).toList();
       return DataSuccess(list);
     } else {
       return DataFailed(
@@ -257,8 +259,6 @@ class PropertyRepositoryImplementation extends PropertyRepository {
     }
   }
 
-  
-
   BirdView birdviewDtoToBirdView(BirdViewData data) {
     return BirdView(
       id: data.id ?? "",
@@ -271,4 +271,74 @@ class PropertyRepositoryImplementation extends PropertyRepository {
     );
   }
 
+  @override
+  Future<DataState<Property>> getPropertiesDetails(String id) async {
+    try {
+      final httpResponse = await apiService.propertyDetails(id);
+      if (httpResponse.response.statusCode == HttpStatus.ok) {
+        final response = httpResponse.data;
+        if (response.success) {
+          PropertyData propertyData = response.data;
+          return DataSuccess(convertPropertyDataToProperty(propertyData));
+        } else {
+          return DataFailed(
+            DioException(
+                error: httpResponse.response.statusMessage,
+                response: httpResponse.response,
+                type: DioExceptionType.unknown,
+                requestOptions: httpResponse.response.requestOptions),
+            null,
+          );
+        }
+      } else {
+        return DataFailed(
+          DioException(
+              error: httpResponse.response.statusMessage,
+              response: httpResponse.response,
+              type: DioExceptionType.unknown,
+              requestOptions: httpResponse.response.requestOptions),
+          null,
+        );
+      }
+    } on DioException catch (e) {
+      return DataFailed(e, null);
+    }
+  }
+
+  @override
+  Future<DataState<Favourite>> toggleFavorite(String id) async {
+    try {
+      final httpResponse = await apiService.toggleFavourite(id);
+      if (httpResponse.response.statusCode == HttpStatus.ok) {
+        final response = httpResponse.data;
+        if (response.success) {
+          FavouriteData? data = response.data;
+          return DataSuccess(Favourite(
+            propertyId: data?.propertyId ?? "",
+            status: data?.status ?? "",
+          ));
+        } else {
+          return DataFailed(
+            DioException(
+                error: httpResponse.response.statusMessage,
+                response: httpResponse.response,
+                type: DioExceptionType.unknown,
+                requestOptions: httpResponse.response.requestOptions),
+            null,
+          );
+        }
+      } else {
+        return DataFailed(
+          DioException(
+              error: httpResponse.response.statusMessage,
+              response: httpResponse.response,
+              type: DioExceptionType.unknown,
+              requestOptions: httpResponse.response.requestOptions),
+          null,
+        );
+      }
+    } on DioException catch (e) {
+      return DataFailed(e, null);
+    }
+  }
 }

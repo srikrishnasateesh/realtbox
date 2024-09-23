@@ -13,6 +13,7 @@ class PropertyItemNew extends StatelessWidget {
   final int index;
   final VoidCallback onEnquiryClicked;
   final VoidCallback onEnquiryListClicked;
+  final VoidCallback favouriteClicked;
   final bool showEnquiry;
   const PropertyItemNew({
     super.key,
@@ -21,12 +22,14 @@ class PropertyItemNew extends StatelessWidget {
     required this.onEnquiryClicked,
     required this.showEnquiry,
     required this.onEnquiryListClicked,
+    required this.favouriteClicked,
   });
 
   @override
   Widget build(BuildContext context) {
     final imageUrl = property.images[0];
-    
+    debugPrint("${property.projectName} is fav ${property.favProperty}");
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -39,15 +42,36 @@ class PropertyItemNew extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Ink.image(
-                  image: NetworkImage(
-                    imageUrl,
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Ink.image(
+                      image: NetworkImage(
+                        imageUrl,
+                      ),
+                      height: 150,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
+                  // Favorite icon
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: GestureDetector(
+                      onTap: () {
+                        favouriteClicked();
+                      }, //toggleFavorite,
+                      child: Icon(
+                        property.favProperty
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: property.favProperty ? Colors.red : Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -72,7 +96,8 @@ class PropertyItemNew extends StatelessWidget {
                             height: 4,
                           ),
                           BasicText(
-                            text: '\u{20B9} ${formatStringPrice(property.price)}',
+                            text:
+                                '\u{20B9} ${formatStringPrice(property.price)}',
                             textStyle: const TextStyle(
                               color: Color(0XFFFF5B19),
                               fontSize: 14.0,
@@ -130,23 +155,24 @@ class PropertyItemNew extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 5,),
+                        const SizedBox(
+                          height: 5,
+                        ),
                         SizedBox(
                           width: 150,
                           height: 30,
                           child: ElevatedButton(
                             onPressed: () {
+                              final args = {"id": property.propertyId};
                               Navigator.pushNamed(
                                   context, RouteNames.propertyDetails,
-                                  arguments: property);
+                                  arguments: args);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                side: BorderSide(color: kSecondaryColor)
-                              ),
-                            
+                                  borderRadius: BorderRadius.circular(50),
+                                  side: BorderSide(color: kSecondaryColor)),
                             ),
                             child: const Text(
                               "View Project",

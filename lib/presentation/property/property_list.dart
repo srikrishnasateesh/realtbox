@@ -201,6 +201,11 @@ class PropertyList extends StatelessWidget {
                                           "propName": name
                                         });
                                   },
+                                  favouriteClicked: () {
+                                    String propertyId = list[index].propertyId;
+                                    context.read<PropertListBloc>().add(
+                                        OnFavouriteClicked(id: propertyId));
+                                  },
                                 );
                               },
                             ),
