@@ -256,6 +256,118 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<HttpResponse<PropertyResponse>> savedPropertyList(
+    int skip,
+    String? categoryName,
+    String? amenity_in,
+    String? price_min,
+    String? price_max,
+    String? sort,
+    String? sortDir,
+    double? latitude,
+    double? longitude,
+    bool onlyFavourites,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'skip': skip,
+      r'categoryName': categoryName,
+      r'amenity_in': amenity_in,
+      r'price_min': price_min,
+      r'price_max': price_max,
+      r'sort': sort,
+      r'sortDir': sortDir,
+      r'latitude': latitude,
+      r'longitude': longitude,
+      r'onlyFavourites': onlyFavourites,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<PropertyResponse>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'v1/property',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late PropertyResponse _value;
+    try {
+      _value = PropertyResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<PropertyResponse>> lastViewdpropertyList(
+    int skip,
+    String? categoryName,
+    String? amenity_in,
+    String? price_min,
+    String? price_max,
+    String? sort,
+    String? sortDir,
+    double? latitude,
+    double? longitude,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'skip': skip,
+      r'categoryName': categoryName,
+      r'amenity_in': amenity_in,
+      r'price_min': price_min,
+      r'price_max': price_max,
+      r'sort': sort,
+      r'sortDir': sortDir,
+      r'latitude': latitude,
+      r'longitude': longitude,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<PropertyResponse>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'v1/property/lastviewed',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late PropertyResponse _value;
+    try {
+      _value = PropertyResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
   Future<HttpResponse<PropertyDetailsDto>> propertyDetails(String id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

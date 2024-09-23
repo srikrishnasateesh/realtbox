@@ -55,22 +55,24 @@ class PropertyItemNew extends StatelessWidget {
                     ),
                   ),
                   // Favorite icon
-                  Positioned(
+                 showEnquiry ? Positioned(
                     top: 10,
                     right: 10,
                     child: GestureDetector(
                       onTap: () {
                         favouriteClicked();
                       }, //toggleFavorite,
-                      child: Icon(
-                        property.favProperty
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: property.favProperty ? Colors.red : Colors.white,
-                        size: 30,
+                      child: CircleAvatar(
+                        child: Icon(
+                          property.favProperty
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: property.favProperty ? Colors.red : Colors.white,
+                          size: 30,
+                        ),
                       ),
                     ),
-                  ),
+                  ) : Container(),
                 ],
               ),
               Padding(

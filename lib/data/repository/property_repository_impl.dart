@@ -41,8 +41,6 @@ class PropertyRepositoryImplementation extends PropertyRepository {
     double? longitude,
   ) async {
     try {
-      /* return DataSuccess(LoginResponseModel(
-          success: true, data: Data(message: "mes", isExists: false))); */
       final httpResponse = await apiService.propertyList(skip, category,
           amenity_in, price_min, price_max, sort, sortDir, latitude, longitude);
       debugPrint(httpResponse.toString());
@@ -335,6 +333,105 @@ class PropertyRepositoryImplementation extends PropertyRepository {
               type: DioExceptionType.unknown,
               requestOptions: httpResponse.response.requestOptions),
           null,
+        );
+      }
+    } on DioException catch (e) {
+      return DataFailed(e, null);
+    }
+  }
+
+  @override
+  Future<DataState<List<Property>>> getSavedPropertiesList(
+      int skip,
+      String? category,
+      String? amenitiesIn,
+      String? price_min,
+      String? price_max,
+      String? sort,
+      String? sortDir,
+      double? latitude,
+      double? longitude,
+      bool onlyFavourites) async {
+    try {
+      final httpResponse = await apiService.savedPropertyList(
+          skip,
+          category,
+          amenitiesIn,
+          price_min,
+          price_max,
+          sort,
+          sortDir,
+          latitude,
+          longitude,
+          true);
+      debugPrint(httpResponse.toString());
+      if (httpResponse.response.statusCode == HttpStatus.ok) {
+        final response = httpResponse.data;
+        if (response.success) {
+          List<PropertyData> propertyDataList = response.data;
+          List<Property> list =
+              propertyDataList.map(convertPropertyDataToProperty).toList();
+          return DataSuccess(list);
+        } else {
+          return DataSuccess(List.empty());
+        }
+      } else {
+        return DataFailed(
+          DioException(
+              error: httpResponse.response.statusMessage,
+              response: httpResponse.response,
+              type: DioExceptionType.unknown,
+              requestOptions: httpResponse.response.requestOptions),
+          List.empty(),
+        );
+      }
+    } on DioException catch (e) {
+      return DataFailed(e, null);
+    }
+  }
+
+  @override
+  Future<DataState<List<Property>>> getLastViewedPropertiesList(
+      int skip,
+      String? category,
+      String? amenitiesIn,
+      String? price_min,
+      String? price_max,
+      String? sort,
+      String? sortDir,
+      double? latitude,
+      double? longitude) async {
+    try {
+      final httpResponse = await apiService.lastViewdpropertyList(
+        skip,
+        category,
+        amenitiesIn,
+        price_min,
+        price_max,
+        sort,
+        sortDir,
+        latitude,
+        longitude,
+      );
+      debugPrint(httpResponse.toString());
+      if (httpResponse.response.statusCode == HttpStatus.ok) {
+        final response = httpResponse.data;
+        if (response.success) {
+          List<PropertyData> propertyDataList = response.data;
+          List<Property> list =
+              propertyDataList.map(convertPropertyDataToProperty).toList();
+          return DataSuccess(list);
+        } else {
+          return DataSuccess(List.empty());
+        }
+      } else {
+        return DataFailed(
+          DioException(
+              error: httpResponse.response.statusMessage,
+              response: httpResponse.response,
+              type: DioExceptionType.unknown,
+              requestOptions: httpResponse.response.requestOptions),
+          List.empty(),
         );
       }
     } on DioException catch (e) {

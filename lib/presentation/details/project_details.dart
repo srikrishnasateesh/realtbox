@@ -59,7 +59,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage>
         isLoading = false;
         _tabController = TabController(length: 7, vsync: this);
         _activePage = widget.activePage;
-        imageUrls = property.headerImages;
+       // imageUrls = property.headerImages;
         if (imageUrls.length > 1) {
           startTimer();
         }
@@ -108,9 +108,9 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage>
                           backIosSvg,
                           width: 60,
                           height: 60,
-                          color: property.headerImages.isNotEmpty
+                          color: /* property.headerImages.isNotEmpty
                               ? kPrimaryColor
-                              : kSecondaryColor,
+                              : */ kSecondaryColor,
                         )),
                     title: const BasicText(
                       text: 'Property Details',

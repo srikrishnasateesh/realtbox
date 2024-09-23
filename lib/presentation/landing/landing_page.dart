@@ -13,6 +13,9 @@ import 'package:realtbox/presentation/profile/bloc/profile_bloc.dart';
 import 'package:realtbox/presentation/profile/profile_page.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
 import 'package:realtbox/presentation/property/property_list.dart';
+import 'package:realtbox/presentation/property/property_list_type.dart';
+import 'package:realtbox/presentation/saved/bloc/saved_bloc.dart';
+import 'package:realtbox/presentation/saved/saved_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -37,14 +40,19 @@ class LandingPage extends StatelessWidget {
                         getIt<GetPropertyList>(),
                         getIt<SubmitEnquiry>(),
                         getIt<ToggleFavourite>(),
+                        PropertyListType.normal,
                       ),
                       child: PropertyList(),
                     );
+                  case LandingMapState():
+                    return BirdViewScreen(
+                      getBirdView: getIt<GetBirdView>(),
+                    );
 
                   case LandingSavedState():
-                    return  BirdViewScreen(
-                      getBirdView: 
-                      getIt<GetBirdView>(),
+                    return BlocProvider(
+                      create: (context) => SavedBloc(),
+                      child: const SavedPage(),
                     );
                   case LandingProfileState():
                     return BlocProvider(
@@ -99,34 +107,36 @@ class LandingPage extends StatelessWidget {
                                       : kSecondaryColor,
                                 ),
                                 label: "Properties"),
-                                BottomNavigationBarItem(
-                                icon: /* Image.asset(
-                                  savedPng,
-                                  height: 30,
-                                  width: 30,
-                                  color: landingBloc.currentIndex == 1
-                                      ? kPrimaryColor
-                                      : kSecondaryColor,
-                                ), */
-                                Icon(Icons.map,
+                            BottomNavigationBarItem(
+                              icon: Icon(
+                                Icons.map,
                                 size: 30,
-                                 color: landingBloc.currentIndex == 1
-                                      ? kPrimaryColor
-                                      : kSecondaryColor,),
-                                label: "Map View",
-                               
-                                ),
-                                BottomNavigationBarItem(
+                                color: landingBloc.currentIndex == 1
+                                    ? kPrimaryColor
+                                    : kSecondaryColor,
+                              ),
+                              label: "Map View",
+                            ),
+                            BottomNavigationBarItem(
                                 icon: Image.asset(
-                                  profilePng,
+                                  savedPng,
                                   height: 30,
                                   width: 30,
                                   color: landingBloc.currentIndex == 2
                                       ? kPrimaryColor
                                       : kSecondaryColor,
                                 ),
+                                label: "Saved"),
+                            BottomNavigationBarItem(
+                                icon: Image.asset(
+                                  profilePng,
+                                  height: 30,
+                                  width: 30,
+                                  color: landingBloc.currentIndex == 3
+                                      ? kPrimaryColor
+                                      : kSecondaryColor,
+                                ),
                                 label: "Profile"),
-                            
                           ],
                           onTap: (index) =>
                               BlocProvider.of<LandingBloc>(context).add(

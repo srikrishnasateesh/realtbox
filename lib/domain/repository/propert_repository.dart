@@ -20,6 +20,29 @@ abstract class PropertyRepository {
     double? latitude,
     double? longitude,
   );
+  Future<DataState<List<Property>>> getSavedPropertiesList(
+    int skip,
+    String? category,
+    String? amenitiesIn,
+    String? price_min,
+    String? price_max,
+    String? sort,
+    String? sortDir,
+    double? latitude,
+    double? longitude,
+   final bool onlyFavourites,
+  );
+   Future<DataState<List<Property>>> getLastViewedPropertiesList(
+    int skip,
+    String? category,
+    String? amenitiesIn,
+    String? price_min,
+    String? price_max,
+    String? sort,
+    String? sortDir,
+    double? latitude,
+    double? longitude,
+  );
    Future<DataState<Property>> getPropertiesDetails(
     String id,
   );

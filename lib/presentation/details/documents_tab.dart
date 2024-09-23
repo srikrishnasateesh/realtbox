@@ -176,8 +176,9 @@ class _DocumentsTabState extends State<DocumentsTab>
                                       label: const Text('Brochure'),
                                       iconAlignment: IconAlignment.end,
                                       style: FilledButton.styleFrom(
-                                          backgroundColor: kPrimaryColor,
-                                          foregroundColor: Colors.white),
+                                        backgroundColor: kPrimaryColor,
+                                        foregroundColor: kSecondaryColor,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(
@@ -201,8 +202,9 @@ class _DocumentsTabState extends State<DocumentsTab>
                                       label: const Text('Building Plan'),
                                       iconAlignment: IconAlignment.end,
                                       style: FilledButton.styleFrom(
-                                          backgroundColor: kPrimaryColor,
-                                          foregroundColor: Colors.white),
+                                        backgroundColor: kPrimaryColor,
+                                        foregroundColor: kSecondaryColor,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(
@@ -225,8 +227,9 @@ class _DocumentsTabState extends State<DocumentsTab>
                                       label: const Text('Floor Plan'),
                                       iconAlignment: IconAlignment.end,
                                       style: FilledButton.styleFrom(
-                                          backgroundColor: kPrimaryColor,
-                                          foregroundColor: Colors.white),
+                                        backgroundColor: kPrimaryColor,
+                                        foregroundColor: kSecondaryColor,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(

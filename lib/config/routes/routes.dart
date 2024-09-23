@@ -28,6 +28,7 @@ import 'package:realtbox/presentation/property-filter/property-filter-entity.dar
 import 'package:realtbox/presentation/property-filter/property-filters-screen.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
 import 'package:realtbox/presentation/property/property_list.dart';
+import 'package:realtbox/presentation/property/property_list_type.dart';
 import 'package:realtbox/presentation/property_details/bloc/propert_detail_bloc.dart';
 import 'package:realtbox/presentation/property_details/property_details_screen.dart';
 import 'package:realtbox/presentation/property_details/property_view.dart';
@@ -99,6 +100,7 @@ class AppRoute {
                 getIt<GetPropertyList>(),
                 getIt<SubmitEnquiry>(),
                 getIt<ToggleFavourite>(),
+                PropertyListType.normal
               ),
               child: PropertyList(),
             );

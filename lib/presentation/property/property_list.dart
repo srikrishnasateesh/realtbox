@@ -19,6 +19,7 @@ import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
 import 'package:realtbox/presentation/widgets/new_property_item.dart';
 
 class PropertyList extends StatelessWidget {
+ 
   bool isRefreshing = false;
   bool showEnquiry = false;
 
@@ -181,14 +182,7 @@ class PropertyList extends StatelessWidget {
                                       debugPrint("PropertyId: $propertyId");
                                       showBottomSheet(context, propertyId);
                                     } else {
-                                      showConfirmationDialog(context,
-                                          title: "Login required",
-                                          content: StringConstants.loginMessage,
-                                          showSecondaryAction: true,
-                                          onConfirmed: () {
-                                        Navigator.pushNamed(
-                                            context, RouteNames.authentication);
-                                      }, onCancelled: () {});
+                                      showLoginDialog(context);
                                     }
                                   },
                                   onEnquiryListClicked: () {
@@ -202,9 +196,14 @@ class PropertyList extends StatelessWidget {
                                         });
                                   },
                                   favouriteClicked: () {
-                                    String propertyId = list[index].propertyId;
-                                    context.read<PropertListBloc>().add(
-                                        OnFavouriteClicked(id: propertyId));
+                                    if (token.isNotEmpty) {
+                                      String propertyId =
+                                          list[index].propertyId;
+                                      context.read<PropertListBloc>().add(
+                                          OnFavouriteClicked(id: propertyId));
+                                    } else {
+                                      showLoginDialog(context);
+                                    }
                                   },
                                 );
                               },
@@ -224,6 +223,16 @@ class PropertyList extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showLoginDialog(BuildContext context) {
+    showConfirmationDialog(context,
+        title: "Login required",
+        content: StringConstants.loginMessage,
+        confirmButtonText: "Login Now",
+        showSecondaryAction: true, onConfirmed: () {
+      Navigator.pushNamed(context, RouteNames.authentication);
+    }, onCancelled: () {});
   }
 
   void showBottomSheet(

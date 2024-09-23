@@ -44,7 +44,7 @@ abstract class ApiService {
     @Body() TokenRequest tokenRequest,
   );
 
-   @POST(ApiConstants.refreshToken)
+  @POST(ApiConstants.refreshToken)
   Future<HttpResponse<TokenResponse>> refreshToken(
     @Body() RefreshTokenRequest tokenRequest,
   );
@@ -65,9 +65,36 @@ abstract class ApiService {
     @Query('longitude') double? longitude,
   );
 
-@GET("${ApiConstants.propertyDetails}/{id}")
+   @GET(ApiConstants.property)
+  Future<HttpResponse<PropertyResponse>> savedPropertyList(
+    @Query('skip') int skip,
+    @Query('categoryName') String? categoryName,
+    @Query('amenity_in') String? amenity_in,
+    @Query('price_min') String? price_min,
+    @Query('price_max') String? price_max,
+    @Query('sort') String? sort,
+    @Query('sortDir') String? sortDir,
+    @Query('latitude') double? latitude,
+    @Query('longitude') double? longitude,
+    @Query('onlyFavourites') bool onlyFavourites,
+  );
+
+  @GET(ApiConstants.propertyLastViewd)
+  Future<HttpResponse<PropertyResponse>> lastViewdpropertyList(
+    @Query('skip') int skip,
+    @Query('categoryName') String? categoryName,
+    @Query('amenity_in') String? amenity_in,
+    @Query('price_min') String? price_min,
+    @Query('price_max') String? price_max,
+    @Query('sort') String? sort,
+    @Query('sortDir') String? sortDir,
+    @Query('latitude') double? latitude,
+    @Query('longitude') double? longitude,
+  );
+
+  @GET("${ApiConstants.propertyDetails}/{id}")
   Future<HttpResponse<PropertyDetailsDto>> propertyDetails(
-   @Path("id") String id,
+    @Path("id") String id,
   );
 
   @POST("${ApiConstants.enquiry}/{id}")

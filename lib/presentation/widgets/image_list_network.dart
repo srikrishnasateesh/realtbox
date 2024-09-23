@@ -13,6 +13,7 @@ class NetWorkImageList extends StatelessWidget {
         itemCount: imageUrls.length,  // Number of items (image URLs) in the list
         itemBuilder: (context, index) {
           return Card(
+            color: Colors.white,
             shadowColor: kPrimaryColor,
             elevation: 20,
             child: Padding(

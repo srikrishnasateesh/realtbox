@@ -11,6 +11,7 @@ import 'package:realtbox/domain/usecase/get_property_list.dart';
 import 'package:realtbox/domain/usecase/submit_enquiry.dart';
 import 'package:realtbox/domain/usecase/toggle_favourite.dart';
 import 'package:realtbox/presentation/property-filter/property-filter-entity.dart';
+import 'package:realtbox/presentation/property/property_list_type.dart';
 
 part 'propert_list_event.dart';
 part 'propert_list_state.dart';
@@ -19,6 +20,7 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
   final GetPropertyList getPropertyList;
   final SubmitEnquiry submitEnquiry;
   final ToggleFavourite toggleFavourite;
+  final PropertyListType propertyListType;
 
   int count = 0;
 
@@ -33,6 +35,7 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
     this.getPropertyList,
     this.submitEnquiry,
     this.toggleFavourite,
+    this.propertyListType,
   ) : super(PropertListInitial()) {
     on<PropertListEvent>((event, emit) async {
       showEnquiryConfirmation = false;
@@ -88,8 +91,12 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
       } else {
         fav = true;
       }
-      propertyList.firstWhere((p) => p.propertyId == event.id).favProperty =
-          fav;
+      Property prop = propertyList.firstWhere((p) => p.propertyId == event.id);
+      if (propertyListType != PropertyListType.saved) {
+        prop.favProperty = fav;
+      } else {
+        propertyList.remove(prop);
+      }
       //await  fetchData(emit);
       emit(
         PropertListLoaded(data: propertyList, hasReachedMax: count % 20 > 0),
@@ -145,7 +152,10 @@ class PropertListBloc extends BaseBlock<PropertListEvent, PropertListState> {
   Future<DataState<List<Property>>> getData(
       Emitter<PropertListState> emit) async {
     final params = PropertyRequest(
-        category: category, propertyFilter: propertyFilter, skip: count);
+        category: category,
+        propertyFilter: propertyFilter,
+        skip: count,
+        propertyListType: propertyListType);
     return await getPropertyList(
       params: params,
     );

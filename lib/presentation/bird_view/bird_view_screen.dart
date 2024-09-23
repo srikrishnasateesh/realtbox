@@ -28,16 +28,6 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
       CameraPosition(target: LatLng(17.4065, 78.4772), zoom: 11);
 
   final List<Marker> _markers = [];
-  final List<Marker> _branch = const [
-    Marker(
-        markerId: MarkerId("1"),
-        position: LatLng(17.4435, 78.3772),
-        infoWindow: InfoWindow(title: "Hitex")),
-    Marker(
-        markerId: MarkerId("2"),
-        position: LatLng(17.41905996864118, 78.35000421534583),
-        infoWindow: InfoWindow(title: "Ankur"))
-  ];
   late List<BirdView> _markersData;
 
   @override
@@ -69,13 +59,8 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
               _center = CameraPosition(target: position, zoom: 14);
               Future.delayed(const Duration(seconds: 1)).then((value) => {
                     _customInfoWindowController.addInfoWindow!(
-                      _customInfoWindowWidget(
-                        loc.projectName,
-                        loc.image,
-                        formatStringPrice(loc.minPrice),
-                        loc.minSize,
-                        loc.id
-                      ),
+                      _customInfoWindowWidget(loc.projectName, loc.image,
+                          formatStringPrice(loc.minPrice), loc.minSize, loc.id),
                       position,
                     )
                   });
@@ -83,36 +68,52 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
           },
         ));
       }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _setMapBounds();
+      });
     });
   }
 
-  Future<void> loadMarkers() async {
-    final BitmapDescriptor circleIcon =
-        await createCustomCircleIcon(60.0, Colors.red);
 
-    /*  setState(() {
-      for (Marker loc in _branch) {
-        debugPrint("Adding loc ${loc.markerId}");
-        _markers.add(Marker(
-          markerId: loc.markerId,
-          position: loc.position,
-          icon: circleIcon,
-          //infoWindow: loc.infoWindow,
-          onTap: () {
-            _customInfoWindowController.hideInfoWindow!();
-            setState(() {
-              _center = CameraPosition(target: loc.position, zoom: 14);
-              Future.delayed(const Duration(seconds: 1)).then((value) => {
-                    _customInfoWindowController.addInfoWindow!(
-                      _customInfoWindowWidget("ww"),
-                      loc.position,
-                    )
-                  });
-            });
-          },
-        ));
+  Future<void> _setMapBounds() async {
+    final GoogleMapController controller = await _mapController.future;
+
+    if (_markers.isNotEmpty) {
+      LatLngBounds bounds = _getLatLngBounds(_markers);
+
+      // Move the camera to show all markers within bounds with padding
+      CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 50);
+      controller.animateCamera(cameraUpdate);
+    }
+  }
+
+// Function to calculate LatLngBounds based on markers
+  LatLngBounds _getLatLngBounds(List<Marker> markers) {
+    double? minLat, maxLat, minLng, maxLng;
+
+    for (var marker in markers) {
+      final lat = marker.position.latitude;
+      final lng = marker.position.longitude;
+
+      if (minLat == null || lat < minLat) {
+        minLat = lat;
       }
-    }); */
+      if (maxLat == null || lat > maxLat) {
+        maxLat = lat;
+      }
+      if (minLng == null || lng < minLng) {
+        minLng = lng;
+      }
+      if (maxLng == null || lng > maxLng) {
+        maxLng = lng;
+      }
+    }
+
+    // Return LatLngBounds using the southwest (minLat, minLng) and northeast (maxLat, maxLng)
+    return LatLngBounds(
+      southwest: LatLng(minLat!, minLng!),
+      northeast: LatLng(maxLat!, maxLng!),
+    );
   }
 
   @override
@@ -124,7 +125,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
           GoogleMap(
             zoomControlsEnabled: true,
             zoomGesturesEnabled: true,
-            mapType: MapType.satellite,
+            mapType: MapType.normal,
             myLocationButtonEnabled: false,
             initialCameraPosition: _center,
             markers: Set<Marker>.of(_markers),
@@ -207,11 +208,10 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
                   ),
                   Center(
                     child: FilledButton.icon(
-                      onPressed: (){
+                      onPressed: () {
                         Object args = {"id": id};
-                              Navigator.pushNamed(
-                                  context, RouteNames.propertyDetails,
-                                  arguments: args);
+                        Navigator.pushNamed(context, RouteNames.propertyDetails,
+                            arguments: args);
                       },
                       icon: const Icon(Icons.remove_red_eye_sharp),
                       label: const Text('View Details'),
@@ -235,30 +235,6 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
           ),
         ),
       ],
-    ); /* Container(
-      width: 200,
-      height: 100,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.5),
-            blurRadius: 8,
-          ),
-        ],
-      ),
-      child: const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Custom Info Window',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 4),
-          Text('This is a custom description'),
-        ],
-      ),
-    ); */
+    ); 
   }
 }

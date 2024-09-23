@@ -5,16 +5,19 @@ import 'package:realtbox/core/usecase/usecase.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/domain/repository/propert_repository.dart';
 import 'package:realtbox/presentation/property-filter/property-filter-entity.dart';
+import 'package:realtbox/presentation/property/property_list_type.dart';
 
 class PropertyRequest {
   final String? category;
   final PropertyFilter? propertyFilter;
   final int skip;
+  final PropertyListType propertyListType;
 
   PropertyRequest({
     required this.category,
     required this.skip,
     this.propertyFilter,
+    required this.propertyListType,
   });
 }
 
@@ -26,9 +29,10 @@ class GetPropertyList
   @override
   Future<DataState<List<Property>>> call({PropertyRequest? params}) {
     String? amenitiesIn =
-        params?.propertyFilter?.selectedAmenities.map((e) => e.id).join(",") ?? "";
+        params?.propertyFilter?.selectedAmenities.map((e) => e.id).join(",") ??
+            "";
     final rangeValues = params?.propertyFilter?.selectedBudget;
-    if(amenitiesIn.isEmpty){
+    if (amenitiesIn.isEmpty) {
       amenitiesIn = null;
     }
     //price
@@ -64,22 +68,52 @@ class GetPropertyList
     double? lat;
     double? lng;
     if (place != null) {
-      if(place.lattitude!=0.0 && place.longitude!=0.0){
+      if (place.lattitude != 0.0 && place.longitude != 0.0) {
         lat = place.lattitude;
         lng = place.longitude;
       }
     }
 
-    return repository.getPropertiesList(
-      params?.skip ?? 0,
-      params?.category,
-      amenitiesIn,
-      priceMin,
-      priceMax,
-      sort,
-      sortDir,
-      lat,
-      lng,
-    );
+    PropertyListType listType =
+        params?.propertyListType ?? PropertyListType.normal;
+    if (listType == PropertyListType.saved) {
+      return repository.getSavedPropertiesList(
+        params?.skip ?? 0,
+        params?.category,
+        amenitiesIn,
+        priceMin,
+        priceMax,
+        sort,
+        sortDir,
+        lat,
+        lng,
+        true,
+      );
+    } else if (listType == PropertyListType.lastViewed) {
+      return repository.getLastViewedPropertiesList(
+        params?.skip ?? 0,
+        params?.category,
+        amenitiesIn,
+        priceMin,
+        priceMax,
+        sort,
+        sortDir,
+        lat,
+        lng,
+      );
+    } 
+     else {
+      return repository.getPropertiesList(
+        params?.skip ?? 0,
+        params?.category,
+        amenitiesIn,
+        priceMin,
+        priceMax,
+        sort,
+        sortDir,
+        lat,
+        lng,
+      );
+    }
   }
 }

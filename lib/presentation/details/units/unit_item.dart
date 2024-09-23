@@ -15,6 +15,7 @@ class UnitItem extends StatelessWidget {
       // margin: const EdgeInsets.only(right: 24.0),
       padding: const EdgeInsets.only(left: 24, right: 24, top: 0, bottom: 0),
       child: Card(
+        color: Colors.white,
         elevation: 4.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
