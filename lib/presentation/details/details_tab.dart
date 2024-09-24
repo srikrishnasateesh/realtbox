@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
+import 'package:realtbox/config/resources/font_manager.dart';
 import 'package:realtbox/core/utils/price-fromatter.dart';
 import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/presentation/details/units/unit_item.dart';
 import 'package:realtbox/presentation/details/units/unit_item_header.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
+import 'package:realtbox/presentation/widgets/border_text.dart';
 
 class DetailsTab extends StatelessWidget {
   final Property property;
@@ -47,10 +49,12 @@ class DetailsTab extends StatelessWidget {
                           ),
                           property.projectBy.isNotEmpty
                               ? Column(
-                                children: [
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         const BasicText(
                                           text: "By ",
@@ -67,13 +71,17 @@ class DetailsTab extends StatelessWidget {
                                               fontStyle: FontStyle.normal,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        
                                       ],
                                     ),
-                                    const SizedBox(height: 16,)
-                                ],
-                              )
+                                    const SizedBox(
+                                      height: 16,
+                                    )
+                                  ],
+                                )
                               : Container(),
+                          const SizedBox(
+                            height: 8,
+                          ),
                           ListView.builder(
                             itemCount: property.units.length,
                             shrinkWrap: true,
@@ -136,6 +144,47 @@ class DetailsTab extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //category name
+                    BorderedText(
+                      text: property.categoryName,
+                      borderColor: Colors.blueGrey,
+                      borderRadius: 12.0,
+                      borderWidth: 1,
+                      textStyle: const TextStyle(
+                        color: kPrimaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: FontSize.s14,
+                        fontFamily: FontConstants.fontFamily,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    //size
+                    BorderedText(
+                      text: property.subCategoryName,
+                      borderColor: Colors.blueAccent,
+                      borderRadius: 12.0,
+                      borderWidth: 1,
+                      textStyle: const TextStyle(
+                        color: kPrimaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: FontSize.s14,
+                        fontFamily: FontConstants.fontFamily,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 margin: const EdgeInsets.all(8),
                 width: MediaQuery.of(context).size.width,
@@ -153,9 +202,9 @@ class DetailsTab extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      BasicText(
+                      const BasicText(
                         text: "Description",
-                        textStyle: const TextStyle(
+                        textStyle: TextStyle(
                           color: kSecondaryColor,
                           fontSize: 18.0,
                           fontWeight: FontWeight.w500,
