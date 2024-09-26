@@ -63,12 +63,13 @@ class PropertyItemNew extends StatelessWidget {
                         favouriteClicked();
                       }, //toggleFavorite,
                       child: CircleAvatar(
+                        radius: 15,
                         child: Icon(
                           property.favProperty
                               ? Icons.favorite
                               : Icons.favorite_border,
                           color: property.favProperty ? Colors.red : Colors.white,
-                          size: 30,
+                          size: 20,
                         ),
                       ),
                     ),
@@ -99,7 +100,7 @@ class PropertyItemNew extends StatelessWidget {
                           ),
                           BasicText(
                             text:
-                                '\u{20B9} ${formatStringPrice(property.price)}',
+                                '\u{20B9} ${formatStringPrice(property.price)} ${property.units.isNotEmpty? "Onwards" : ""}',
                             textStyle: const TextStyle(
                               color: Color(0XFFFF5B19),
                               fontSize: 14.0,

@@ -66,6 +66,7 @@ class PropertyFilterBloc
             final curState = (state as LoadFilters);
             PropertyFilter filter = (curState.propertyFilter);
             filter.selectedLocation = null;
+            filter.selectedBudget = Budget(rangeValues: RangeValues(0, 0));
             emit(PropertyFiletrInitial());
             emit(LoadFilters(propertyFilter: filter));
           }

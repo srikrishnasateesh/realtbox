@@ -44,9 +44,9 @@ class GetPropertyList
       if (priceMax == "0") {
         priceMax = null;
       }
-      if (priceMin == "0") {
+     /*  if (priceMin == "0") {
         priceMin = null;
-      }
+      } */
     }
 
     //sort

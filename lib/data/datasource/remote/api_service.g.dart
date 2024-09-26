@@ -217,8 +217,8 @@ class _ApiService implements ApiService {
       r'skip': skip,
       r'categoryName': categoryName,
       r'amenity_in': amenity_in,
-      r'price_min': price_min,
-      r'price_max': price_max,
+      r'minimumPrice': price_min,
+      r'maximumPrice': price_max,
       r'sort': sort,
       r'sortDir': sortDir,
       r'latitude': latitude,
@@ -273,8 +273,8 @@ class _ApiService implements ApiService {
       r'skip': skip,
       r'categoryName': categoryName,
       r'amenity_in': amenity_in,
-      r'price_min': price_min,
-      r'price_max': price_max,
+      r'minimumPrice': price_min,
+      r'maximumPrice': price_max,
       r'sort': sort,
       r'sortDir': sortDir,
       r'latitude': latitude,
@@ -314,6 +314,7 @@ class _ApiService implements ApiService {
 
   @override
   Future<HttpResponse<PropertyResponse>> lastViewdpropertyList(
+    bool lastViewed,
     int skip,
     String? categoryName,
     String? amenity_in,
@@ -326,11 +327,12 @@ class _ApiService implements ApiService {
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
+      r'lastViewed': lastViewed,
       r'skip': skip,
       r'categoryName': categoryName,
       r'amenity_in': amenity_in,
-      r'price_min': price_min,
-      r'price_max': price_max,
+      r'minimumPrice': price_min,
+      r'maximumPrice': price_max,
       r'sort': sort,
       r'sortDir': sortDir,
       r'latitude': latitude,
@@ -346,7 +348,7 @@ class _ApiService implements ApiService {
     )
         .compose(
           _dio.options,
-          'v1/property/lastviewed',
+          'v1/property',
           queryParameters: queryParameters,
           data: _data,
         )

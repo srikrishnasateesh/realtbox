@@ -70,32 +70,36 @@ class _VideoTabState extends State<VideoTab> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
-          child: videoIds.isNotEmpty ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              YoutubePlayer(
-                controller: _controller,
-                aspectRatio: 16 / 9,
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: _previousVideo,
-                    tooltip: 'Previous Video',
-                  ),
-                  Text("${currentIndex + 1}/${videoIds.length}"),
-                  IconButton(
-                    icon: Icon(Icons.arrow_forward),
-                    onPressed: _nextVideo,
-                    tooltip: 'Next Video',
-                  ),
-                ],
-              ),
-            ],
-          ) : const BasicText(text: "Not available"),
+          child: videoIds.isNotEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    YoutubePlayer(
+                      controller: _controller,
+                      aspectRatio: 16 / 9,
+                    ),
+                    const SizedBox(height: 16),
+                    videoIds.length > 1
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.arrow_back),
+                                onPressed: _previousVideo,
+                                tooltip: 'Previous Video',
+                              ),
+                              Text("${currentIndex + 1}/${videoIds.length}"),
+                              IconButton(
+                                icon: Icon(Icons.arrow_forward),
+                                onPressed: _nextVideo,
+                                tooltip: 'Next Video',
+                              ),
+                            ],
+                          )
+                        : Container(),
+                  ],
+                )
+              : const BasicText(text: "Not available"),
         ),
       ),
     );

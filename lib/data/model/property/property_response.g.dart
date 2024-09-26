@@ -48,7 +48,7 @@ PropertyData _$PropertyDataFromJson(Map<String, dynamic> json) => PropertyData(
       vicinity: (json['vicinity'] as List<dynamic>?)
           ?.map((e) => VicinityElement.fromJson(e as Map<String, dynamic>))
           .toList(),
-      favProperty: json['favProperty'] as bool,
+      favProperty: json['favProperty'] as bool?,
       units: (json['units'] as List<dynamic>?)
           ?.map((e) => Unit.fromJson(e as Map<String, dynamic>))
           .toList(),

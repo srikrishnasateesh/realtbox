@@ -20,33 +20,37 @@ class _RangeSliderWidgetState extends State<RangeSliderWidget> {
   RangeValues values = const RangeValues(0, 0);
   @override
   void initState() {
-    if(widget.receivedValues!=null){
-
-    values = widget.receivedValues!;
-    } else {
-      values = const RangeValues(0, 0);
-    }
-    setState(() {
-      
-    });
     super.initState();
+    reset();
   }
+
   @override
   void dispose() {
     values = const RangeValues(0, 0);
     super.dispose();
   }
 
+  reset() {
+    if (widget.receivedValues != null) {
+      values = widget.receivedValues!;
+    } else {
+      values = const RangeValues(0, 0);
+    }
+  }
+
   @override
-  Widget build(BuildContext context) => CustomSliderTheme(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            buildSliderSideLabel(),
-            const SizedBox(height: 16),
-          ],
-        ),
-      );
+  Widget build(BuildContext context) {
+    reset();
+    return CustomSliderTheme(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          buildSliderSideLabel(),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
 
   Widget buildSliderSideLabel() {
     const double min = 0;

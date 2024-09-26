@@ -57,21 +57,21 @@ abstract class ApiService {
     @Query('skip') int skip,
     @Query('categoryName') String? categoryName,
     @Query('amenity_in') String? amenity_in,
-    @Query('price_min') String? price_min,
-    @Query('price_max') String? price_max,
+    @Query('minimumPrice') String? price_min,
+    @Query('maximumPrice') String? price_max,
     @Query('sort') String? sort,
     @Query('sortDir') String? sortDir,
     @Query('latitude') double? latitude,
     @Query('longitude') double? longitude,
   );
 
-   @GET(ApiConstants.property)
+  @GET(ApiConstants.property)
   Future<HttpResponse<PropertyResponse>> savedPropertyList(
     @Query('skip') int skip,
     @Query('categoryName') String? categoryName,
     @Query('amenity_in') String? amenity_in,
-    @Query('price_min') String? price_min,
-    @Query('price_max') String? price_max,
+    @Query('minimumPrice') String? price_min,
+    @Query('maximumPrice') String? price_max,
     @Query('sort') String? sort,
     @Query('sortDir') String? sortDir,
     @Query('latitude') double? latitude,
@@ -79,13 +79,14 @@ abstract class ApiService {
     @Query('onlyFavourites') bool onlyFavourites,
   );
 
-  @GET(ApiConstants.propertyLastViewd)
+  @GET(ApiConstants.property)
   Future<HttpResponse<PropertyResponse>> lastViewdpropertyList(
+    @Query('lastViewed') bool lastViewed,
     @Query('skip') int skip,
     @Query('categoryName') String? categoryName,
     @Query('amenity_in') String? amenity_in,
-    @Query('price_min') String? price_min,
-    @Query('price_max') String? price_max,
+    @Query('minimumPrice') String? price_min,
+    @Query('maximumPrice') String? price_max,
     @Query('sort') String? sort,
     @Query('sortDir') String? sortDir,
     @Query('latitude') double? latitude,

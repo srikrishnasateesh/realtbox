@@ -402,6 +402,7 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       double? longitude) async {
     try {
       final httpResponse = await apiService.lastViewdpropertyList(
+        true,
         skip,
         category,
         amenitiesIn,
