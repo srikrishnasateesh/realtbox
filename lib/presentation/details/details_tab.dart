@@ -83,6 +83,7 @@ class DetailsTab extends StatelessWidget {
                             height: 8,
                           ),
                           ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: property.units.length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {

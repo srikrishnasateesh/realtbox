@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
@@ -40,229 +41,251 @@ class LandingPage extends StatelessWidget {
     return SafeArea(
       child: BlocBuilder<LandingBloc, LandingState>(
         builder: (context, state) {
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: BlocBuilder<LandingBloc, LandingState>(
-              builder: (context, state) {
-                switch (state) {
-                  case LandingHomeState():
-                    return BlocProvider(
-                      create: (context) => PropertListBloc(
-                        getIt<GetPropertyList>(),
-                        getIt<SubmitEnquiry>(),
-                        getIt<ToggleFavourite>(),
-                        PropertyListType.normal,
-                      ),
-                      child: PropertyList(),
-                    );
-                  case LandingMapState():
-                    return BirdViewScreen(
-                      getBirdView: getIt<GetBirdView>(),
-                    );
-
-                  case LandingSavedState():
-                    return BlocProvider(
-                      create: (context) => SavedBloc(),
-                      child: const SavedPage(),
-                    );
-                  case LandingProfileState():
-                    return BlocProvider(
-                      create: (context) => ProfileBloc(),
-                      child: ProfilePage(),
-                    );
-
-                  default:
-                    return Container();
-                }
-              },
-            ),
-            bottomNavigationBar: SafeArea(
-              child: BlocBuilder<LandingBloc, LandingState>(
+          return PopScope(
+            canPop: false,
+            onPopInvokedWithResult:(didPop, result) {
+             if(didPop){
+              return;
+             }
+             if(landingBloc.currentIndex != 0){
+                  BlocProvider.of<LandingBloc>(context).add(
+                  OnMenuChanged(
+                    pageIndex: 0,
+                    item: enabledItems[0],
+                  ),
+                );
+              } else {
+                SystemNavigator.pop();
+              }
+            } ,
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              body: BlocBuilder<LandingBloc, LandingState>(
                 builder: (context, state) {
-                  return SafeArea(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15.0),
-                          topRight: Radius.circular(15.0),
+                  switch (state) {
+                    case LandingHomeState():
+                      return BlocProvider(
+                        create: (context) => PropertListBloc(
+                          getIt<GetPropertyList>(),
+                          getIt<SubmitEnquiry>(),
+                          getIt<ToggleFavourite>(),
+                          PropertyListType.normal,
                         ),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
+                        child: PropertyList(),
+                      );
+                    case LandingMapState():
+                      return BirdViewScreen(
+                        getBirdView: getIt<GetBirdView>(),
+                      );
+
+                    case LandingSavedState():
+                      return BlocProvider(
+                        create: (context) => SavedBloc(),
+                        child: const SavedPage(),
+                      );
+                    case LandingProfileState():
+                      return BlocProvider(
+                        create: (context) => ProfileBloc(),
+                        child: ProfilePage(),
+                      );
+
+                    default:
+                      return Container();
+                  }
+                },
+              ),
+              bottomNavigationBar: SafeArea(
+                child: BlocBuilder<LandingBloc, LandingState>(
+                  builder: (context, state) {
+                    return SafeArea(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15.0),
+                            topRight: Radius.circular(15.0),
+                          ),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.0,
+                          ),
                         ),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                        ),
-                        child: BottomNavigationBar(
-                          //landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
-                          type: BottomNavigationBarType.fixed,
-                          backgroundColor: Colors.white,
-                          selectedItemColor: Colors.amber,
-                          unselectedItemColor: Colors.grey,
-                          currentIndex: landingBloc.currentIndex,
-                          showSelectedLabels: true,
-                          showUnselectedLabels: true,
-                          elevation: 5,
-                          items: [
-                            BottomNavigationBarItem(
-                                icon: Image.asset(
-                                  propertiesPng,
-                                  height: 30,
-                                  width: 30,
-                                  color: landingBloc.currentItem == BottomBarItems.propertyList
-                                      ? kPrimaryColor
-                                      : kSecondaryColor,
-                                ),
-                                label: BottomBarItems.propertyList.label),
-                            BottomNavigationBarItem(
-                              icon: Icon(
-                                Icons.map,
-                                size: 30,
-                                color: landingBloc.currentItem == BottomBarItems.mapView
-                                    ? kPrimaryColor
-                                    : kSecondaryColor,
-                              ),
-                              label: BottomBarItems.mapView.label,
-                            ),
-                            if (enroll != StringConstants.enrollmentTypeAdmin)
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                          ),
+                          child: BottomNavigationBar(
+                            //landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
+                            type: BottomNavigationBarType.fixed,
+                            backgroundColor: Colors.white,
+                            selectedItemColor: Colors.amber,
+                            unselectedItemColor: Colors.grey,
+                            currentIndex: landingBloc.currentIndex,
+                            showSelectedLabels: true,
+                            showUnselectedLabels: true,
+                            elevation: 5,
+                            items: [
                               BottomNavigationBarItem(
                                   icon: Image.asset(
-                                    savedPng,
+                                    propertiesPng,
                                     height: 30,
                                     width: 30,
-                                    color: landingBloc.currentItem == BottomBarItems.saved
+                                    color: landingBloc.currentItem ==
+                                            BottomBarItems.propertyList
                                         ? kPrimaryColor
                                         : kSecondaryColor,
                                   ),
-                                  label: BottomBarItems.saved.label),
-                            BottomNavigationBarItem(
-                                icon: Image.asset(
-                                  profilePng,
-                                  height: 30,
-                                  width: 30,
-                                  color: landingBloc.currentItem == BottomBarItems.profile
+                                  label: BottomBarItems.propertyList.label),
+                              BottomNavigationBarItem(
+                                icon: Icon(
+                                  Icons.map,
+                                  size: 30,
+                                  color: landingBloc.currentItem ==
+                                          BottomBarItems.mapView
                                       ? kPrimaryColor
                                       : kSecondaryColor,
                                 ),
-                                label: BottomBarItems.profile.label),
-                          ],
-                          onTap: (index) =>
-                              BlocProvider.of<LandingBloc>(context).add(
-                            OnMenuChanged(
-                              pageIndex: index,
-                              item: enabledItems[index],
+                                label: BottomBarItems.mapView.label,
+                              ),
+                              if (enroll != StringConstants.enrollmentTypeAdmin)
+                                BottomNavigationBarItem(
+                                    icon: Image.asset(
+                                      savedPng,
+                                      height: 30,
+                                      width: 30,
+                                      color: landingBloc.currentItem ==
+                                              BottomBarItems.saved
+                                          ? kPrimaryColor
+                                          : kSecondaryColor,
+                                    ),
+                                    label: BottomBarItems.saved.label),
+                              BottomNavigationBarItem(
+                                  icon: Image.asset(
+                                    profilePng,
+                                    height: 30,
+                                    width: 30,
+                                    color: landingBloc.currentItem ==
+                                            BottomBarItems.profile
+                                        ? kPrimaryColor
+                                        : kSecondaryColor,
+                                  ),
+                                  label: BottomBarItems.profile.label),
+                            ],
+                            onTap: (index) =>
+                                BlocProvider.of<LandingBloc>(context).add(
+                              OnMenuChanged(
+                                pageIndex: index,
+                                item: enabledItems[index],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
 
-            /* bottomNavigationBar: SafeArea(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
-                  ),
-                  border: Border.all(
-                    color: Colors.amber,
-                    width: 2.0,
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
-                  ),
-                  child: BottomNavigationBar(
-                    selectedItemColor: kPrimaryColor, // Color for selected icon
-                    unselectedItemColor:
-                        kSecondaryColor, // Color for unselected icon
-                    selectedIconTheme:
-                        const IconThemeData(color: kPrimaryColor, size: 30),
-                    unselectedIconTheme:
-                        const IconThemeData(color: kSecondaryColor, size: 30),
-                    currentIndex: landingBloc.currentIndex,
-                    onTap: (index) => BlocProvider.of<LandingBloc>(context).add(
-                      OnMenuChanged(pageIndex: index),
+              /* bottomNavigationBar: SafeArea(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
                     ),
-                    //showSelectedLabels: false,
-                    //showUnselectedLabels: false,
-                    type: BottomNavigationBarType.fixed,
-                    items: [
-                      BottomNavigationBarItem(
-                        icon: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              propertiesPng, // Add your custom image here
-                             /*  height: 30,
-                              width: 30, */
-                              color: landingBloc.currentIndex == 0
-                                  ? kPrimaryColor
-                                  : kSecondaryColor,
-                            ),
-                            /* const SizedBox(
-                              height: 4,
-                            ),
-                            const Text('Properties'), */
-                          ],
-                        ),
-                        label: 'Properties',
+                    border: Border.all(
+                      color: Colors.amber,
+                      width: 2.0,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
+                    ),
+                    child: BottomNavigationBar(
+                      selectedItemColor: kPrimaryColor, // Color for selected icon
+                      unselectedItemColor:
+                          kSecondaryColor, // Color for unselected icon
+                      selectedIconTheme:
+                          const IconThemeData(color: kPrimaryColor, size: 30),
+                      unselectedIconTheme:
+                          const IconThemeData(color: kSecondaryColor, size: 30),
+                      currentIndex: landingBloc.currentIndex,
+                      onTap: (index) => BlocProvider.of<LandingBloc>(context).add(
+                        OnMenuChanged(pageIndex: index),
                       ),
-                      BottomNavigationBarItem(
-                        icon: Column(
-                          children: [
-                            Image.asset(
-                              savedPng, // Add your custom image here
-                             /*  height: 30,
-                              width: 30, */
-                              color: landingBloc.currentIndex == 1
-                                  ? kPrimaryColor
-                                  : kSecondaryColor,
-                            ),
-                           /*  const SizedBox(
-                              height: 4,
-                            ),
-                            const Text('Saved'), */
-                          ],
+                      //showSelectedLabels: false,
+                      //showUnselectedLabels: false,
+                      type: BottomNavigationBarType.fixed,
+                      items: [
+                        BottomNavigationBarItem(
+                          icon: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                propertiesPng, // Add your custom image here
+                               /*  height: 30,
+                                width: 30, */
+                                color: landingBloc.currentIndex == 0
+                                    ? kPrimaryColor
+                                    : kSecondaryColor,
+                              ),
+                              /* const SizedBox(
+                                height: 4,
+                              ),
+                              const Text('Properties'), */
+                            ],
+                          ),
+                          label: 'Properties',
                         ),
-                        label: 'Saved',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Column(
-                          children: [
-                            Image.asset(
-                              profilePng, // Add your custom image here
-                              /* height: 30,
-                              width: 30, */
-                              color: landingBloc.currentIndex == 2
-                                  ? kPrimaryColor
-                                  : kSecondaryColor,
-                            ),
-                            /* const SizedBox(
-                              height: 4,
-                            ),
-                            const Text('Profile'), */
-                          ],
+                        BottomNavigationBarItem(
+                          icon: Column(
+                            children: [
+                              Image.asset(
+                                savedPng, // Add your custom image here
+                               /*  height: 30,
+                                width: 30, */
+                                color: landingBloc.currentIndex == 1
+                                    ? kPrimaryColor
+                                    : kSecondaryColor,
+                              ),
+                             /*  const SizedBox(
+                                height: 4,
+                              ),
+                              const Text('Saved'), */
+                            ],
+                          ),
+                          label: 'Saved',
                         ),
-                        label: 'Profile',
-                      ),
-                    ],
+                        BottomNavigationBarItem(
+                          icon: Column(
+                            children: [
+                              Image.asset(
+                                profilePng, // Add your custom image here
+                                /* height: 30,
+                                width: 30, */
+                                color: landingBloc.currentIndex == 2
+                                    ? kPrimaryColor
+                                    : kSecondaryColor,
+                              ),
+                              /* const SizedBox(
+                                height: 4,
+                              ),
+                              const Text('Profile'), */
+                            ],
+                          ),
+                          label: 'Profile',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
+            */
             ),
-          */
           );
         },
       ),

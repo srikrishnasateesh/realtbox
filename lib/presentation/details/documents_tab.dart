@@ -8,6 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:dio/dio.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/core/utils/data_utils.dart';
+import 'package:realtbox/presentation/widgets/basic_text.dart';
 
 class DocumentsTab extends StatefulWidget {
   final String projectName;
@@ -31,8 +32,12 @@ class _DocumentsTabState extends State<DocumentsTab>
   static const platform = MethodChannel('in.axivise.realtbox/download');
   bool _isDownloading = false;
   String _progress = "";
+  String message = "";
+  String downLoadMessage =
+      "Documents downloaded to Downloads folder Successfully";
 
-  Future<void> _downloadFiles(List<String> files, String name) async {
+  Future<void> _downloadFiles(
+      List<String> files, String downloadName, String docName) async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     PermissionStatus status;
 
@@ -59,7 +64,7 @@ class _DocumentsTabState extends State<DocumentsTab>
           String url = file;
           // Create download task for each file
           String filename =
-              "${widget.projectName}-$name-${DateTime.now().toString()}.${getFileExtension(url)}";
+              "${widget.projectName}-$downloadName-${DateTime.now().toString()}.${getFileExtension(url)}";
           downloadTasks.add(_downloadFile(url, filename));
         }
 
@@ -67,6 +72,9 @@ class _DocumentsTabState extends State<DocumentsTab>
         await Future.wait(downloadTasks);
 
         debugPrint("All downloads completed.");
+        setState(() {
+          message = "$docName $downLoadMessage";
+        });
       } catch (e) {
         debugPrint("Error downloading files: $e");
       }
@@ -169,8 +177,8 @@ class _DocumentsTabState extends State<DocumentsTab>
                                     width: 210,
                                     child: FilledButton.icon(
                                       onPressed: () => {
-                                        _downloadFiles(
-                                            widget.brochureImages, "Broucher")
+                                        _downloadFiles(widget.brochureImages,
+                                            "Broucher", "Broucher")
                                       },
                                       icon: const Icon(Icons.download_sharp),
                                       label: const Text('Brochure'),
@@ -196,7 +204,8 @@ class _DocumentsTabState extends State<DocumentsTab>
                                       onPressed: () => {
                                         _downloadFiles(
                                             widget.buildingPlanImages,
-                                            "BuildingPlan")
+                                            "BuildingPlan",
+                                            "Building Plan")
                                       },
                                       icon: const Icon(Icons.download_sharp),
                                       label: const Text('Building Plan'),
@@ -220,8 +229,8 @@ class _DocumentsTabState extends State<DocumentsTab>
                                     width: 210,
                                     child: FilledButton.icon(
                                       onPressed: () => {
-                                        _downloadFiles(
-                                            widget.floorPlanImages, "Floor")
+                                        _downloadFiles(widget.floorPlanImages,
+                                            "Floor", "Floor Plan")
                                       },
                                       icon: const Icon(Icons.download_sharp),
                                       label: const Text('Floor Plan'),
@@ -234,7 +243,7 @@ class _DocumentsTabState extends State<DocumentsTab>
                                   ),
                                   const SizedBox(
                                     height: 16,
-                                  )
+                                  ),
                                 ],
                               )
                             : Container(),
@@ -247,6 +256,22 @@ class _DocumentsTabState extends State<DocumentsTab>
                     ),
             ),
           ),
+          !_isDownloading
+              ? Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                    child: BasicText(
+                      textAlign: TextAlign.center,
+                      text: message,
+                      textStyle: const TextStyle(
+                        color: kSecondaryColor,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                )
+              : Container()
         ],
       ),
     );

@@ -39,11 +39,14 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
 
   final List<Marker> _markers = [];
   late List<BirdView> _markersData;
+  late ClusterManager _clusterManager;
+  String clusterManagerId = "1";
+  late ClusterManager clusterManager;
 
   @override
   void initState() {
     super.initState();
-
+    _initClusterManager();
     //loadMarkers();
     fetchMarkers();
   }
@@ -59,6 +62,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
         debugPrint("Adding loc ${loc.image}");
         LatLng position = LatLng(loc.location[0], loc.location[1]);
         _markers.add(Marker(
+          clusterManagerId: ClusterManagerId(clusterManagerId),
           markerId: MarkerId(loc.id),
           position: position,
           icon: circleIcon,
@@ -125,6 +129,18 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
     );
   }
 
+  void _initClusterManager() {
+    _clusterManager = ClusterManager(
+      clusterManagerId: ClusterManagerId("1"),
+      onClusterTap: (argument) async {
+        final GoogleMapController controller = await _mapController.future;
+        CameraUpdate cameraUpdate =
+            CameraUpdate.newLatLngBounds(argument.bounds, 50);
+        controller.animateCamera(cameraUpdate);
+      },
+    );
+  }
+
   TextEditingController locationController = TextEditingController(text: "");
   @override
   Widget build(BuildContext context) {
@@ -133,6 +149,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
       body: Stack(
         children: [
           GoogleMap(
+            mapToolbarEnabled: true,
             zoomControlsEnabled: true,
             zoomGesturesEnabled: true,
             mapType: MapType.normal,
@@ -146,6 +163,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
             onTap: (pos) {
               _customInfoWindowController.hideInfoWindow!();
             },
+            clusterManagers: <ClusterManager>{_clusterManager},
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -156,7 +174,8 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
                 locationController.text = placeDetail?.address ?? "";
                 LatLng latLng = LatLng(
                     placeDetail?.lattitude ?? 0, placeDetail?.longitude ?? 0);
-                CameraUpdate cameraUpdate = CameraUpdate.newLatLngZoom(latLng,12);
+                CameraUpdate cameraUpdate =
+                    CameraUpdate.newLatLngZoom(latLng, 12);
                 final GoogleMapController controller =
                     await _mapController.future;
                 controller.moveCamera(cameraUpdate);
@@ -175,34 +194,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
                     maxLines: 3,
                   ),
                 ),
-              )
-              /* TextField(
-                controller: locationController,
-                keyboardType: TextInputType.text,
-                enabled: false,
-                minLines: 1,
-                maxLines: 3,
-                style: const TextStyle(color: kSecondaryColor),
-                decoration: InputDecoration(
-                  counterText: "",
-                  prefixIcon: Align(
-                    widthFactor: 1.0,
-                    heightFactor: 1.0,
-                    child: SvgPicture.asset(
-                      locationPinSvg,
-                    ),
-                  ),
-                  labelText:
-                      locationController.text.isNotEmpty ? "" : "Search By Location",
-                  hintText: "Search By Location",
-                  filled: false,
-                  labelStyle: const TextStyle(
-                      color: textInputLabelColor, fontWeight: FontWeight.w500),
-                  hintStyle: const TextStyle(
-                      fontWeight: FontWeight.w400, color: textInputHintColor),
-                ),
-              ) */
-              ,
+              ),
             ),
           ),
           CustomInfoWindow(

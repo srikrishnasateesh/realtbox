@@ -28,8 +28,6 @@ class PropertyItemNew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageUrl = property.images[0];
-    debugPrint("${property.projectName} is fav ${property.favProperty}");
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -55,25 +53,29 @@ class PropertyItemNew extends StatelessWidget {
                     ),
                   ),
                   // Favorite icon
-                 showEnquiry ? Positioned(
-                    top: 10,
-                    right: 10,
-                    child: GestureDetector(
-                      onTap: () {
-                        favouriteClicked();
-                      }, //toggleFavorite,
-                      child: CircleAvatar(
-                        radius: 15,
-                        child: Icon(
-                          property.favProperty
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: property.favProperty ? Colors.red : Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ) : Container(),
+                  showEnquiry
+                      ? Positioned(
+                          top: 10,
+                          right: 10,
+                          child: GestureDetector(
+                            onTap: () {
+                              favouriteClicked();
+                            }, //toggleFavorite,
+                            child: CircleAvatar(
+                              radius: 15,
+                              child: Icon(
+                                property.favProperty
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: property.favProperty
+                                    ? Colors.red
+                                    : Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
               Padding(
@@ -100,7 +102,7 @@ class PropertyItemNew extends StatelessWidget {
                           ),
                           BasicText(
                             text:
-                                '\u{20B9} ${formatStringPrice(property.price)} ${property.units.isNotEmpty? "Onwards" : ""}',
+                                '\u{20B9} ${formatStringPrice(property.price)} ${property.units.isNotEmpty ? "Onwards" : ""}',
                             textStyle: const TextStyle(
                               color: Color(0XFFFF5B19),
                               fontSize: 14.0,
