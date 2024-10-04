@@ -25,6 +25,7 @@ class UserEnquiryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("created before format: $created");
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(3.0),

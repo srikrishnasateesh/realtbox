@@ -25,9 +25,7 @@ UserEnquiryData _$UserEnquiryDataFromJson(Map<String, dynamic> json) =>
       propertyId: json['propertyId'] == null
           ? null
           : PropertyId.fromJson(json['propertyId'] as Map<String, dynamic>),
-      created: json['created'] == null
-          ? null
-          : DateTime.parse(json['created'] as String),
+      created: json['created'] as String?,
       createdBy: json['createdBy'] as String?,
       v: (json['__v'] as num?)?.toInt(),
     );

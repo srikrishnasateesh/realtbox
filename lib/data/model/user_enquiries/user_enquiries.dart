@@ -35,7 +35,7 @@ class UserEnquiryData {
     final String? message;
     final String? phoneNumber;
     final PropertyId? propertyId;
-    final DateTime? created;
+    final String? created;
     final String? createdBy;
 
     @JsonKey(name: '__v') 

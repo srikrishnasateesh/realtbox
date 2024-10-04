@@ -230,7 +230,7 @@ class PropertyRepositoryImplementation extends PropertyRepository {
   UserEnquiry userenquiryDtoTUseroEnquiryModel(UserEnquiryData enquiryData) {
     return UserEnquiry(
         message: enquiryData.message ?? "",
-        created: enquiryData.created ?? DateTime.now(),
+        created: DateTime.parse(enquiryData.created ?? DateTime.now().toString()).toLocal() ,
         userName: enquiryData.user?.name ?? "",
         userPhone: enquiryData.phoneNumber ?? "",
         userImageUrl: enquiryData.user?.profileUrl?.objectUrl ?? "",
