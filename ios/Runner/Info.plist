@@ -83,6 +83,19 @@
 		<string>We need access to your photo library to select files.</string>
 		<key>UIFileSharingEnabled</key>
 		<true/>
+		
+		<key>FirebaseMessagingAutoInitEnabled</key>
+		<false/>
+
+		<key>FirebaseAppDelegateProxyEnabled</key>
+		<false/>
+
+		<key>UIBackgroundModes</key>
+		<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+		</array>
+
 
 
 	</dict>
