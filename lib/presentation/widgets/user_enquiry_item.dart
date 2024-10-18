@@ -14,14 +14,14 @@ class UserEnquiryItem extends StatelessWidget {
   final DateTime created;
 
   const UserEnquiryItem({
-    Key? key,
+    super.key,
     required this.propertyName,
     required this.message,
     required this.userName,
     required this.imageUrl,
     required this.mobile,
     required this.created,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +74,9 @@ class UserEnquiryItem extends StatelessWidget {
             ),
             Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Icon(Icons.person_2),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.person_2),
                 ),
                 const SizedBox(
                   width: 20,

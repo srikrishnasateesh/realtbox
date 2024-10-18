@@ -42,8 +42,7 @@ Future<void> _firebaseOnMessagingHandler(RemoteMessage message) async {
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
   AppleNotification? apple = message.notification?.apple;
-
-
+  
   if (notification != null && android != null) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -108,7 +107,10 @@ void main() async {
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
   await _requestPermissions();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.onMessage.listen(_firebaseOnMessagingHandler);
+  FirebaseMessaging.onMessage.listen((RemoteMessage msg){
+    _firebaseOnMessagingHandler(msg);
+    
+  });
   await initLocalNotifications();
   await initDI();
   runApp(const MyApp());

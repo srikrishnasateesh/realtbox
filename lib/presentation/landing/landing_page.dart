@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,32 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Handle foreground notifications to show any custom dialogs or any other UI
+    //  Un comment if required
+    /* FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.notification != null) {
+        // Show a dialog from stateless widget when notification is received
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(message.notification?.title ?? 'Notification'),
+              content:
+                  Text(message.notification?.body ?? 'You have a new message.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }); */
+
     String enroll = LocalStorage.getString(StringConstants.enrollmentType);
     LandingBloc landingBloc = BlocProvider.of<LandingBloc>(context);
     landingBloc.add(
@@ -43,12 +70,12 @@ class LandingPage extends StatelessWidget {
         builder: (context, state) {
           return PopScope(
             canPop: false,
-            onPopInvokedWithResult:(didPop, result) {
-             if(didPop){
-              return;
-             }
-             if(landingBloc.currentIndex != 0){
-                  BlocProvider.of<LandingBloc>(context).add(
+            onPopInvokedWithResult: (didPop, result) {
+              if (didPop) {
+                return;
+              }
+              if (landingBloc.currentIndex != 0) {
+                BlocProvider.of<LandingBloc>(context).add(
                   OnMenuChanged(
                     pageIndex: 0,
                     item: enabledItems[0],
@@ -57,7 +84,7 @@ class LandingPage extends StatelessWidget {
               } else {
                 SystemNavigator.pop();
               }
-            } ,
+            },
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               body: BlocBuilder<LandingBloc, LandingState>(
