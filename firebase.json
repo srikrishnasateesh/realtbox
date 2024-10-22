@@ -1,1 +1,38 @@
-{"flutter":{"platforms":{"dart":{"lib/firebase_options.dart":{"projectId":"realtbox-94ff0","configurations":{"android":"1:464819707457:android:352ac69456044bd52630c0","ios":"1:464819707457:ios:782434f2254dd3ba2630c0"}}},"android":{"default":{"projectId":"realtbox-94ff0","appId":"1:464819707457:android:352ac69456044bd52630c0","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"realtbox-94ff0","appId":"1:464819707457:ios:782434f2254dd3ba2630c0","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"macos":{"default":{"projectId":"realtbox-94ff0","appId":"1:464819707457:ios:782434f2254dd3ba2630c0","uploadDebugSymbols":false,"fileOutput":"macos/Runner/GoogleService-Info.plist"}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "realtbox-94ff0",
+          "configurations": {
+            "android": "1:464819707457:android:352ac69456044bd52630c0",
+            "ios": "1:464819707457:ios:782434f2254dd3ba2630c0"
+          }
+        }
+      },
+      "android": {
+        "default": {
+          "projectId": "realtbox-94ff0",
+          "appId": "1:464819707457:android:352ac69456044bd52630c0",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "realtbox-94ff0",
+          "appId": "1:464819707457:ios:782434f2254dd3ba2630c0",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "realtbox-94ff0",
+          "appId": "1:464819707457:ios:782434f2254dd3ba2630c0",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      }
+    }
+  }
+}
