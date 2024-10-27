@@ -105,20 +105,13 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Montserrat
+    - family: Gilroy
       fonts:
-        - asset: assets/fonts/Montserrat-Bold.ttf
-        - asset: assets/fonts/Montserrat-Medium.ttf
-        - asset: assets/fonts/Montserrat-SemiBold.ttf
-        - asset: assets/fonts/Montserrat-Regular.ttf
-        - asset: assets/fonts/Montserrat-Light.ttf
-    - family: Poppins    
-      fonts:
-        - asset: assets/fonts/Poppins-Bold.ttf
-        - asset: assets/fonts/Poppins-Medium.ttf
-        - asset: assets/fonts/Poppins-SemiBold.ttf
-        - asset: assets/fonts/Poppins-Regular.ttf
-        - asset: assets/fonts/Poppins-Light.ttf
+        - asset: assets/fonts/Gilroy-Bold.ttf
+        - asset: assets/fonts/Gilroy-Medium.ttf
+        - asset: assets/fonts/Gilroy-Heavy.ttf
+        - asset: assets/fonts/Gilroy-Regular.ttf
+        - asset: assets/fonts/Gilroy-Light.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
@@ -152,7 +145,7 @@ flutter_native_splash:
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
-  image: assets/images/splash/android_logo.png
+  image: assets/images/splash/android_log.png
 
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
@@ -184,7 +177,7 @@ flutter_native_splash:
     # 640 pixels in diameter.
     # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
     # 768 pixels in diameter.
-    image: assets/images/splash/android_logo.png
+    image: assets/images/splash/android_log.png
 
     # Splash screen background color.
     color: "#ffffff"
@@ -218,7 +211,7 @@ flutter_native_splash:
   #color_dark_web: "#042a49"
   #image_android: assets/splash-android.png
   #image_dark_android: assets/splash-invert-android.png
-  image_ios: assets/images/splash/header_log.png
+  image_ios: assets/images/splash/header_logo.png
   #image_dark_ios: assets/splash-invert-ios.png
   #image_web: assets/splash-web.gif
   #image_dark_web: assets/splash-invert-web.gif

@@ -32,49 +32,51 @@ class AmenitiesSelection extends StatelessWidget {
         if (state is AmenitiesLoaded) {
           final selectedList = state.amenitiesSelected;
           onAmenitiesSelected(selectedList);
-          return SizedBox(
-            child: Wrap(
-              spacing: 60.0, // Spacing between items horizontally
-              runSpacing: 16.0, // Spacing between items vertically
-              children: state.amenities.map((amenity) {
-                bool selected = selectedList.contains(amenity);
-                return InkWell(
-                  onTap: () {
-                    if(selectable){
-                    context
-                        .read<AmenitiesBloc>()
-                        .add(AmenitySelected(selectedAmenity: amenity));
-                    }
-                  },
-                  child: Container(
-                    width: 150, // Adjust width as per requirement
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
-                    decoration: BoxDecoration(
-                      color: selected ? kPrimaryColor : Colors.grey[200],
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Column(
-                      children: [
-                        Image.network(
-                          amenity.icon,
-                          width: 20,
-                          height: 20,
-                          color: selected ? Colors.white : kSecondaryColor,
-                        ),
-                        Text(
-                          amenity.name,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: selected ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.bold,
+          return Center(
+            child: SizedBox(
+              child: Wrap(
+                spacing: 8.0, // Spacing between items horizontally
+                runSpacing: 16.0, // Spacing between items vertically
+                children: state.amenities.map((amenity) {
+                  bool selected = selectedList.contains(amenity);
+                  return InkWell(
+                    onTap: () {
+                      if(selectable){
+                      context
+                          .read<AmenitiesBloc>()
+                          .add(AmenitySelected(selectedAmenity: amenity));
+                      }
+                    },
+                    child: Container(
+                     width: (MediaQuery.of(context).size.width)/2.5, // Adjust width as per requirement
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
+                      decoration: BoxDecoration(
+                        color: selected ? kPrimaryColor : Colors.grey[200],
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Column(
+                        children: [
+                          Image.network(
+                            amenity.icon,
+                            width: 20,
+                            height: 20,
+                            color: selected ? Colors.white : kSecondaryColor,
                           ),
-                        ),
-                      ],
+                          Text(
+                            amenity.name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: selected ? Colors.white : Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
           );
         }

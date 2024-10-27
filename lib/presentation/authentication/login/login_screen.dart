@@ -74,7 +74,7 @@ class _LoginFormState extends State<LoginForm> {
                     SizedBox(
                       height: AppSize.s65,
                       child: Image.asset(
-                        appLogo,
+                        loginLogo,
                         fit: BoxFit.contain,
                       ),
                     ),

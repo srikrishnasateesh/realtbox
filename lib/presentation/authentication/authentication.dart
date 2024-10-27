@@ -31,7 +31,7 @@ class Authentication extends StatelessWidget {
           children: [
             const AuthStackImage(),
             const Padding(
-              padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 30.0),
+              padding: EdgeInsets.only(left: 0.0, right: 30.0, top: 30.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -39,11 +39,14 @@ class Authentication extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  BasicText(
-                    text:'Sign in',
-                    textStyle: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeightManager.semiBold,
+                  Padding(
+                    padding: EdgeInsets.only(left: 30),
+                    child: BasicText(
+                      text:'Sign in',
+                      textStyle: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeightManager.semiBold,
+                      ),
                     ),
                   ),
                 ],
