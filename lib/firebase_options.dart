@@ -72,7 +72,7 @@ class DefaultFirebaseOptions {
     appId: '1:464819707457:ios:782434f2254dd3ba2630c0',
     messagingSenderId: '464819707457',
     projectId: 'realtbox-94ff0',
-    storageBucket: 'realtbox-94ff0.appspot.com',
+    storageBucket: 'realtbox-94ff0.firebasestorage.app',
     iosBundleId: 'in.axivise.realtbox',
   );
 
@@ -81,7 +81,7 @@ class DefaultFirebaseOptions {
     appId: '1:464819707457:android:352ac69456044bd52630c0',
     messagingSenderId: '464819707457',
     projectId: 'realtbox-94ff0',
-    storageBucket: 'realtbox-94ff0.appspot.com',
+    storageBucket: 'realtbox-94ff0.firebasestorage.app',
   );
 
 }
