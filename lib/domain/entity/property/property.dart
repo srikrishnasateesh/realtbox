@@ -17,6 +17,7 @@ class Property {
   final String projectBy;
   final String price;
   final String location;
+  final String totalPrice;
   final List<String> images;
   final List<String> headerImages;
   final List<String> floorImages;
@@ -27,6 +28,7 @@ class Property {
   final List<Unit> units;
   final List<double> geoLocation;
   bool favProperty;
+  final String minimumSizeUnit;
 
   Property({
     required this.propertyId,
@@ -42,6 +44,7 @@ class Property {
     required this.projectBy,
     required this.price,
     required this.location,
+    required this.totalPrice,
     required this.images,
     required this.headerImages,
     required this.floorImages,
@@ -52,5 +55,6 @@ class Property {
     required this.units,
     required this.geoLocation,
     required this.favProperty,
+    required this.minimumSizeUnit,
   });
 }

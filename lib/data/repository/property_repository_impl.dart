@@ -102,6 +102,8 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       geoLocation: propertyData.address?.location ?? List.empty(),
       videos: propertyData.video ?? List.empty(),
       favProperty: propertyData.favProperty ?? false,
+      totalPrice: (propertyData.totalPrice ?? 0).toString(),
+      minimumSizeUnit: propertyData.minimumSize?.unitType ?? "",
     );
   }
 
@@ -265,6 +267,7 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       minSize:
           ("${data.minimumSize?.value ?? 0} ${data.minimumSize?.unitType ?? ""}"),
       image: data.projectImage?.objectUrl ?? "",
+      totalPrice: (data.totalPrice ?? 0).toString(),
     );
   }
 

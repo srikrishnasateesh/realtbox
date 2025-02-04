@@ -102,7 +102,7 @@ class PropertyItemNew extends StatelessWidget {
                           ),
                           BasicText(
                             text:
-                                '\u{20B9} ${formatStringPrice(property.price)} ${property.units.isNotEmpty ? "Onwards" : ""}',
+                                property.totalPrice,
                             textStyle: const TextStyle(
                               color: Color(0XFFFF5B19),
                               fontSize: 14.0,

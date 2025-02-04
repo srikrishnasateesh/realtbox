@@ -22,6 +22,7 @@ class BirdViewData {
         required this.id,
         required this.address,
         required this.projectName,
+        required this.totalPrice,
         required this.minimumPrice,
         required this.minimumSize,
         required this.projectImage,
@@ -31,6 +32,7 @@ class BirdViewData {
     final String? id;
     final LatLngAddress? address;
     final String? projectName;
+    final String? totalPrice;
     final double? minimumPrice;
     final MinimumSize? minimumSize;
     final ProjectImage? projectImage;

@@ -129,7 +129,7 @@ class DetailsTab extends StatelessWidget {
                                 BasicText(
                                   textAlign: TextAlign.center,
                                   text:
-                                      "\u{20B9} ${formatStringPrice(property.price)} / ${property.propertySize}",
+                                      "\u{20B9} ${formatStringPrice(property.price)} / ${property.minimumSizeUnit}",
                                   textStyle: const TextStyle(
                                     color: kSecondaryColor,
                                     fontSize: 18.0,

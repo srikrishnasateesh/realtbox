@@ -5,6 +5,7 @@ class BirdView {
   final String minPrice;
   final String minSize;
   final String image;
+  final String totalPrice;
 
   BirdView({
     required this.id,
@@ -13,5 +14,6 @@ class BirdView {
     required this.minPrice,
     required this.minSize,
     required this.image,
+    required this.totalPrice,
   });
 }

@@ -83,6 +83,7 @@ PropertyData _$PropertyDataFromJson(Map<String, dynamic> json) => PropertyData(
       address: json['address'] == null
           ? null
           : AddressData.fromJson(json['address'] as Map<String, dynamic>),
+      totalPrice: json['totalPrice'] as String?,
     );
 
 Map<String, dynamic> _$PropertyDataToJson(PropertyData instance) =>
@@ -121,6 +122,7 @@ Map<String, dynamic> _$PropertyDataToJson(PropertyData instance) =>
       'buildingPlan': instance.buildingPlan,
       'headerSectionPhotos': instance.headerSectionPhotos,
       'logo': instance.logo,
+      'totalPrice': instance.totalPrice,
     };
 
 PropertyDoc _$PropertyDocFromJson(Map<String, dynamic> json) => PropertyDoc(

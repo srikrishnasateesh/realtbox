@@ -76,7 +76,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
               Future.delayed(const Duration(seconds: 1)).then((value) => {
                     _customInfoWindowController.addInfoWindow!(
                       _customInfoWindowWidget(loc.projectName, loc.image,
-                          formatStringPrice(loc.minPrice), loc.minSize, loc.id),
+                          loc.totalPrice, loc.minSize, loc.id),
                       position,
                     )
                   });
@@ -273,7 +273,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
                     height: 8,
                   ),
                   BasicText(
-                    text: "Price: $price onwards",
+                    text: "Price: $price",
                     textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: kSecondaryColor,
                         ),
@@ -282,7 +282,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
                     height: 8,
                   ),
                   BasicText(
-                    text: "Size: $size onwards",
+                    text: "Size: $size",
                     textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: kSecondaryColor,
                         ),

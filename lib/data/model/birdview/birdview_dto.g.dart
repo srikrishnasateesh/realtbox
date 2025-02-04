@@ -19,6 +19,7 @@ BirdViewData _$BirdViewDataFromJson(Map<String, dynamic> json) => BirdViewData(
           ? null
           : LatLngAddress.fromJson(json['address'] as Map<String, dynamic>),
       projectName: json['projectName'] as String?,
+      totalPrice: json['totalPrice'] as String?,
       minimumPrice: (json['minimumPrice'] as num?)?.toDouble(),
       minimumSize: json['minimumSize'] == null
           ? null

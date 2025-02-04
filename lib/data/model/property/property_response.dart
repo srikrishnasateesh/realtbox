@@ -58,6 +58,8 @@ class PropertyData {
   final List<PropertyDoc>? buildingPlan;
   final List<PropertyDoc>? headerSectionPhotos;
   final List<PropertyDoc>? logo;
+  
+  final String? totalPrice;
 
   PropertyData({
     required this.id,
@@ -94,6 +96,7 @@ class PropertyData {
     required this.headerSectionPhotos,
     required this.logo,
     required this.address,
+    required this.totalPrice,
   });
 
   factory PropertyData.fromJson(Map<String, dynamic> json) =>
@@ -323,5 +326,7 @@ class AddressData {
     factory AddressData.fromJson(Map<String, dynamic> json) => _$AddressDataFromJson(json);
 
 }
+
+
 
 //propertySize: {value: 1000, unit: sq.ft},
