@@ -129,8 +129,8 @@ class LandingPage extends StatelessWidget {
                               BottomNavigationBarItem(
                                   icon: Image.asset(
                                     propertiesPng,
-                                    height: 30,
-                                    width: 30,
+                                    height: 20,
+                                    width: 20,
                                     color: landingBloc.currentItem ==
                                             BottomBarItems.propertyList
                                         ? kPrimaryColor
@@ -140,7 +140,7 @@ class LandingPage extends StatelessWidget {
                               BottomNavigationBarItem(
                                 icon: Icon(
                                   Icons.map,
-                                  size: 30,
+                                  size: 20,
                                   color: landingBloc.currentItem ==
                                           BottomBarItems.mapView
                                       ? kPrimaryColor
@@ -152,8 +152,8 @@ class LandingPage extends StatelessWidget {
                                 BottomNavigationBarItem(
                                     icon: Image.asset(
                                       savedPng,
-                                      height: 30,
-                                      width: 30,
+                                      height: 20,
+                                      width: 20,
                                       color: landingBloc.currentItem ==
                                               BottomBarItems.saved
                                           ? kPrimaryColor
@@ -163,8 +163,8 @@ class LandingPage extends StatelessWidget {
                               BottomNavigationBarItem(
                                   icon: Image.asset(
                                     profilePng,
-                                    height: 30,
-                                    width: 30,
+                                    height: 20,
+                                    width: 20,
                                     color: landingBloc.currentItem ==
                                             BottomBarItems.profile
                                         ? kPrimaryColor

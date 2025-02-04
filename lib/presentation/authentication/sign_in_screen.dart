@@ -37,11 +37,17 @@ class SignInScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                const BasicText(
-                 text: StringConstants.registerText,
-                  textStyle: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeightManager.regular,
+                const Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: BasicText(
+                      text: StringConstants.registerText,
+                      textStyle: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeightManager.regular,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(

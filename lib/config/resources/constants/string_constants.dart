@@ -39,8 +39,8 @@ class StringConstants {
 
   static const String enrollmentTypeAdmin = "Admin";
 
-  static const String registerText =
-      "If you don’t have an account register.\nYou can   Register here !";
+  static const String registerText = "If you don't have an account,\n you can register here!";
+      //"If you don’t have an account register.\nYou can Register here !";
 
   static const String deleteConfirmMessage =
       "Are you sure you want to Remove account? Please provide a reason to proceed.";

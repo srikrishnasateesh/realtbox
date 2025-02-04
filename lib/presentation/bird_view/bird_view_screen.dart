@@ -9,6 +9,7 @@ import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/routes/route_names.dart';
 import 'package:realtbox/core/utils/custom_circle_icon.dart';
+import 'package:realtbox/core/utils/custom_marker.dart';
 import 'package:realtbox/core/utils/price-fromatter.dart';
 import 'package:realtbox/domain/entity/birdview.dart';
 import 'package:realtbox/domain/usecase/birdview.dart';
@@ -54,8 +55,8 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
   Future<void> fetchMarkers() async {
     final response = await widget.getBirdView();
     _markersData = response.data ?? List.empty();
-    final BitmapDescriptor circleIcon =
-        await createCustomCircleIcon(60.0, Colors.red);
+    final BitmapDescriptor circleIcon = await bitmapDescriptorFromSvgAsset(markerSvg);
+        //await createCustomCircleIcon(60.0, Colors.red);
 
     setState(() {
       for (BirdView loc in _markersData) {
@@ -66,6 +67,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
           markerId: MarkerId(loc.id),
           position: position,
           icon: circleIcon,
+          //circleIcon,
           //infoWindow: loc.infoWindow,
           onTap: () {
             _customInfoWindowController.hideInfoWindow!();
@@ -95,7 +97,7 @@ class _BirdViewScreenState extends State<BirdViewScreen> {
       LatLngBounds bounds = _getLatLngBounds(_markers);
 
       // Move the camera to show all markers within bounds with padding
-      CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 50);
+      CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 90);
       controller.animateCamera(cameraUpdate);
     }
   }

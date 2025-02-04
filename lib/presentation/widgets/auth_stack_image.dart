@@ -22,11 +22,14 @@ class AuthStackImage extends StatelessWidget {
               margin: const EdgeInsets.only(top: 100),
               child: Center(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(14),
-                  child: Image.asset(
-                    authHeaderBannerImage,
-                    height: 200,
-                    fit: BoxFit.cover,
+                  borderRadius: BorderRadius.circular(18),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16,right: 16),
+                    child: Image.asset(
+                      authHeaderBannerImage,
+                      height: 200,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),

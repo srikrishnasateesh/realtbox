@@ -54,10 +54,12 @@ class SplashScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: kSecondaryColor,
         body: SafeArea(
-          child: Container(
+          child: 
+       
+          Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(appBg),
+                image: AssetImage(splashBg),
                 fit: BoxFit.cover
               ),
               
@@ -68,7 +70,7 @@ class SplashScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Checking Info ...',
+                    '',
                     style: Theme.of(context)
                         .textTheme
                         .headlineMedium
@@ -83,6 +85,16 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
           ),
+       
+       /*  Container(
+  width: double.infinity,
+  height: double.infinity,
+  child: Image.asset(
+    splashBg,
+    fit: BoxFit.cover,
+  ),
+) */
+       
         ),
       ),
     );
