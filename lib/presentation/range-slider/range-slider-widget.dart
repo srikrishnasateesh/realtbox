@@ -6,6 +6,7 @@ import 'package:realtbox/presentation/range-slider/custom-slider-theme.dart';
 class RangeSliderWidget extends StatefulWidget {
   final RangeValues? receivedValues;
   final Function(RangeValues) onBudgetChange;
+  
   RangeSliderWidget({
     super.key,
     required this.onBudgetChange,
@@ -17,7 +18,10 @@ class RangeSliderWidget extends StatefulWidget {
 }
 
 class _RangeSliderWidgetState extends State<RangeSliderWidget> {
-  RangeValues values = const RangeValues(0, 0);
+  static const double minRange = 1;  // Updated min value
+  static const double maxRange = 10000000; // Max value remains same
+  RangeValues values = const RangeValues(minRange, maxRange);
+
   @override
   void initState() {
     super.initState();
@@ -26,15 +30,18 @@ class _RangeSliderWidgetState extends State<RangeSliderWidget> {
 
   @override
   void dispose() {
-    values = const RangeValues(0, 0);
+    values = const RangeValues(minRange, maxRange);
     super.dispose();
   }
 
   reset() {
     if (widget.receivedValues != null) {
-      values = widget.receivedValues!;
+      values = RangeValues(
+        widget.receivedValues!.start.clamp(minRange, maxRange),
+        widget.receivedValues!.end.clamp(minRange, maxRange),
+      );
     } else {
-      values = const RangeValues(0, 0);
+      values = const RangeValues(minRange, maxRange);
     }
   }
 
@@ -53,39 +60,33 @@ class _RangeSliderWidgetState extends State<RangeSliderWidget> {
   }
 
   Widget buildSliderSideLabel() {
-    const double min = 0;
-    const double max = 10000000;
-
-    return Container(
-      // margin: const EdgeInsets.symmetric(horizontal: 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          buildSideLabel(min),
-          Expanded(
-            child: RangeSlider(
-              values: values,
-              min: min,
-              max: max,
-              divisions: 20,
-              labels: RangeLabels(
-                formatPrice(values.start),
-                formatPrice(values.end),
-              ),
-              onChanged: (values) => {
-                widget.onBudgetChange(values),
-                setState(() => this.values = values)
-              },
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        buildSideLabel(minRange),
+        Expanded(
+          child: RangeSlider(
+            values: values,
+            min: minRange,
+            max: maxRange,
+            divisions: 20,
+            labels: RangeLabels(
+              formatPrice(values.start),
+              formatPrice(values.end),
             ),
+            onChanged: (values) => {
+              widget.onBudgetChange(values),
+              setState(() => this.values = values),
+            },
           ),
-          buildSideLabel(max),
-        ],
-      ),
+        ),
+        buildSideLabel(maxRange),
+      ],
     );
   }
 
-  Widget buildSideLabel(double value) => Container(
-        width: 30,
+  Widget buildSideLabel(double value) => SizedBox(
+        width: 50,
         child: Text(
           formatPrice(value),
           style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
