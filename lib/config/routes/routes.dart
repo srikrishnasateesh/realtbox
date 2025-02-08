@@ -23,6 +23,7 @@ import 'package:realtbox/presentation/home/bloc/home_bloc.dart';
 import 'package:realtbox/presentation/home/home_page.dart';
 import 'package:realtbox/presentation/landing/bloc/landing_bloc.dart';
 import 'package:realtbox/presentation/landing/landing_page.dart';
+import 'package:realtbox/presentation/pdf_viewer/pdf_viewer_page.dart';
 import 'package:realtbox/presentation/property-filter/bloc/property_filetr_bloc.dart';
 import 'package:realtbox/presentation/property-filter/property-filter-entity.dart';
 import 'package:realtbox/presentation/property-filter/property-filters-screen.dart';
@@ -97,16 +98,15 @@ class AppRoute {
           case RouteNames.propertyList:
             return BlocProvider(
               create: (context) => PropertListBloc(
-                getIt<GetPropertyList>(),
-                getIt<SubmitEnquiry>(),
-                getIt<ToggleFavourite>(),
-                PropertyListType.normal
-              ),
+                  getIt<GetPropertyList>(),
+                  getIt<SubmitEnquiry>(),
+                  getIt<ToggleFavourite>(),
+                  PropertyListType.normal),
               child: PropertyList(),
             );
           case RouteNames.propertyDetails:
-           debugPrint("args: ${settings.arguments}");
-          Map<String, dynamic> args =
+            debugPrint("args: ${settings.arguments}");
+            Map<String, dynamic> args =
                 settings.arguments as Map<String, dynamic>;
             debugPrint("args: $args");
             String id = args["id"];
@@ -150,6 +150,12 @@ class AppRoute {
               create: (context) => PropertyFilterBloc(),
               child: PropertyFiltersScreen(propertyFilter: filter),
             );
+
+          case RouteNames.viewPdf:
+            Map<String, dynamic> args =
+                settings.arguments as Map<String, dynamic>;
+            debugPrint("Url:${args['url']}");
+            return PdfViewerPage(pdfUrl: args["url"] as String);
 
           default:
             return unDefinedRoute();

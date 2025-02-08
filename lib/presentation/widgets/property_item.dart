@@ -50,7 +50,7 @@ class PropertyItem extends StatelessWidget {
                     clipBehavior: Clip.antiAlias,
                     child: Ink.image(
                       image: NetworkImage(
-                        imageUrl,
+                        imageUrl.objectUrl,
                       ),
                       height: 200,
                       fit: BoxFit.fill,

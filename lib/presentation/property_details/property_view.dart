@@ -30,7 +30,7 @@ class _PropertyViewState extends State<PropertyView> {
   void initState() {
     super.initState();
     _activePage = widget.activePage;
-    imageUrls = widget.property.images;
+    imageUrls = widget.property.images.map((e) => e.objectUrl).toList();
     if (imageUrls.length > 1) {
       startTimer();
     }

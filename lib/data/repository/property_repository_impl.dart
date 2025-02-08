@@ -83,19 +83,18 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       projectBy: propertyData.projectBy ?? "",
       price: (propertyData.minimumPrice ?? 0).toString(),
       location: propertyData.formattedAddress ?? "",
-      images: (propertyData.galleryPics?.map((e) => e.objectUrl).toList()) ??
+      images: (propertyData.galleryPics?.map(propertyDocToDoc).toList()) ??
           List.empty(),
       headerImages: (propertyData.headerSectionPhotos
               ?.map((e) => e.objectUrl)
               .toList()) ??
           List.empty(),
-      floorImages: (propertyData.floorPlan?.map((e) => e.objectUrl).toList()) ??
-          List.empty(),
+      floorImages: propertyData.floorPlan?.map(propertyDocToDoc).toList() ?? List.empty(),
       buildingPlanImages:
-          (propertyData.buildingPlan?.map((e) => e.objectUrl).toList()) ??
+          (propertyData.buildingPlan?.map(propertyDocToDoc).toList()) ??
               List.empty(),
       brochureImages:
-          (propertyData.brochure?.map((e) => e.objectUrl).toList()) ??
+          (propertyData.brochure?.map(propertyDocToDoc).toList()) ??
               List.empty(),
       amenities: propertyData.advanceFeatures?.amenity ?? List.empty(),
       units: propertyData.units ?? List.empty(),
@@ -106,6 +105,13 @@ class PropertyRepositoryImplementation extends PropertyRepository {
       minimumSizeUnit: propertyData.minimumSize?.unitType ?? "",
     );
   }
+
+  Doc propertyDocToDoc(PropertyDoc propertyDoc) {
+    return Doc(
+      objectUrl: propertyDoc.objectUrl,
+      isImage: propertyDoc.isImage ?? true,
+    );
+  } 
 
   @override
   Future<DataState> enquiry(EnquiryRequestObject enquiryRequestObject) async {
@@ -232,7 +238,9 @@ class PropertyRepositoryImplementation extends PropertyRepository {
   UserEnquiry userenquiryDtoTUseroEnquiryModel(UserEnquiryData enquiryData) {
     return UserEnquiry(
         message: enquiryData.message ?? "",
-        created: DateTime.parse(enquiryData.created ?? DateTime.now().toString()).toLocal() ,
+        created:
+            DateTime.parse(enquiryData.created ?? DateTime.now().toString())
+                .toLocal(),
         userName: enquiryData.user?.name ?? "",
         userPhone: enquiryData.phoneNumber ?? "",
         userImageUrl: enquiryData.user?.profileUrl?.objectUrl ?? "",

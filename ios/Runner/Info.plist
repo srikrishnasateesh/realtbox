@@ -44,11 +44,6 @@
 		<string>We need access to your photo library to select files.</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
-		<key>UIBackgroundModes</key>
-		<array>
-			<string>fetch</string>
-			<string>remote-notification</string>
-		</array>
 		<key>UIFileSharingEnabled</key>
 		<true/>
 		<key>UILaunchStoryboardName</key>
@@ -74,5 +69,18 @@
 		<true/>
 		<key>io.flutter.embedded_views_preview</key>
 		<true/>
+		<!-- filepath: ios/Runner/Info.plist -->
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+		</dict>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>processing</string>
+			<string>external-accessory</string>
+			<string>remote-notification</string>
+		</array>
 	</dict>
 </plist>

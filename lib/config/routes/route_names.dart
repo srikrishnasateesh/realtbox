@@ -11,4 +11,5 @@ class RouteNames {
   static const String propertyfilters = 'property_filters';
   static const String enquiryList = 'enquiry_list';
   static const String userEnquiryList = 'user_enquiry_list';
+  static const String viewPdf = 'pdf_viewer_page';
 }

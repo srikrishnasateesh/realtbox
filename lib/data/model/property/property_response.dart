@@ -108,10 +108,12 @@ class PropertyData {
 class PropertyDoc {
   final String objectUrl;
   final String document;
+  final bool? isImage;
 
   PropertyDoc({
     required this.objectUrl,
     required this.document,
+    required this.isImage,
   });
 
   factory PropertyDoc.fromJson(Map<String, dynamic> json) =>

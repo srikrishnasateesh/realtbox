@@ -38,12 +38,6 @@ PropertyId _$PropertyIdFromJson(Map<String, dynamic> json) => PropertyId(
           .toList(),
     );
 
-PropertyDoc _$PropertyDocFromJson(Map<String, dynamic> json) => PropertyDoc(
-      objectUrl: json['objectUrl'] as String?,
-      document: json['document'] as String?,
-      id: json['_id'] as String?,
-    );
-
 User _$UserFromJson(Map<String, dynamic> json) => User(
       id: json['_id'] as String?,
       name: json['name'] as String?,

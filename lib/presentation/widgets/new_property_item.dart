@@ -46,7 +46,7 @@ class PropertyItemNew extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                     child: Ink.image(
                       image: NetworkImage(
-                        imageUrl,
+                        imageUrl.objectUrl,
                       ),
                       height: 150,
                       fit: BoxFit.cover,

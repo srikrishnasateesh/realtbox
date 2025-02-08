@@ -46,7 +46,7 @@ class PropertyDetailsScreen extends StatelessWidget {
           child: CustomScrollView(
             slivers: <Widget>[
               PropertyDetailAppBar(
-                imageUrls: property.images,
+                imageUrls: property.images.map((e)=>e.objectUrl).toList(),
                 onFullScreenPressed: () {
                   Navigator.pushNamed(
                     context,

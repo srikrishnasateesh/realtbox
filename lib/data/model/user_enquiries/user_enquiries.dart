@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:realtbox/data/model/property/property_response.dart';
 
 part 'user_enquiries.g.dart';
 
@@ -62,23 +63,7 @@ class PropertyId {
 
 }
 
-@JsonSerializable(createToJson: false)
-class PropertyDoc {
-    PropertyDoc({
-        required this.objectUrl,
-        required this.document,
-        required this.id,
-    });
 
-    final String? objectUrl;
-    final String? document;
-
-    @JsonKey(name: '_id') 
-    final String? id;
-
-    factory PropertyDoc.fromJson(Map<String, dynamic> json) => _$PropertyDocFromJson(json);
-
-}
 
 @JsonSerializable(createToJson: false)
 class User {

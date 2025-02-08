@@ -128,12 +128,14 @@ Map<String, dynamic> _$PropertyDataToJson(PropertyData instance) =>
 PropertyDoc _$PropertyDocFromJson(Map<String, dynamic> json) => PropertyDoc(
       objectUrl: json['objectUrl'] as String,
       document: json['document'] as String,
+      isImage: json['isImage'] as bool?,
     );
 
 Map<String, dynamic> _$PropertyDocToJson(PropertyDoc instance) =>
     <String, dynamic>{
       'objectUrl': instance.objectUrl,
       'document': instance.document,
+      'isImage': instance.isImage,
     };
 
 AdvanceFeatures _$AdvanceFeaturesFromJson(Map<String, dynamic> json) =>

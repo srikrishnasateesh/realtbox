@@ -8,13 +8,14 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:dio/dio.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/core/utils/data_utils.dart';
+import 'package:realtbox/domain/entity/property/property.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
 
 class DocumentsTab extends StatefulWidget {
   final String projectName;
-  final List<String> brochureImages;
-  final List<String> floorPlanImages;
-  final List<String> buildingPlanImages;
+  final List<Doc> brochureImages;
+  final List<Doc> floorPlanImages;
+  final List<Doc> buildingPlanImages;
   const DocumentsTab({
     super.key,
     required this.projectName,
@@ -177,7 +178,7 @@ class _DocumentsTabState extends State<DocumentsTab>
                                     width: 210,
                                     child: FilledButton.icon(
                                       onPressed: () => {
-                                        _downloadFiles(widget.brochureImages,
+                                        _downloadFiles(widget.brochureImages.map((e) => e.objectUrl).toList(),
                                             "Broucher", "Broucher")
                                       },
                                       icon: const Icon(Icons.download_sharp),
@@ -203,7 +204,7 @@ class _DocumentsTabState extends State<DocumentsTab>
                                     child: FilledButton.icon(
                                       onPressed: () => {
                                         _downloadFiles(
-                                            widget.buildingPlanImages,
+                                            widget.buildingPlanImages.map((e) => e.objectUrl).toList(),
                                             "BuildingPlan",
                                             "Building Plan")
                                       },
@@ -229,7 +230,7 @@ class _DocumentsTabState extends State<DocumentsTab>
                                     width: 210,
                                     child: FilledButton.icon(
                                       onPressed: () => {
-                                        _downloadFiles(widget.floorPlanImages,
+                                        _downloadFiles(widget.floorPlanImages.map((e) => e.objectUrl).toList(),
                                             "Floor", "Floor Plan")
                                       },
                                       icon: const Icon(Icons.download_sharp),
@@ -249,7 +250,7 @@ class _DocumentsTabState extends State<DocumentsTab>
                             : Container(),
                         widget.brochureImages.isEmpty &&
                                 widget.buildingPlanImages.isEmpty &&
-                                widget.floorPlanImages.isNotEmpty
+                                widget.floorPlanImages.isEmpty
                             ? const Center(child: Text('No data found'))
                             : Container()
                       ],

@@ -18,11 +18,11 @@ class Property {
   final String price;
   final String location;
   final String totalPrice;
-  final List<String> images;
+  final List<Doc> images;
   final List<String> headerImages;
-  final List<String> floorImages;
-  final List<String> buildingPlanImages;
-  final List<String> brochureImages;
+  final List<Doc> floorImages;
+  final List<Doc> buildingPlanImages;
+  final List<Doc> brochureImages;
   final List<String> videos;
   final List<AmenityData> amenities;
   final List<Unit> units;
@@ -56,5 +56,15 @@ class Property {
     required this.geoLocation,
     required this.favProperty,
     required this.minimumSizeUnit,
+  });
+}
+
+class Doc {
+  final String objectUrl;
+  final bool isImage;
+
+  Doc({
+    required this.objectUrl,
+    required this.isImage,
   });
 }
