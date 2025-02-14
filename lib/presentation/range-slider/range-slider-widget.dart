@@ -19,7 +19,7 @@ class RangeSliderWidget extends StatefulWidget {
 
 class _RangeSliderWidgetState extends State<RangeSliderWidget> {
   static const double minRange = 1;  // Updated min value
-  static const double maxRange = 10000000; // Max value remains same
+  static const double maxRange = 100000000; // Max value remains same
   RangeValues values = const RangeValues(minRange, maxRange);
 
   @override
