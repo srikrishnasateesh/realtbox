@@ -14,7 +14,7 @@ class _ApiService implements ApiService {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'https://api.dev.propertybox.co.in/';
+    baseUrl ??= 'https://api.propertybox.co.in/';
   }
 
   final Dio _dio;
