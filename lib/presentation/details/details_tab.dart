@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart' as html;
 import 'package:realtbox/config/resources/color_manager.dart';
 import 'package:realtbox/config/resources/font_manager.dart';
 import 'package:realtbox/core/utils/price-fromatter.dart';
@@ -160,7 +161,7 @@ class DetailsTab extends StatelessWidget {
                       textStyle: const TextStyle(
                         color: kPrimaryColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: FontSize.s14,
+                        fontSize: FontSize.s14, // Assuming this refers to font_manager.dart
                         fontFamily: FontConstants.fontFamily,
                       ),
                     ),
@@ -173,7 +174,7 @@ class DetailsTab extends StatelessWidget {
                       borderColor: Colors.blueAccent,
                       borderRadius: 12.0,
                       borderWidth: 1,
-                      textStyle: const TextStyle(
+                      textStyle: TextStyle(
                         color: kPrimaryColor,
                         fontWeight: FontWeight.bold,
                         fontSize: FontSize.s14,
@@ -211,9 +212,10 @@ class DetailsTab extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      BasicText(
+                      /* BasicText(
                         text: property.description,
-                      )
+                      ) */
+                      html.Html(data: property.description),
                     ],
                   ),
                 ),

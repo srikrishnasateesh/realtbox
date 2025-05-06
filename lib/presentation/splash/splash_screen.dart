@@ -77,9 +77,12 @@ class SplashScreen extends StatelessWidget {
                         ?.copyWith(color: kPrimaryColor),
                   ),
                   const SizedBox(height: AppMargin.m18),
-                  const CircularProgressIndicator.adaptive(
-                    backgroundColor: kPrimaryColor,
-                    valueColor: AlwaysStoppedAnimation<Color>(kSecondaryColor),
+                  const Visibility(
+                    visible: false,
+                    child: CircularProgressIndicator.adaptive(
+                      backgroundColor: kPrimaryColor,
+                      valueColor: AlwaysStoppedAnimation<Color>(kSecondaryColor),
+                    ),
                   ),
                 ],
               ),
