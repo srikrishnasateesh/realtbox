@@ -8,7 +8,7 @@ const String profileLogo = "$imagePath/sms.png";
 
 const String authHeaderImage = "$imagePath/login_header_image.jpeg";
 const String authHeaderBannerImage = "$imagePath/login_page_header_org.png";//"$imagePath/login_page_header1.png";
-const String authLogoImage = "$imagePath/auth_logo_image.png";
+const String authLogoImage = "$imagePath/auth_logo.png";
   
 
 

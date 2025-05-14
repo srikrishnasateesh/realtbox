@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:realtbox/config/resources/constants/api_constnats.dart';
 import 'package:realtbox/data/model/amenities/amenity-list-dto.dart';
 import 'package:realtbox/data/model/birdview/birdview_dto.dart';

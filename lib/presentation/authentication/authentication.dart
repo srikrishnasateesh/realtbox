@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtbox/config/resources/font_manager.dart';
@@ -30,19 +32,24 @@ class Authentication extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const AuthStackImage(),
-            const Padding(
-              padding: EdgeInsets.only(left: 0.0, right: 30.0, top: 30.0),
+             Padding(
+              padding: const EdgeInsets.only(left: 0.0, right: 30.0, top: 30.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppLogo(),
-                  SizedBox(
+                  Padding(
+                    padding: Platform.isIOS
+                        ? const EdgeInsets.only(right: 220)
+                        : const EdgeInsets.only(right: 260),
+                    child: const AppLogo(),
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(left: 30),
                     child: BasicText(
-                      text:'Sign in',
+                      text: 'Sign in',
                       textStyle: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeightManager.semiBold,

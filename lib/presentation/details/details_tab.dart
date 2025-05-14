@@ -192,7 +192,7 @@ class DetailsTab extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: lightgrey,
+                  color: Colors.white,
                   boxShadow: [
                     BoxShadow(color: kSecondaryColor, spreadRadius: 0.5),
                   ],

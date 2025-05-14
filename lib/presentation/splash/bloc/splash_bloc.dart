@@ -115,7 +115,7 @@ class SplashBloc extends BaseBlock<SplashEvent, SplashState> {
       //call refresh token here
       await refreshToken(refresh,emit);
     } else {
-      await Future.delayed(const Duration(seconds: 2)).then((value) async => {
+      await Future.delayed(const Duration(seconds: 1)).then((value) async => {
          emit(SplashNavigate(RouteNames.landing))
         });
       
