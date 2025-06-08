@@ -1,6 +1,6 @@
 const String imagePath = "assets/images";
 
-const String splashBg = "$imagePath/splash_bg.gif";
+const String splashBg = "$imagePath/splash_bg_new.gif";
 const String appBg = "$imagePath/app_bg.jpeg";
 const String loginLogo = "$imagePath/apps.png";
 const String appBarLogo = "$imagePath/india.png";

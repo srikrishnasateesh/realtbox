@@ -40,7 +40,7 @@ class Authentication extends StatelessWidget {
                   Padding(
                     padding: Platform.isIOS
                         ? const EdgeInsets.only(right: 220)
-                        : const EdgeInsets.only(right: 260),
+                        : const EdgeInsets.only(right: 220),
                     child: const AppLogo(),
                   ),
                   const SizedBox(

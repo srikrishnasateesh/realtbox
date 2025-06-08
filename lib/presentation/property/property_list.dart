@@ -16,6 +16,7 @@ import 'package:realtbox/presentation/propert_type/category_types_horizontal.dar
 import 'package:realtbox/presentation/propert_type/cubit/property_type_cubit.dart';
 import 'package:realtbox/presentation/property-filter/property-filter-entity.dart';
 import 'package:realtbox/presentation/property/bloc/propert_list_bloc.dart';
+import 'package:realtbox/presentation/widgets/list_shimmer.dart';
 import 'package:realtbox/presentation/widgets/new_property_item.dart';
 
 class PropertyList extends StatelessWidget {
@@ -136,14 +137,15 @@ class PropertyList extends StatelessWidget {
                     if (state is PropertListInitial ||
                         state is PropertListLoading &&
                             (state is! PropertListLoaded)) {
-                      return const Expanded(
+                      return listShimmer();
+                      /* const Expanded(
                         child: Center(
                             child: CircularProgressIndicator.adaptive(
                           backgroundColor: kPrimaryColor,
                           valueColor:
                               AlwaysStoppedAnimation<Color>(kSecondaryColor),
                         )),
-                      );
+                      ); */
                     } else if (state is PropertListLoaded) {
                       var list = state.data;
                       isRefreshing = false;
