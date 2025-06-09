@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const String baseUrl = baseUrlDev;//"https://api.propertybox.co.in/"; //"https://api.realtbox.in/";
+  static const String baseUrl = "https://api.propertybox.co.in/"; //"https://api.realtbox.in/";
   static const String baseUrlDev = "https://api.dev.propertybox.co.in/";//"https://api.dev.realtbox.in/";
   static const String baseUrlQA = "https://api.qa.propertybox.co.in/";//"https://api.qa.realtbox.in/";
   static const String versionCheck = "v1/management/mobile-app-version-check";
