@@ -1,6 +1,6 @@
 const String imagePath = "assets/images";
 
-const String splashBg = "$imagePath/splash_bg.gif";
+const String splashBg = "$imagePath/splash_bg_new.gif";
 const String appBg = "$imagePath/app_bg.jpeg";
 const String loginLogo = "$imagePath/apps.png";
 const String appBarLogo = "$imagePath/india.png";
@@ -8,7 +8,7 @@ const String profileLogo = "$imagePath/sms.png";
 
 const String authHeaderImage = "$imagePath/login_header_image.jpeg";
 const String authHeaderBannerImage = "$imagePath/login_page_header_org.png";//"$imagePath/login_page_header1.png";
-const String authLogoImage = "$imagePath/auth_logo_image.png";
+const String authLogoImage = "$imagePath/auth_logo.png";
   
 
 

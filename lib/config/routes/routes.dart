@@ -158,7 +158,15 @@ class AppRoute {
             return PdfViewerPage(pdfUrl: args["url"] as String);
 
           default:
-            return unDefinedRoute();
+            return BlocProvider(
+              create: (context) => SplashBloc(
+                getIt<GetUserSelf>(),
+                getIt<CheckVersion>(),
+                getIt<GetFcmToken>(),
+                getIt<GetRefreshToken>(),
+              ),
+              child: const SplashScreen(),
+            );
         }
       },
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:realtbox/config/resources/assests_manager.dart';
 import 'package:realtbox/config/resources/color_manager.dart';
@@ -15,7 +16,6 @@ import 'package:realtbox/presentation/range-slider/bloc/range_slider_bloc.dart';
 import 'package:realtbox/presentation/range-slider/range-slider-widget.dart';
 import 'package:realtbox/presentation/widgets/basic_text.dart';
 import 'dart:async';
-import 'package:google_maps_webservice/places.dart';
 
 const kGoogleApiKey = "AIzaSyApTWGv8sRNySOYo_JISDZIZGbmmXC2H9o";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);

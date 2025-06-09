@@ -22,6 +22,10 @@
 		<string>$(FLUTTER_BUILD_NAME)</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict/>
+		</array>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>GMSApiKey</key>
@@ -32,6 +36,11 @@
 		<true/>
 		<key>MTLCompilerService</key>
 		<false/>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+		</dict>
 		<key>NSDocumentsFolderUsageDescription</key>
 		<string>We need access to your documents folder to select and upload files.</string>
 		<key>NSLocationAlwaysUsageDescription</key>
@@ -44,6 +53,11 @@
 		<string>We need access to your photo library to select files.</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
 		<key>UIFileSharingEnabled</key>
 		<true/>
 		<key>UILaunchStoryboardName</key>
@@ -69,16 +83,9 @@
 		<true/>
 		<key>io.flutter.embedded_views_preview</key>
 		<true/>
-		<!-- filepath: ios/Runner/Info.plist -->
-		<key>NSAppTransportSecurity</key>
-		<dict>
-			<key>NSAllowsArbitraryLoads</key>
-			<true/>
-		</dict>
-		<key>UIBackgroundModes</key>
+		<key>NSUserActivityTypes</key>
 		<array>
-			<string>fetch</string>
-			<string>remote-notification</string>
+			<string>NSUserActivityTypeBrowsingWeb</string>
 		</array>
 	</dict>
 </plist>
